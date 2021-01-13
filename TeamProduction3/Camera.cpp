@@ -1,82 +1,99 @@
 #include "Camera.h"
-#include <stdio.h>
+#include "Quaternion.h"
 
 Camera::Camera()
-	:
-	keyboard(nullptr),
-	position({ 0,0,0 }),
-	direction({ 0,0,1 }),
-	up({ 0,1,0 }),
-	yaw(0),
-	pitch(0),
-	turnSpeed(1),
-	moveSpeed(1)
+	:pos(Vector3(0, 0, -1)), target(Vector3(0, 0, 0)), up(Vector3(0, 1, 0)),yaw(0)
 {
 }
 
 void Camera::Initialize()
 {
-	position = { 0,0,0 };
-	direction = { 0,0,1 };
-	up = { 0,1,0 };
+	pos = Vector3(0, 0, -1);
+	target = Vector3(0, 0, 0);
+	up = Vector3(0, 1, 0);
+	yaw = 0;
 }
 
-void Camera::Update()
+void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
-	DirectX::XMFLOAT3 move = { 0,0,0 };
-
-	if (keyboard->CheakHitKey(Key::W))move.z -= 10.0f;
-	if (keyboard->CheakHitKey(Key::S))move.z += 10.0f;
-	if (keyboard->CheakHitKey(Key::D))move.x -= 10.0f;
-	if (keyboard->CheakHitKey(Key::A))move.x += 10.0f;
-	if (keyboard->CheakHitKey(Key::E))position.y += 10.0f;
-	if (keyboard->CheakHitKey(Key::Q))position.y -= 10.0f;
-
-	if (keyboard->CheakHitKey(Key::UP))pitch += 0.05f;
-	if (keyboard->CheakHitKey(Key::DOWN))pitch -= 0.05f;
-	if (keyboard->CheakHitKey(Key::RIGHT))yaw += 0.05f;
-	if (keyboard->CheakHitKey(Key::LEFT))yaw -= 0.05f;
-
-	pitch = min(pitch, DirectX::XM_PIDIV4);
-	pitch = max(-DirectX::XM_PIDIV4, pitch);
-
-	float x = move.x * -cosf(yaw) - move.z * sinf(yaw);
-	float z = move.x * sinf(yaw) - move.z * cosf(yaw);
-	position.x += x * moveSpeed;
-	position.z += z * moveSpeed;
-
-	float r = cosf(pitch);
-	direction.x = r * sinf(yaw);
-	direction.y = sinf(pitch);
-	direction.z = r * cosf(yaw);
+	const float R = 512;
+	const float S = 2;
+	pos += argpos - target;
+	target = argpos;
+	//ƒJƒƒ‰‚Ì‰ñ“]
+	yaw += (keyboard->CheakHitKey(Key::RIGHT) || ctrler->GetRStickX() > 0) ? -S : 0;
+	yaw += (keyboard->CheakHitKey(Key::LEFT) || ctrler->GetRStickX() < 0) ? S : 0;
+	Vector3 v;
+	v.x = R * sinf(DirectX::XM_2PI / 360 * yaw)+target.x;
+	v.y = 512;
+	v.z = R * cosf(DirectX::XM_2PI / 360 * yaw)+target.z;
+	pos = v;
 }
 
-DirectX::XMMATRIX Camera::GetViewMatrix()
+void Camera::SetPosition(const Vector3 & p)
 {
-	return DirectX::XMMatrixLookToLH(DirectX::XMLoadFloat3(&position), DirectX::XMLoadFloat3(&direction), DirectX::XMLoadFloat3(&up));
+	pos = p;
 }
 
-DirectX::XMMATRIX Camera::GetProjectionMatrix(float fov, float aspect, float nearClip, float farClip)
+void Camera::SetTarget(const Vector3 & t)
 {
-	return DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(fov), aspect, nearClip, farClip);
+	target = t;
 }
 
-void Camera::SetPosition(DirectX::XMFLOAT3 pos)
+Matrix4 Camera::GetViewMatrix()
 {
-	position = pos;
+	Matrix4 result;
+	Vector3 xAxis, yAxis, zAxis;
+	zAxis = Vector3::Normalize(target - pos);
+	xAxis = Vector3::Normalize(Vector3::Cross(up, zAxis));
+	yAxis = Vector3::Cross(zAxis, xAxis);
+	Vector3 negpos = Vector3(-pos.x, -pos.y, -pos.z);
+	result =
+	{
+		xAxis.x,xAxis.y,xAxis.z,0,
+		yAxis.x,yAxis.y,yAxis.z,0,
+		zAxis.x,zAxis.y,zAxis.z,0,
+		0,0,0,1,
+	};
+	result = Matrix4::Transpose(result);
+	result.m[3][0] = Vector3::Dot(xAxis,negpos);
+	result.m[3][1] = Vector3::Dot(yAxis,negpos);
+	result.m[3][2] = Vector3::Dot(zAxis,negpos);
+	result.m[3][3] = 1;
+	return result;
 }
 
-void Camera::SetTurnSpeed(float value)
+Matrix4 Camera::GetProjectionMatrix(float fov, float aspect, float nearClip, float farClip)
 {
-	turnSpeed = value;
+	Matrix4 result;
+	float tanTheta = tanf(fov / 2);
+	float x, y, width, height;
+	x = 1.0f / tanTheta;
+	y = 1.0f / tanTheta * aspect;
+	width = 1/(farClip - nearClip)*farClip;
+	height = -nearClip / (farClip - nearClip)*farClip;
+	result =
+	{
+		x,0,0,0,
+		0,y,0,0,
+		0,0,width,1,
+		0,0,height,0
+	};
+	return result;
 }
 
-void Camera::SetMoveSpeed(float value)
+Vector3 Camera::GetPosition()
 {
-	moveSpeed = value;
+	return pos;
 }
 
-void Camera::SetKeyboard(Keyboard * pKeyboard)
+Vector3 Camera::GetTarget()
 {
-	keyboard = pKeyboard;
+	return target;
+}
+
+Vector3 Camera::GetForward()
+{
+	Vector3 result = Vector3::Normalize(target - Vector3(pos.x,0,pos.z));
+	return result;
 }

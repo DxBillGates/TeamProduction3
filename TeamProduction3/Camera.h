@@ -1,33 +1,33 @@
 #pragma once
 #pragma once
 #include"Keyboard.h"
+#include "Xinput.h"
 #include<DirectXMath.h>
+#include "Vector3.h"
+#include "Matrix4.h"
 struct Perspective
 {
-	DirectX::XMMATRIX view;
-	DirectX::XMMATRIX proj;
+	Matrix4 view;
+	Matrix4 proj;
 };
 
 class Camera
 {
 private:
-	Keyboard* keyboard;
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 direction;
-	DirectX::XMFLOAT3 up;
+	Vector3 pos;
+	Vector3 target;
+	Vector3 up;
 	float yaw;
-	float pitch;
-	float turnSpeed;
-	float moveSpeed;
 public:
 	Camera();
 	void Initialize();
-	void Update();
-	DirectX::XMMATRIX GetViewMatrix();
-	DirectX::XMMATRIX GetProjectionMatrix(float fov, float aspect, float nearClip = 1.0f, float farClip = 1000.0f);
-	void SetPosition(DirectX::XMFLOAT3 pos);
-	void SetTurnSpeed(float value);
-	void SetMoveSpeed(float value);
-	void SetKeyboard(Keyboard* pKeyboard);
+	void Update(Keyboard* keyboard, Xinput* ctrler,const Vector3& argpos = Vector3());
+	void SetPosition(const Vector3& p);
+	void SetTarget(const Vector3& t);
+	Matrix4 GetViewMatrix();
+	Matrix4 GetProjectionMatrix(float fov, float aspect, float nearClip = 1.0f, float farClip = 10000.0f);
+	Vector3 GetPosition();
+	Vector3 GetTarget();
+	Vector3 GetForward();
 };
 

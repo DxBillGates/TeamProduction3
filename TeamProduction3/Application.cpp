@@ -1,5 +1,7 @@
 #include "Application.h"
 #include "SampleScene.h"
+#include "TitleScene.h"
+#include "GamePlayScene.h"
 #include <stdio.h>
 #pragma comment(lib,"winmm.lib")
 Application::Application(const char * appName, int wndWidth, int wndHeight) :
@@ -11,11 +13,12 @@ Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	gameWnd.PreviewWindow();
 	QueryPerformanceFrequency(&timeFreq);
 	QueryPerformanceCounter(&timeStart);
-
 	//シーンの追加とセット
 	Scene::SetStaticMenber(&gameWnd, &device, &cbvSrvHeap, &keyboard, &ctrler,&loader);
-	sceneManager.Add(new SampleScene(), SAMPLE);
-	sceneManager.ChangeScene(SAMPLE);
+	//sceneManager.Add(new SampleScene(), SAMPLE);
+	sceneManager.Add(new TitleScene(), TITLE);
+	sceneManager.Add(new GamePlayScene(), GAME_PLAY_SCENE);
+	sceneManager.ChangeScene(TITLE);
 }
 
 Application::~Application()
@@ -24,11 +27,15 @@ Application::~Application()
 
 void Application::LoadAsset()
 {
+	fillScreenTransition.LoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
+	fourCornerBoxTransition.LoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
 	sceneManager.LoadAsset();
 }
 
 bool Application::Initialize()
 {
+	fillScreenTransition.Initialize();
+	fourCornerBoxTransition.Initialize();
 	//シーンの初期化
 	sceneManager.Initialize();
 	return true;
@@ -57,7 +64,7 @@ bool Application::Run()
 		}
 		timeStart = timeEnd;
 		fps = 1.0f / frameTime;
-		printf("%3.3f\n", fps);
+		//printf("%3.3f\n", fps);
 		if (!Update())
 		{
 			break;
@@ -74,16 +81,28 @@ bool Application::Update()
 	ctrler.Update();
 	keyboard.Update();
 
+	SceneTransition* pSceneTransition = &fillScreenTransition;
+	//pSceneTransition = &fourCornerBoxTransition;
 	//現在のシーンから次のシーンへ移るフラグが送られたらそのシーンから
 	//次のシーンの名前を受け取りシーンを遷移しシーンを初期化する
+	pSceneTransition->Update();
+	if (pSceneTransition->GetEndFlag())
+	{
+		pSceneTransition->Initialize();
+	}
 	if (sceneManager.GetNowScene())
 	{
 		if (sceneManager.GetNowScene()->GetNextSceneFlag())
 		{
-			sceneManager.ChangeScene(sceneManager.GetNowScene()->GetNextSceneName());
-			sceneManager.Initialize();
+			pSceneTransition->Play();
+			if (pSceneTransition->GetReturnFlag())
+			{
+				sceneManager.ChangeScene(sceneManager.GetNowScene()->GetNextSceneName());
+				sceneManager.Initialize();
+			}
 		}
 	}
+
 	//現在のシーンの更新処理
 	sceneManager.Update();
 
@@ -95,9 +114,12 @@ bool Application::Update()
 
 void Application::Draw()
 {
+	SceneTransition* pSceneTransition = &fillScreenTransition;
+	//pSceneTransition = &fourCornerBoxTransition;
 	device.ClearScreen({ 0.2f,0.5f,1.0f,0 });
 	sceneManager.Draw();
 	sceneManager.DrawSprite();
+	pSceneTransition->Draw(device.GetCmdList());
 	device.ScreecFlip();
 }
 

@@ -1,0 +1,8 @@
+#include "FillShader.hlsli"
+VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
+{
+	VSOutput output;
+	output.svpos = mul(proj, mul(model, pos));
+	output.uv = uv;
+	return output;
+}

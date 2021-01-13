@@ -1,12 +1,16 @@
 #pragma once
 #include "Scene.h"
+#include "Dx12_CBuffer.h"
+#include "Dx12_Pipeline.h"
+#include "Matrix4.h"
 
-class SampleScene : public Scene
+class TitleScene : public Scene
 {
 private:
+	Dx12_CBuffer<Matrix4>* orthograph;
 public:
-	SampleScene();
-	~SampleScene();
+	TitleScene();
+	~TitleScene();
 	void LoadAsset();
 	void Initialize();
 	void Update();
@@ -14,4 +18,3 @@ public:
 	void Draw();
 	SceneName GetNextSceneName();
 };
-

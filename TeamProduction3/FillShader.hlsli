@@ -1,0 +1,16 @@
+struct VSOutput
+{
+	float4 svpos : SV_POSITION;
+	float2 uv : TEXCOORD;
+};
+
+cbuffer cbuff0 : register(b0)
+{
+	matrix proj;
+}
+
+cbuffer cbuff1 : register(b1)
+{
+	matrix model;
+	float4 color;
+}

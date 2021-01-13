@@ -185,15 +185,28 @@ void LoadContents::CreateModelData_Plane(float width, float height, MeshData & o
 	};
 }
 
-void LoadContents::CreateModelData_Plane(float width, float height, SpriteData & outputSpriteData)
+void LoadContents::CreateModelData_Plane(float width, float height, SpriteData & outputSpriteData, bool centerFlag)
 {
-	outputSpriteData.vertices =
+	if (!centerFlag)
 	{
-		{{    0,     0,0},{0,0}},
-		{{width,     0,0},{1,0}},
-		{{width,height,0},{1,1}},
-		{{    0,height,0},{0,1}},
-	};
+		outputSpriteData.vertices =
+		{
+			{{    0,     0,0},{0,0}},
+			{{width,     0,0},{1,0}},
+			{{width,height,0},{1,1}},
+			{{    0,height,0},{0,1}},
+		};
+	}
+	else
+	{
+		outputSpriteData.vertices =
+		{
+			{{-width/2.0f,-height/2.0f,0},{0,0}},
+			{{ width/2.0f,-height/2.0f,0},{1,0}},
+			{{ width/2.0f,height/2.0f,0},{1,1}},
+			{{-width/2.0f,height/2.0f,0},{0,1}},
+		};
+	}
 	outputSpriteData.indices =
 	{
 		0,1,2,

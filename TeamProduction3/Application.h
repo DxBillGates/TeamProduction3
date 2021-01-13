@@ -7,6 +7,8 @@
 #include "Xinput.h"
 #include "LoadContents.h"
 #include "SceneManager.h"
+#include "FillScreenTransition.h"
+#include "FourCornerBoxTransition.h"
 
 class Application : public BaseApplication
 {
@@ -26,6 +28,9 @@ private:
 	LARGE_INTEGER timeStart;
 	LARGE_INTEGER timeEnd;
 	LARGE_INTEGER timeFreq;
+private:
+	FillScreenTransition fillScreenTransition;
+	FourCornerBoxTransition fourCornerBoxTransition;
 public:
 	Application(const char* appName = "Application", int wndWidth = 1280, int wndHeight = 720);
 	~Application();

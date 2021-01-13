@@ -31,6 +31,57 @@
     <Filter Include="Scene\ヘッダ ファイル">
       <UniqueIdentifier>{62042040-b5f1-4b90-9fc3-7efd0b537658}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SceneTransition">
+      <UniqueIdentifier>{eeda8d8a-4cf3-4724-a224-7e1c95c0e820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneTransition\ソース ファイル">
+      <UniqueIdentifier>{c554d9b9-16ca-462f-b7a5-d734e6f79c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneTransition\ヘッダー ファイル">
+      <UniqueIdentifier>{395f35ec-58eb-437b-a93a-a928a17eabd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{9c01fdc4-612d-4909-9636-50ea2eba7e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Enemy">
+      <UniqueIdentifier>{d05ca477-7208-416e-ada0-bf71495dd9d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Player">
+      <UniqueIdentifier>{decdd079-b0df-44d7-9639-c1c44b6c2e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\FieldEffect">
+      <UniqueIdentifier>{87ff70c4-bc91-4c2f-b65f-1279dcab67d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Enemy\ヘッダー ファイル">
+      <UniqueIdentifier>{8b098b3b-eccd-4366-86bb-56845024ad30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Enemy\ソース ファイル">
+      <UniqueIdentifier>{b690aa17-41a2-4d0a-9ac8-5fc15929209b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\FieldEffect\ヘッダー ファイル">
+      <UniqueIdentifier>{3913933a-1a43-4c3a-8902-de73936ce73c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\FieldEffect\ソース ファイル">
+      <UniqueIdentifier>{f3357f5f-4de7-479e-8118-4624582d0cec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Player\ヘッダー ファイル">
+      <UniqueIdentifier>{8754fd49-f521-4219-997f-643d1efc9e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Player\ソース ファイル">
+      <UniqueIdentifier>{8d34063d-db53-4202-a317-2a9f0576ed42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Ground">
+      <UniqueIdentifier>{3dd9dbd3-32b0-462f-affe-bd2f445b6185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Ground\ヘッダー ファイル">
+      <UniqueIdentifier>{030809e4-00ba-48de-9868-ff69846a8278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Ground\ソース ファイル">
+      <UniqueIdentifier>{184ab3b0-1296-4c3a-bd72-69260c4328f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{f5b58b7e-4e91-416c-abcc-5a152e29b1d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,6 +146,57 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayScene.cpp">
+      <Filter>Scene\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FillScreenTransition.cpp">
+      <Filter>SceneTransition\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FourCornerBoxTransition.cpp">
+      <Filter>SceneTransition\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTransition.cpp">
+      <Filter>SceneTransition\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObject\Player\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldEffect.cpp">
+      <Filter>GameObject\FieldEffect\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldEffectFireWall.cpp">
+      <Filter>GameObject\FieldEffect\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldEffectManager.cpp">
+      <Filter>GameObject\FieldEffect\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldEffectPuddle.cpp">
+      <Filter>GameObject\FieldEffect\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameObject\Enemy\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>GameObject\Enemy\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>GameObject\Enemy\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalEnemy.cpp">
+      <Filter>GameObject\Enemy\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>GameObject\Ground\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,5 +275,78 @@
     <ClInclude Include="Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix4.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayScene.h">
+      <Filter>Scene\ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene\ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FillScreenTransition.h">
+      <Filter>SceneTransition\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FourCornerBoxTransition.h">
+      <Filter>SceneTransition\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTransition.h">
+      <Filter>SceneTransition\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObject\Player\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldEffect.h">
+      <Filter>GameObject\FieldEffect\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldEffectFireWall.h">
+      <Filter>GameObject\FieldEffect\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldEffectManager.h">
+      <Filter>GameObject\FieldEffect\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldEffectPuddle.h">
+      <Filter>GameObject\FieldEffect\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObject\Enemy\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>GameObject\Enemy\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>GameObject\Enemy\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalEnemy.h">
+      <Filter>GameObject\Enemy\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>GameObject\Ground\ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FillShader.hlsli">
+      <Filter>HLSL</Filter>
+    </None>
+    <None Include="SimpleShader.hlsli">
+      <Filter>HLSL</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FillVS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="FillPS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="SimpleVS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="SimplePS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -45,7 +45,7 @@ public:
 	void LoadMeshData(std::string directoryPath, std::string modelName, MeshData& outputMeshData);
 	void LoadMaterialData(std::string directoryPath, std::string fileName, MaterialData& outputMaterialData);
 	void CreateModelData_Plane(float width,float height,MeshData& outputMeshData);
-	void CreateModelData_Plane(float width,float height,SpriteData& outputSpriteData);
+	void CreateModelData_Plane(float width,float height,SpriteData& outputSpriteData,bool centerFlag = 0);
 	Dx12_Texture2D* LoadTexture(std::string directoryPath, std::string fileName);
 };
 
