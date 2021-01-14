@@ -39,6 +39,7 @@ void EnemyManager::Initialize()
 
 void EnemyManager::Update()
 {
+	const float REVIVE_RANGE = 1280;
 	bool revive = false;
 	if (count % 60 == 0)
 	{
@@ -51,8 +52,8 @@ void EnemyManager::Update()
 			if (!e->GetLiveFlag())
 			{
 				Vector3 randomPos;
-				randomPos.x = (float)std::rand() / RAND_MAX * 1280 - 1280 / 2.0f + pPlayer->GetPosition().x;
-				randomPos.z = (float)std::rand() / RAND_MAX * 1280 - 1280 / 2.0f + pPlayer->GetPosition().z;
+				randomPos.x = (float)std::rand() / RAND_MAX * REVIVE_RANGE - REVIVE_RANGE / 2.0f + pPlayer->GetPosition().x;
+				randomPos.z = (float)std::rand() / RAND_MAX * REVIVE_RANGE - REVIVE_RANGE / 2.0f + pPlayer->GetPosition().z;
 				e->Revive(randomPos);
 				revive = false;
 			}
