@@ -9,10 +9,10 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Revive()
+void Enemy::Revive(const Vector3& p)
 {
 	if (!liveFlag && !reviveFlag)
-		reviveFlag = true;
+		reviveFlag = true; liveFlag = true; pos = p;
 }
 
 Vector3 Enemy::GetPos()

@@ -35,15 +35,6 @@ void Player::Update()
 	const float G = 0.98f;
 	const float INCREASE_FIRE_VALUE = 1.f / 60.f;
 	Vector3 moveVector = Vector3();
-	if (pos.y <= 0)
-	{
-		pos.y = 0;
-		vel.y = 0;
-		if (jumpFlag)
-		{
-			jumpFlag = false;
-		}
-	}
 	//ˆÚ“®ˆ—
 	if (keyboard->CheakHitKey(Key::W) || ctrler->CheckHitKey(XinputPadKey::XINPUT_UP) || ctrler->GetLStickY() < 0.0f)
 	{
@@ -60,11 +51,6 @@ void Player::Update()
 	if (keyboard->CheakHitKey(Key::D) || ctrler->CheckHitKey(XinputPadKey::XINPUT_RIGHT) || ctrler->GetLStickX() > 0.0f)
 	{
 		moveVector += Vector3::Normalize(Vector3::Cross(Vector3(0, 1, 0), forward));;
-	}
-	if (!jumpFlag && (keyboard->KeyPressTrigger(Key::SPACE) || ctrler->CheckHitKeyTrigger(XinputPadKey::XINPUT_A)))
-	{
-		jumpFlag = true;
-		vel.y = 16;
 	}
 
 	if (moveVector.Length() > 0)
@@ -85,9 +71,7 @@ void Player::Update()
 		fireValue = 1;
 		moveVector *= 5;
 	}
-
-	vel.y -= G;
-	pos += moveVector * MOVE_SPEED + vel;
+	pos += moveVector * MOVE_SPEED;
 	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(atan2f(forward.x,forward.z))* Matrix4::Translate(pos),{fireValue,0,0,1} });
 }
 

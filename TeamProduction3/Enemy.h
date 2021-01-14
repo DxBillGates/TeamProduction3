@@ -24,7 +24,7 @@ public:
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;
-	void Revive();
+	void Revive(const Vector3& p);
 	Vector3 GetPos();
 	void SetPos(const Vector3& p);
 	bool GetLiveFlag();

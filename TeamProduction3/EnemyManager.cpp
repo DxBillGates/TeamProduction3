@@ -50,7 +50,10 @@ void EnemyManager::Update()
 		{
 			if (!e->GetLiveFlag())
 			{
-				e->Revive();
+				Vector3 randomPos;
+				randomPos.x = (float)std::rand() / RAND_MAX * 1280 - 1280 / 2.0f + pPlayer->GetPosition().x;
+				randomPos.z = (float)std::rand() / RAND_MAX * 1280 - 1280 / 2.0f + pPlayer->GetPosition().z;
+				e->Revive(randomPos);
 				revive = false;
 			}
 		}
