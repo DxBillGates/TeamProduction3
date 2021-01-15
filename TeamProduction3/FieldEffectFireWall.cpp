@@ -28,13 +28,14 @@ void FieldEffectFireWall::Initialize()
 
 void FieldEffectFireWall::Update()
 {
-	const float REVIVE_TIME = 1;
-	const Vector3 MAX_SIZE = Vector3(16,16,16);
+	const float REVIVE_TIME = 60;
+	const float LIVE_TIME = 128;
+	const Vector3 MAX_SIZE = Vector3(16, 16, 16);
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
 		{
-			reviveT += (0.016f / REVIVE_TIME);
+			reviveT += (1.0f / REVIVE_TIME);
 		}
 		if (reviveT >= 1)
 		{
@@ -44,10 +45,13 @@ void FieldEffectFireWall::Update()
 		}
 		alpha = reviveT;
 	}
-	alpha -= 0.01f;
+	else
+	{
+		alpha -= (1.0f / LIVE_TIME);
+	}
 	size = Vector3(MAX_SIZE) * alpha;
 	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{1,0,0,alpha} });
-	if (alpha <= 0)
+	if (alpha <= 0.0f)
 	{
 		Initialize();
 	}

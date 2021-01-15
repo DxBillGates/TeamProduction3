@@ -22,11 +22,13 @@ void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 
 void Player::Initialize()
 {
-	pos = Vector3(0,0,512);
+	pos = Vector3(0, 0, 512);
 	vel = Vector3();
 	forward = Vector3();
 	jumpFlag = false;
 	fireValue = 0;
+	oldPos = pos;
+	isMove = false;
 }
 
 void Player::Update()
@@ -34,6 +36,18 @@ void Player::Update()
 	const float MOVE_SPEED = 1.f;
 	const float G = 0.98f;
 	const float INCREASE_FIRE_VALUE = 1.f / 60.f;
+	const float UPDATE_OLDPOS_DISTANCE = 64;
+
+	if (Vector3::Distance(oldPos, pos) >= UPDATE_OLDPOS_DISTANCE)
+	{
+		isMove = true;
+		oldPos = pos;
+	}
+	else
+	{
+		isMove = false;
+	}
+
 	Vector3 moveVector = Vector3();
 	//ˆÚ“®ˆ—
 	if (keyboard->CheakHitKey(Key::W) || ctrler->CheckHitKey(XinputPadKey::XINPUT_UP) || ctrler->GetLStickY() < 0.0f)
@@ -112,3 +126,15 @@ void Player::SetFireValue(float fv)
 {
 	fireValue = fv;
 }
+
+bool Player::GetIsMove()
+{
+	return isMove;
+}
+
+Vector3 Player::GetOldPos()
+{
+	return oldPos;
+}
+
+

@@ -71,6 +71,11 @@ void GamePlayScene::Update()
 	}
 	feManager.Update();
 	//テスト書き
+	//フィールドエフェクト(炎)の生成
+	if (player.GetIsMove())
+	{
+		feManager.CreateFireWall(player.GetOldPos());
+	}
 
 	//地面
 	ground.Update();
@@ -80,7 +85,6 @@ void GamePlayScene::Update()
 	//プレイヤーの移動方向をカメラから取得
 	player.SetForward(mainCamera.GetForward());
 	player.Update();
-	feManager.CreateFireWall(player.GetPosition());
 
 	mainCamera.Update(keyboard, ctrler, player.GetPosition());
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });

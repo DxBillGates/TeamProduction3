@@ -25,6 +25,8 @@ private:
 	Vector3 forward;
 	bool jumpFlag;
 	float fireValue;
+	Vector3 oldPos;
+	bool isMove;
 public:
 	Player();
 	~Player();
@@ -38,5 +40,7 @@ public:
 	void SetForward(const Vector3& f);
 	float GetFireValue();
 	void SetFireValue(float fv);
+	bool GetIsMove();
+	Vector3 GetOldPos();
 };
 

@@ -40,8 +40,9 @@ void EnemyManager::Initialize()
 void EnemyManager::Update()
 {
 	const float REVIVE_RANGE = 1280;
+	const int REVIVE_COUNT = 60;
 	bool revive = false;
-	if (count % 60 == 0)
+	if (count % REVIVE_COUNT == 0)
 	{
 		revive = true;
 	}
