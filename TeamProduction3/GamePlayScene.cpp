@@ -43,34 +43,62 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
+	const float PLAYER_TO_FIREWALL_DIS = 32;     //プレイヤーと壁の判定距離
+	const float PLAYER_TO_ENEMY_DIS = 16;		 //プレイヤーと敵の判定距離
+	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
+	const float DECREASE_FIRE_VALUE = 0.2f;		 //プレイヤーの燃えてる値を減らす定数
+	const float PLAYER_TO_PUDDLE_DIS = 128 * 128;//プレイヤーと水たまりの判定距離(蒸発距離)
+	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
+	const float DECREASE_PUDDLE_VALUE = 0.01f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
+	const float FIREWALL_TO_ENEMY_DIS = 16;		 //壁と敵の攻撃の判定距離
+
 	//テスト書き
 	std::vector<NormalEnemy*>* neList = enemyManager.GetNormalEnemyList();
 	std::vector<FieldEffectPuddle>* feList = feManager.GetPuddleList();
+	std::vector<FieldEffectFireWall>* feFirewallList = feManager.GetFireWallList();
 	for (auto& ne : *neList)
 	{
-		if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), player.GetPosition()) <= 16)
+		if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), player.GetPosition()) <= PLAYER_TO_ENEMY_DIS)
 		{
-			player.SetFireValue(player.GetFireValue() - 0.2f);
+			player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
+			ne->GetEnemyBulletPointer()->Initialize();
+		}
+		for (auto& fe : *feFirewallList)
+		{
+			if (!fe.GetLiveFlag())continue;
+			if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(),fe.GetPosition()) < FIREWALL_TO_ENEMY_DIS)
+			{
+				ne->GetEnemyBulletPointer()->Initialize();
+			}
 		}
 		if (ne->GetEnemyBulletPointer()->GetIsOldUse() && !ne->GetEnemyBulletPointer()->GetIsUse())
 		{
 			feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition());
 		}
+
 	}
 	for (auto& fe : *feList)
 	{
-		if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= 128 * 128)
+		if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_PUDDLE_DIS)
 		{
 			if (player.GetFireValue() >= 0.8f)
-				fe.SetAlphaValue(fe.GetAlphaValue() - 0.01f);
-			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * 128 * 32)
+				fe.SetAlphaValue(fe.GetAlphaValue() - DECREASE_PUDDLE_VALUE);
+			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
 			{
-				player.SetFireValue(player.GetFireValue() - 0.2f);
+				player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
 			}
 		}
 	}
-	feManager.Update();
+	for (auto& fe : *feFirewallList)
+	{
+		if (!fe.GetLiveFlag())continue;
+		if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_FIREWALL_DIS)
+		{
+			player.SetFireValue(player.GetFireValue() + INCREASE_FIRE_VALUE);
+		}
+	}
 	//テスト書き
+	feManager.Update();
 	//フィールドエフェクト(炎)の生成
 	if (player.GetIsMove())
 	{

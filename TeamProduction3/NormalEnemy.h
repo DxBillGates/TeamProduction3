@@ -8,6 +8,7 @@ private:
 	static Dx12_Mesh mesh;
 	static MeshData md;
 	EnemyBullet bullet;
+	float coolTime;
 public:
 	NormalEnemy();
 	~NormalEnemy();

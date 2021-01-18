@@ -36,7 +36,7 @@ void FillScreenTransition::Initialize()
 
 void FillScreenTransition::Update()
 {
-	const float TRANSITION_TIME = 2;
+	const float TRANSITION_TIME = 1;
 	returnFlag = false;
 
 	if (playFlag)

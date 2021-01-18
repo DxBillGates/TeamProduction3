@@ -124,6 +124,10 @@ float Player::GetFireValue()
 
 void Player::SetFireValue(float fv)
 {
+	if (fv >= 1)
+	{
+		fv = 1;
+	}
 	fireValue = fv;
 }
 

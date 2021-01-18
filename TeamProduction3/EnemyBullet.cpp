@@ -53,7 +53,7 @@ void EnemyBullet::Draw(ID3D12GraphicsCommandList * cmdList)
 	mesh.Draw(cmdList);
 }
 
-void EnemyBullet::SetTarget(const Vector3 & tp)
+void EnemyBullet::SetTarget(const Vector3 & tp,float value)
 {
 	target = tp;
 	vel = Vector3::Normalize(target - pos) * 5;

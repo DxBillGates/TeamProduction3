@@ -38,6 +38,9 @@ void NormalEnemy::Initialize()
 void NormalEnemy::Update()
 {
 	const float REVIVE_TIME = 1;
+	const float RANGE = 320;
+	const float RANDOM_RANGE = 128;
+	const float COOL_TIME = 2;
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
@@ -53,12 +56,25 @@ void NormalEnemy::Update()
 	}
 	if (liveFlag)
 	{
-		if (!bullet.GetIsUse())
+		if (!bullet.GetIsUse() && Vector3::Distance(targetPos,pos) < RANGE && coolTime == 0)
 		{
 			bullet.Initialize();
 			bullet.SetPosition(pos);
-			bullet.SetTarget(targetPos);
+			Vector3 target;
+			target.x = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.x;
+			target.z = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.z;
+			target += (targetPos - pos) * ((float)(std::rand() % 3) + 1);
+			bullet.SetTarget(target);
 			bullet.SetIsUse(true);
+			coolTime = COOL_TIME;
+		}
+		if (coolTime > 0)
+		{
+			coolTime -= 0.016f;
+			if (coolTime <= 0)
+			{
+				coolTime = 0;
+			}
 		}
 		Vector3 moveVector;
 		moveVector = targetPos - pos;

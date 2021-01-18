@@ -28,7 +28,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	void SetTarget(const Vector3& tp);
+	void SetTarget(const Vector3& tp,float value = 1);
 	void SetPosition(const Vector3& p);
 	Vector3 GetPosition();
 	void SetIsUse(bool b);
