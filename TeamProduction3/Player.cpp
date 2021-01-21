@@ -16,7 +16,7 @@ Player::~Player()
 void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
 {
 	cb = new Dx12_CBuffer<CBData>(pDevice, heap, 1);
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/daruma/", "player", md);
 	mesh.Create(pDevice, &md);
 }
 

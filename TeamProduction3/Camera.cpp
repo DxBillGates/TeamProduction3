@@ -1,5 +1,10 @@
 #include "Camera.h"
 #include "Quaternion.h"
+#include <random>
+
+float Camera::MAX_SHAKE_TIME = 0.1f;
+float Camera::shakeTime = 0;
+bool Camera::isShake = false;
 
 Camera::Camera()
 	:pos(Vector3(0, 0, -1)), target(Vector3(0, 0, 0)), up(Vector3(0, 1, 0)),yaw(0)
@@ -12,22 +17,42 @@ void Camera::Initialize()
 	target = Vector3(0, 0, 0);
 	up = Vector3(0, 1, 0);
 	yaw = 0;
+	isShake = false;
+	shakeTime = 0;
 }
 
 void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
 	const float R = 512;
 	const float S = 2;
+	const float SHAKE_RANGE = 10.f;
 	pos += argpos - target;
 	target = argpos;
+
 	//ƒJƒƒ‰‚Ì‰ñ“]
-	yaw += (keyboard->CheakHitKey(Key::RIGHT) || ctrler->GetRStickX() > 0) ? -S : 0;
-	yaw += (keyboard->CheakHitKey(Key::LEFT) || ctrler->GetRStickX() < 0) ? S : 0;
+	yaw += (keyboard->CheakHitKey(Key::RIGHT) || ctrler->GetRStickX() > 0) ? S : 0;
+	yaw += (keyboard->CheakHitKey(Key::LEFT) || ctrler->GetRStickX() < 0) ? -S : 0;
 	Vector3 v;
 	v.x = R * sinf(DirectX::XM_2PI / 360 * yaw)+target.x;
 	v.y = 512;
 	v.z = R * cosf(DirectX::XM_2PI / 360 * yaw)+target.z;
 	pos = v;
+
+	if (isShake)
+	{
+		Vector3 vec;
+		vec.x = (float)std::rand() / RAND_MAX * SHAKE_RANGE - SHAKE_RANGE / 2.0f;
+		//vec.y = (float)std::rand() / RAND_MAX * SHAKE_RANGE - SHAKE_RANGE / 2.0f;
+		pos += vec;
+		target += vec;
+
+		if (shakeTime < 0)
+		{
+			isShake = false;
+			shakeTime = 0;
+		}
+		shakeTime -= 0.016f;
+	}
 }
 
 void Camera::SetPosition(const Vector3 & p)
@@ -96,4 +121,22 @@ Vector3 Camera::GetForward()
 {
 	Vector3 result = Vector3::Normalize(target - Vector3(pos.x,0,pos.z));
 	return result;
+}
+
+void Camera::ScreenShake()
+{
+	if (!isShake)
+	{
+		isShake = true;
+		shakeTime = MAX_SHAKE_TIME;
+	}
+	else
+	{
+		shakeTime = MAX_SHAKE_TIME;
+	}
+}
+
+bool Camera::IsShake()
+{
+	return isShake;
 }

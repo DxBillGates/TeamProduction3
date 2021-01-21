@@ -1,8 +1,8 @@
 #include "Dx12_Pipeline.h"
 #include "COMRelease.h"
 
-Dx12_Pipeline::Dx12_Pipeline(ID3D12Device * device, Dx12_Shader * pShader, Dx12_RootSignature * pRootSignature, std::vector<InputLayout> inputLayout, BlendMode blendMode, D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType)
-	:shader(pShader),rootSignature(pRootSignature)
+Dx12_Pipeline::Dx12_Pipeline(ID3D12Device * device, Dx12_Shader * pShader, Dx12_RootSignature * pRootSignature, std::vector<InputLayout> inputLayout, BlendMode blendMode, D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType, bool alphaWrite, bool depthWrite)
+	:shader(pShader), rootSignature(pRootSignature)
 {
 	D3D12_INPUT_ELEMENT_DESC* inputDesc = new D3D12_INPUT_ELEMENT_DESC[(int)inputLayout.size()];
 	//引数のインプットレイアウトからPSOのインプットレイアウトを設定
@@ -20,16 +20,16 @@ Dx12_Pipeline::Dx12_Pipeline(ID3D12Device * device, Dx12_Shader * pShader, Dx12_
 		{
 			inputDesc[i] = { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 		}
-	}	
+	}
 	//ブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blendDesc = {};
 	SetBlendMode(&blendDesc, BLENDMODE_ALPHA);
 	//PSOの各種設定
 	HRESULT result;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-	psoDesc.VS.BytecodeLength =  shader->GetVsBlob()->GetBufferSize();
+	psoDesc.VS.BytecodeLength = shader->GetVsBlob()->GetBufferSize();
 	psoDesc.VS.pShaderBytecode = shader->GetVsBlob()->GetBufferPointer();
-	psoDesc.PS.BytecodeLength =  shader->GetPsBlob()->GetBufferSize();
+	psoDesc.PS.BytecodeLength = shader->GetPsBlob()->GetBufferSize();
 	psoDesc.PS.pShaderBytecode = shader->GetPsBlob()->GetBufferPointer();
 	if (shader->GetGsBlob())
 	{
@@ -41,10 +41,27 @@ Dx12_Pipeline::Dx12_Pipeline(ID3D12Device * device, Dx12_Shader * pShader, Dx12_
 	psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 	psoDesc.RasterizerState.DepthClipEnable = true;
 	psoDesc.DepthStencilState.DepthEnable = true;
-	psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	if (depthWrite)
+	{
+		psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	}
+	else
+	{
+		psoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	}
 	psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
 	psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 	psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+	if (alphaWrite)
+	{
+		psoDesc.BlendState.AlphaToCoverageEnable = false;
+	}
+	else
+	{
+		psoDesc.BlendState.AlphaToCoverageEnable = true;
+	}
+
 	psoDesc.BlendState.RenderTarget[0] = blendDesc;
 	psoDesc.InputLayout.pInputElementDescs = inputDesc;
 	psoDesc.InputLayout.NumElements = (int)inputLayout.size();

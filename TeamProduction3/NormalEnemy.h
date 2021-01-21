@@ -7,6 +7,9 @@ class NormalEnemy : public Enemy
 private:
 	static Dx12_Mesh mesh;
 	static MeshData md;
+	static Dx12_Mesh coolTimeMesh;
+	static MeshData coolTimeMd;
+	Dx12_CBuffer<CBData>*coolTimeCB;
 	EnemyBullet bullet;
 	float coolTime;
 public:

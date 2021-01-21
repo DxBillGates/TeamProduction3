@@ -13,16 +13,19 @@ GamePlayScene::~GamePlayScene()
 	delete orthograph;
 	delete perspective;
 	delete simpleShader;
+	delete animetionShader;
 }
 
 void GamePlayScene::LoadAsset()
 {
 	ID3D12Device* pDevice = device->GetDevice();
 	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV }), { POSITION,TEXCOORD,NORMAL });
+	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,});
 	player.LoadAsset(pDevice, heap, loader);
 	ground.LoadAsset(pDevice, heap, loader);
 	enemyManager.LoadAsset(pDevice, heap, loader);
 	feManager.LoadAsset(pDevice, heap, loader);
+	time.LoadAsset(pDevice, heap, loader);
 }
 
 void GamePlayScene::Initialize()
@@ -39,6 +42,8 @@ void GamePlayScene::Initialize()
 	nextSceneFlag = false;
 	printf("GamePlay\n");
 	feManager.Initialize();
+	time.Initialize();
+	timeValue = 60;
 }
 
 void GamePlayScene::Update()
@@ -47,72 +52,87 @@ void GamePlayScene::Update()
 	const float PLAYER_TO_ENEMY_DIS = 16;		 //プレイヤーと敵の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 0.2f;		 //プレイヤーの燃えてる値を減らす定数
-	const float PLAYER_TO_PUDDLE_DIS = 128 * 128;//プレイヤーと水たまりの判定距離(蒸発距離)
+	const float PLAYER_TO_PUDDLE_DIS = 128 * 256;//プレイヤーと水たまりの判定距離(蒸発距離)
 	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
 	const float DECREASE_PUDDLE_VALUE = 0.01f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
 	const float FIREWALL_TO_ENEMY_DIS = 16;		 //壁と敵の攻撃の判定距離
 
-	//テスト書き
-	std::vector<NormalEnemy*>* neList = enemyManager.GetNormalEnemyList();
-	std::vector<FieldEffectPuddle>* feList = feManager.GetPuddleList();
-	std::vector<FieldEffectFireWall>* feFirewallList = feManager.GetFireWallList();
-	for (auto& ne : *neList)
+	if (!mainCamera.IsShake())
 	{
-		if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), player.GetPosition()) <= PLAYER_TO_ENEMY_DIS)
+		//テスト書き
+		std::vector<NormalEnemy*>* neList = enemyManager.GetNormalEnemyList();
+		std::vector<FieldEffectPuddle>* feList = feManager.GetPuddleList();
+		std::vector<FieldEffectFireWall>* feFirewallList = feManager.GetFireWallList();
+		for (auto& ne : *neList)
 		{
-			player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
-			ne->GetEnemyBulletPointer()->Initialize();
+			if (ne->GetEnemyBulletPointer()->GetIsUse())
+				if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), player.GetPosition()) <= PLAYER_TO_ENEMY_DIS)
+				{
+					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
+					ne->GetEnemyBulletPointer()->Initialize();
+				}
+			for (auto& fe : *feFirewallList)
+			{
+				if (!fe.GetLiveFlag())continue;
+				if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), fe.GetPosition()) < FIREWALL_TO_ENEMY_DIS)
+				{
+					ne->GetEnemyBulletPointer()->Initialize();
+				}
+			}
+			if (ne->GetEnemyBulletPointer()->GetIsOldUse() && !ne->GetEnemyBulletPointer()->GetIsUse())
+			{
+				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition());
+			}
+
+		}
+		for (auto& fe : *feList)
+		{
+			if (!fe.GetLiveFlag())continue;
+			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_PUDDLE_DIS)
+			{
+				if (player.GetFireValue() >= 0.8f)
+					fe.SetAlphaValue(fe.GetAlphaValue() - DECREASE_PUDDLE_VALUE);
+				if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
+				{
+					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
+				}
+			}
 		}
 		for (auto& fe : *feFirewallList)
 		{
 			if (!fe.GetLiveFlag())continue;
-			if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(),fe.GetPosition()) < FIREWALL_TO_ENEMY_DIS)
+			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_FIREWALL_DIS)
 			{
-				ne->GetEnemyBulletPointer()->Initialize();
+				player.SetFireValue(player.GetFireValue() + INCREASE_FIRE_VALUE);
 			}
 		}
-		if (ne->GetEnemyBulletPointer()->GetIsOldUse() && !ne->GetEnemyBulletPointer()->GetIsUse())
+		//テスト書き
+		feManager.Update();
+		//フィールドエフェクト(炎)の生成
+		if (player.GetIsMove())
 		{
-			feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition());
+			feManager.CreateFireWall(player.GetOldPos());
 		}
 
-	}
-	for (auto& fe : *feList)
-	{
-		if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_PUDDLE_DIS)
-		{
-			if (player.GetFireValue() >= 0.8f)
-				fe.SetAlphaValue(fe.GetAlphaValue() - DECREASE_PUDDLE_VALUE);
-			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
-			{
-				player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
-			}
-		}
-	}
-	for (auto& fe : *feFirewallList)
-	{
-		if (!fe.GetLiveFlag())continue;
-		if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_FIREWALL_DIS)
-		{
-			player.SetFireValue(player.GetFireValue() + INCREASE_FIRE_VALUE);
-		}
-	}
-	//テスト書き
-	feManager.Update();
-	//フィールドエフェクト(炎)の生成
-	if (player.GetIsMove())
-	{
-		feManager.CreateFireWall(player.GetOldPos());
-	}
+		//地面
+		ground.Update();
+		//EnemyManagerにプレイヤーのポジションをセット
+		enemyManager.SetTarget(&player);
+		enemyManager.Update();
+		//プレイヤーの移動方向をカメラから取得
+		player.SetForward(mainCamera.GetForward());
+		player.Update();
 
-	//地面
-	ground.Update();
-	//EnemyManagerにプレイヤーのポジションをセット
-	enemyManager.SetTarget(&player);
-	enemyManager.Update();
-	//プレイヤーの移動方向をカメラから取得
-	player.SetForward(mainCamera.GetForward());
-	player.Update();
+		time.SetSize(Vector3(32,32,32));
+		time.SetPosition(Vector3(640, 0, 0));
+		time.SetTime((int)timeValue);
+		time.Update();
+		timeValue -= 0.016f;
+		if (timeValue < 0)
+		{
+			timeValue = 60;
+		}
+	}
 
 	mainCamera.Update(keyboard, ctrler, player.GetPosition());
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
@@ -122,7 +142,9 @@ void GamePlayScene::Update()
 
 void GamePlayScene::DrawSprite()
 {
-	//orthograph->Set(device->GetCmdList());
+	animetionShader->Set(device->GetCmdList());
+	orthograph->Set(device->GetCmdList());
+	time.Draw(device->GetCmdList());
 }
 
 void GamePlayScene::Draw()

@@ -19,7 +19,7 @@ void EnemyBullet::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap)
 
 void EnemyBullet::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/", "cube", md);
 	mesh.Create(device, &md);
 }
 

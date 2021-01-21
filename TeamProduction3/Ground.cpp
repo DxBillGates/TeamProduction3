@@ -12,7 +12,7 @@ Ground::~Ground()
 void Ground::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
 {
 	cb = new Dx12_CBuffer<CBData>(pDevice, heap, 1);
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/", "cube", md);
 	mesh.Create(pDevice, &md);
 }
 
@@ -23,7 +23,7 @@ void Ground::Initialize()
 
 void Ground::Update()
 {
-	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(Vector3(0,-size.y / 2,0)),{1,1,1,1} });
+	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(Vector3(0,-32,0)),{1,1,1,1} });
 }
 
 void Ground::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap * heap)

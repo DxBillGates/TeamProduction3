@@ -17,6 +17,7 @@ protected:
 	bool liveFlag;
 	bool reviveFlag;
 	float reviveT;
+	Vector3 vel;
 public:
 	Enemy();
 	virtual ~Enemy();
@@ -31,4 +32,6 @@ public:
 	void SetLiveFlag(bool f);
 	bool GetReviveFlag();
 	void SetTargetPos(const Vector3& tp);
+	Vector3 GetVel();
+	void SetVel(const Vector3& v);
 };

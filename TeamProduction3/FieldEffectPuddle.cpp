@@ -65,6 +65,6 @@ void FieldEffectPuddle::Draw(ID3D12GraphicsCommandList * cmdList)
 void FieldEffectPuddle::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
 	MeshData md;
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/mizu/", "mizu", md);
 	mesh.Create(device, &md);
 }

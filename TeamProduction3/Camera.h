@@ -18,6 +18,10 @@ private:
 	Vector3 target;
 	Vector3 up;
 	float yaw;
+
+	static float MAX_SHAKE_TIME;
+	static bool isShake;
+	static float shakeTime;
 public:
 	Camera();
 	void Initialize();
@@ -29,5 +33,7 @@ public:
 	Vector3 GetPosition();
 	Vector3 GetTarget();
 	Vector3 GetForward();
+	static void ScreenShake();
+	bool IsShake();
 };
 

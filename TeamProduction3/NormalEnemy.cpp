@@ -2,6 +2,9 @@
 
 Dx12_Mesh NormalEnemy::mesh = Dx12_Mesh();
 MeshData NormalEnemy::md = MeshData();
+Dx12_Mesh NormalEnemy::coolTimeMesh = Dx12_Mesh();
+MeshData NormalEnemy::coolTimeMd = MeshData();
+
 
 NormalEnemy::NormalEnemy()
 	:Enemy()
@@ -11,18 +14,22 @@ NormalEnemy::NormalEnemy()
 NormalEnemy::~NormalEnemy()
 {
 	delete cb;
+	delete coolTimeCB;
 }
 
 void NormalEnemy::LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap * heap)
 {
 	cb = new Dx12_CBuffer<CBData>(device, heap, 1);
+	coolTimeCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 	bullet.LoadAsset(device, heap);
 }
 
 void NormalEnemy::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/", "cube", md);
+	loader->LoadMeshData("Resources/Model/", "cube", coolTimeMd);
 	mesh.Create(device, &md);
+	coolTimeMesh.Create(device, &coolTimeMd);
 }
 
 void NormalEnemy::Initialize()
@@ -32,7 +39,8 @@ void NormalEnemy::Initialize()
 	liveFlag = false;
 	reviveFlag = false;
 	reviveT = 0;
-	bullet.Initialize();
+	vel = Vector3();
+	//bullet.Initialize();
 }
 
 void NormalEnemy::Update()
@@ -63,7 +71,7 @@ void NormalEnemy::Update()
 			Vector3 target;
 			target.x = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.x;
 			target.z = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.z;
-			target += (targetPos - pos) * ((float)(std::rand() % 3) + 1);
+			//target += (targetPos - pos);
 			bullet.SetTarget(target);
 			bullet.SetIsUse(true);
 			coolTime = COOL_TIME;
@@ -78,18 +86,31 @@ void NormalEnemy::Update()
 		}
 		Vector3 moveVector;
 		moveVector = targetPos - pos;
-		pos += Vector3::Normalize(moveVector);
+		pos += Vector3::Normalize(moveVector) + vel;
 	}
 
 	bullet.Update();
 	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * Matrix4::Translate(pos),{0,1,0,reviveT} });
+	coolTimeCB->Map({ Matrix4::Scale(Vector3(8,32 * coolTime,8)) * Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
+
+	if (vel.Length() > 0)
+	{
+		vel -= Vector3::Normalize(vel);
+	}
 }
 
 void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 {
+	
 	bullet.Draw(cmdList);
-	cb->Set(cmdList);
-	mesh.Draw(cmdList);
+	if (liveFlag)
+	{
+		cb->Set(cmdList);
+		mesh.Draw(cmdList);
+
+		coolTimeCB->Set(cmdList);
+		coolTimeMesh.Draw(cmdList);
+	}
 }
 
 EnemyBullet * NormalEnemy::GetEnemyBulletPointer()

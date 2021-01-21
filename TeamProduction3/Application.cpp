@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "SampleScene.h"
 #include "TitleScene.h"
 #include "GamePlayScene.h"
 #include <stdio.h>
@@ -15,7 +14,6 @@ Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	QueryPerformanceCounter(&timeStart);
 	//シーンの追加とセット
 	Scene::SetStaticMenber(&gameWnd, &device, &cbvSrvHeap, &keyboard, &ctrler,&loader);
-	//sceneManager.Add(new SampleScene(), SAMPLE);
 	sceneManager.Add(new TitleScene(), TITLE);
 	sceneManager.Add(new GamePlayScene(), GAME_PLAY_SCENE);
 	sceneManager.ChangeScene(TITLE);
@@ -64,7 +62,7 @@ bool Application::Run()
 		}
 		timeStart = timeEnd;
 		fps = 1.0f / frameTime;
-		//printf("%3.3f\n", fps);
+		printf("%3.3f\n", fps);
 		if (!Update())
 		{
 			break;

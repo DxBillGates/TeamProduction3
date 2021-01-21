@@ -66,6 +66,6 @@ void FieldEffectFireWall::Draw(ID3D12GraphicsCommandList * cmdList)
 void FieldEffectFireWall::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
 	MeshData md;
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/", "cube", md);
 	mesh.Create(device, &md);
 }

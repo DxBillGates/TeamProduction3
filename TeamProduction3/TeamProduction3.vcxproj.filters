@@ -82,6 +82,15 @@
     <Filter Include="HLSL">
       <UniqueIdentifier>{f5b58b7e-4e91-416c-abcc-5a152e29b1d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Time">
+      <UniqueIdentifier>{2211a7e2-2d3b-46d9-b4f0-ffd8c09f4dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Time\ヘッダー ファイル">
+      <UniqueIdentifier>{51ef9dad-2346-4b49-9083-68dc54b289a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Time\ソース ファイル">
+      <UniqueIdentifier>{f2098458-472a-40ca-8d17-6c92931a89f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -121,9 +130,6 @@
       <Filter>Scene\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Scene\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SampleScene.cpp">
       <Filter>Scene\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Dx12_Mesh.cpp">
@@ -198,6 +204,9 @@
     <ClCompile Include="Ground.cpp">
       <Filter>GameObject\Ground\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>GameObject\Time\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseApplication.h">
@@ -243,9 +252,6 @@
       <Filter>Scene\ヘッダ ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Scene\ヘッダ ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SampleScene.h">
       <Filter>Scene\ヘッダ ファイル</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -326,12 +332,18 @@
     <ClInclude Include="Ground.h">
       <Filter>GameObject\Ground\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>GameObject\Time\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="FillShader.hlsli">
       <Filter>HLSL</Filter>
     </None>
     <None Include="SimpleShader.hlsli">
+      <Filter>HLSL</Filter>
+    </None>
+    <None Include="AnimetionShader.hlsli">
       <Filter>HLSL</Filter>
     </None>
   </ItemGroup>
@@ -346,6 +358,12 @@
       <Filter>HLSL</Filter>
     </FxCompile>
     <FxCompile Include="SimplePS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="AnimetionPS.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="AnimetionVS.hlsl">
       <Filter>HLSL</Filter>
     </FxCompile>
   </ItemGroup>

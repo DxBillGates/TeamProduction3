@@ -8,7 +8,6 @@
 
 enum SceneName
 {
-	SAMPLE,
 	TITLE,
 	GAME_PLAY_SCENE,
 };

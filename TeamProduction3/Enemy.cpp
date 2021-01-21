@@ -44,3 +44,13 @@ void Enemy::SetTargetPos(const Vector3 & tp)
 {
 	targetPos = tp;
 }
+
+Vector3 Enemy::GetVel()
+{
+	return vel;
+}
+
+void Enemy::SetVel(const Vector3 & v)
+{
+	vel = v;
+}

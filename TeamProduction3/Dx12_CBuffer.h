@@ -18,6 +18,8 @@ public:
 	int GetCbvNumber();
 	int GetRangeNumber();
 	void Set(ID3D12GraphicsCommandList* pCmdList);
+	Dx12_CBVSRVUAVHeap* GetHeap();
+
 };
 
 template<typename T>
@@ -85,5 +87,11 @@ inline void Dx12_CBuffer<T>::Set(ID3D12GraphicsCommandList * pCmdList)
 {
 	pHeap->Set();
 	pCmdList->SetGraphicsRootDescriptorTable(rangeNumber, pHeap->GetCBVHandleForGPU(cbvNumber));
+}
+
+template<typename T>
+inline Dx12_CBVSRVUAVHeap * Dx12_CBuffer<T>::GetHeap()
+{
+	return pHeap;
 }
 

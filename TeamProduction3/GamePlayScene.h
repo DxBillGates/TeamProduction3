@@ -9,6 +9,7 @@
 #include "FieldEffectPuddle.h"
 #include "FieldEffectManager.h"
 #include "Matrix4.h"
+#include "Time.h"
 
 class GamePlayScene : public Scene
 {
@@ -16,12 +17,16 @@ private:
 	Camera mainCamera;
 	Dx12_CBuffer<DirectX::XMMATRIX>* orthograph;
 	Dx12_CBuffer<Perspective>* perspective;
+	Dx12_Pipeline* animetionShader;
 	Dx12_Pipeline* simpleShader;
 private:
 	Player player;
 	Ground ground;
 	EnemyManager enemyManager;
 	FieldEffectManager feManager;
+
+	Time time;
+	float timeValue;
 public:
 	GamePlayScene();
 	~GamePlayScene();
