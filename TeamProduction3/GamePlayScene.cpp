@@ -6,6 +6,7 @@ GamePlayScene::GamePlayScene()
 {
 	orthograph->Map(DirectX::XMMatrixOrthographicOffCenterLH(0, 1280, 720, 0, 0, 1));
 	Player::SetInputDevice(keyboard, ctrler);
+	scoreManager = ScoreManager::GetInstance();
 }
 
 GamePlayScene::~GamePlayScene()
@@ -43,7 +44,8 @@ void GamePlayScene::Initialize()
 	printf("GamePlay\n");
 	feManager.Initialize();
 	time.Initialize();
-	timeValue = 60;
+	timeValue = 10;
+	scoreManager->GetCurrentScore()->Initialize();
 }
 
 void GamePlayScene::Update()
@@ -123,6 +125,9 @@ void GamePlayScene::Update()
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
 
+		scoreManager->GetCurrentScore()->SetPosition(Vector3());
+		scoreManager->GetCurrentScore()->Update();
+
 		time.SetSize(Vector3(32,32,32));
 		time.SetPosition(Vector3(640, 0, 0));
 		time.SetTime((int)timeValue);
@@ -130,7 +135,7 @@ void GamePlayScene::Update()
 		timeValue -= 0.016f;
 		if (timeValue < 0)
 		{
-			timeValue = 60;
+			nextSceneFlag = true;
 		}
 	}
 
@@ -145,6 +150,7 @@ void GamePlayScene::DrawSprite()
 	animetionShader->Set(device->GetCmdList());
 	orthograph->Set(device->GetCmdList());
 	time.Draw(device->GetCmdList());
+	scoreManager->GetCurrentScore()->Draw(device->GetCmdList());
 }
 
 void GamePlayScene::Draw()
@@ -160,5 +166,5 @@ void GamePlayScene::Draw()
 
 SceneName GamePlayScene::GetNextSceneName()
 {
-	return TITLE;
+	return RESULT;
 }

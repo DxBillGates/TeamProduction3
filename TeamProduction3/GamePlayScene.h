@@ -10,6 +10,7 @@
 #include "FieldEffectManager.h"
 #include "Matrix4.h"
 #include "Time.h"
+#include "ScoreManager.h"
 
 class GamePlayScene : public Scene
 {
@@ -24,6 +25,7 @@ private:
 	Ground ground;
 	EnemyManager enemyManager;
 	FieldEffectManager feManager;
+	ScoreManager* scoreManager;
 
 	Time time;
 	float timeValue;

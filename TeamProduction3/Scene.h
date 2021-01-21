@@ -10,6 +10,7 @@ enum SceneName
 {
 	TITLE,
 	GAME_PLAY_SCENE,
+	RESULT
 };
 
 class Scene

@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "TitleScene.h"
 #include "GamePlayScene.h"
+#include "ResultScene.h"
+#include "ScoreManager.h"
 #include <stdio.h>
 #pragma comment(lib,"winmm.lib")
 Application::Application(const char * appName, int wndWidth, int wndHeight) :
@@ -12,15 +14,21 @@ Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	gameWnd.PreviewWindow();
 	QueryPerformanceFrequency(&timeFreq);
 	QueryPerformanceCounter(&timeStart);
+
+	ScoreManager::Create();
+
 	//シーンの追加とセット
 	Scene::SetStaticMenber(&gameWnd, &device, &cbvSrvHeap, &keyboard, &ctrler,&loader);
 	sceneManager.Add(new TitleScene(), TITLE);
 	sceneManager.Add(new GamePlayScene(), GAME_PLAY_SCENE);
+	sceneManager.Add(new ResultScene(), RESULT);
 	sceneManager.ChangeScene(TITLE);
+
 }
 
 Application::~Application()
 {
+	ScoreManager::Destroy();
 }
 
 void Application::LoadAsset()
@@ -28,6 +36,8 @@ void Application::LoadAsset()
 	fillScreenTransition.LoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
 	fourCornerBoxTransition.LoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
 	sceneManager.LoadAsset();
+	ScoreManager::GetInstance()->LoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
+	ScoreManager::GetInstance()->StaticLoadAsset(device.GetDevice(), &cbvSrvHeap, &loader);
 }
 
 bool Application::Initialize()
@@ -36,6 +46,7 @@ bool Application::Initialize()
 	fourCornerBoxTransition.Initialize();
 	//シーンの初期化
 	sceneManager.Initialize();
+	ScoreManager::GetInstance()->Initialize();
 	return true;
 }
 
