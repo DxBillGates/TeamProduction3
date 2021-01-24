@@ -4,7 +4,7 @@ Keyboard* Player::keyboard = nullptr;
 Xinput* Player::ctrler = nullptr;
 
 Player::Player()
-	:cb(nullptr), pos(Vector3())
+	:cb(nullptr), pos(Vector3()),CONSTANT_FIRE_VALUE(300)
 {
 }
 
@@ -26,9 +26,11 @@ void Player::Initialize()
 	vel = Vector3();
 	forward = Vector3();
 	jumpFlag = false;
+	redValue = 0;
 	fireValue = 0;
 	oldPos = pos;
 	isMove = false;
+	isBuff = false;
 }
 
 void Player::Update()
@@ -37,6 +39,7 @@ void Player::Update()
 	const float G = 0.98f;
 	const float INCREASE_FIRE_VALUE = 1.f / 60.f;
 	const float UPDATE_OLDPOS_DISTANCE = 64;
+	const float MAX_FIRE_VALUE = 600;
 
 	if (Vector3::Distance(oldPos, pos) >= UPDATE_OLDPOS_DISTANCE)
 	{
@@ -69,24 +72,39 @@ void Player::Update()
 
 	if (moveVector.Length() > 0)
 	{
-		fireValue += INCREASE_FIRE_VALUE;
+		fireValue += 1;
+		if(fireValue >= CONSTANT_FIRE_VALUE)redValue += INCREASE_FIRE_VALUE;
 	}
 	else
 	{
-		fireValue -= INCREASE_FIRE_VALUE;
+		fireValue -= 1;
+		if (fireValue < CONSTANT_FIRE_VALUE)redValue -= INCREASE_FIRE_VALUE;
 	}
 
-	if (fireValue < 0)
+	if (fireValue >= MAX_FIRE_VALUE)
+	{
+		Initialize();
+	}
+	if (fireValue <= 0)
 	{
 		fireValue = 0;
 	}
-	else if (fireValue > 1)
+	if (fireValue >= CONSTANT_FIRE_VALUE)
 	{
-		fireValue = 1;
+		isBuff = true;
+	}
+
+	if (redValue < 0)
+	{
+		redValue = 0;
+	}
+	else if (redValue > 1)
+	{
+		redValue = 1;
 		moveVector *= 5;
 	}
 	pos += moveVector * MOVE_SPEED;
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(atan2f(forward.x,forward.z))* Matrix4::Translate(pos),{fireValue,0,0,1} });
+	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(atan2f(forward.x,forward.z))* Matrix4::Translate(pos),{redValue,0,0,1} });
 }
 
 void Player::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
@@ -119,7 +137,7 @@ void Player::SetForward(const Vector3 & f)
 
 float Player::GetFireValue()
 {
-	return fireValue;
+	return redValue;
 }
 
 void Player::SetFireValue(float fv)
@@ -128,7 +146,7 @@ void Player::SetFireValue(float fv)
 	{
 		fv = 1;
 	}
-	fireValue = fv;
+	redValue = fv;
 }
 
 bool Player::GetIsMove()
@@ -139,6 +157,30 @@ bool Player::GetIsMove()
 Vector3 Player::GetOldPos()
 {
 	return oldPos;
+}
+
+void Player::Respawn()
+{
+	Initialize();
+}
+
+float Player::GetRedValue()
+{
+	return redValue;
+}
+
+void Player::SetRedValue(float s)
+{
+	redValue = s;
+}
+
+bool Player::GetIsOverCFireValue()
+{
+	if (fireValue >= CONSTANT_FIRE_VALUE)
+	{
+		return true;
+	}
+	return false;
 }
 
 

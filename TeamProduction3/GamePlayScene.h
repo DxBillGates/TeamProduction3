@@ -11,6 +11,7 @@
 #include "Matrix4.h"
 #include "Time.h"
 #include "ScoreManager.h"
+#include "SquareManager.h"
 
 class GamePlayScene : public Scene
 {
@@ -26,6 +27,7 @@ private:
 	EnemyManager enemyManager;
 	FieldEffectManager feManager;
 	ScoreManager* scoreManager;
+	SquareManager squareManager;
 
 	Time time;
 	float timeValue;

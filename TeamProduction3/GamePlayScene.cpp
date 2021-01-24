@@ -20,13 +20,14 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::LoadAsset()
 {
 	ID3D12Device* pDevice = device->GetDevice();
-	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV }), { POSITION,TEXCOORD,NORMAL });
-	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,});
+	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,NORMAL });
+	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, });
 	player.LoadAsset(pDevice, heap, loader);
 	ground.LoadAsset(pDevice, heap, loader);
 	enemyManager.LoadAsset(pDevice, heap, loader);
 	feManager.LoadAsset(pDevice, heap, loader);
 	time.LoadAsset(pDevice, heap, loader);
+	squareManager.LoadAsset(pDevice, heap, loader);
 }
 
 void GamePlayScene::Initialize()
@@ -44,8 +45,9 @@ void GamePlayScene::Initialize()
 	printf("GamePlay\n");
 	feManager.Initialize();
 	time.Initialize();
-	timeValue = 10;
+	timeValue = 999;
 	scoreManager->GetCurrentScore()->Initialize();
+	squareManager.Initialize();
 }
 
 void GamePlayScene::Update()
@@ -58,6 +60,8 @@ void GamePlayScene::Update()
 	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
 	const float DECREASE_PUDDLE_VALUE = 0.01f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
 	const float FIREWALL_TO_ENEMY_DIS = 16;		 //壁と敵の攻撃の判定距離
+
+	Vector3 pos = player.GetPosition();
 
 	if (!mainCamera.IsShake())
 	{
@@ -78,6 +82,7 @@ void GamePlayScene::Update()
 				if (!fe.GetLiveFlag())continue;
 				if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), fe.GetPosition()) < FIREWALL_TO_ENEMY_DIS)
 				{
+					fe.Initialize();
 					ne->GetEnemyBulletPointer()->Initialize();
 				}
 			}
@@ -108,12 +113,25 @@ void GamePlayScene::Update()
 				player.SetFireValue(player.GetFireValue() + INCREASE_FIRE_VALUE);
 			}
 		}
+		std::vector<std::vector<Square>>* squares = squareManager.GetSquares();
+		int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
+		px /= 32;
+		pz /= 32;
+		if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
+		{
+			(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
+		}
+		Vector3 c = squareManager.GetTilesInfomation();
+		if (keyboard->KeyPressTrigger(Key::SPACE))
+			printf("赤:%d,青:%d,白:%d\n", (int)c.x, (int)c.y, (int)c.z);
+
 		//テスト書き
 		feManager.Update();
 		//フィールドエフェクト(炎)の生成
 		if (player.GetIsMove())
 		{
-			feManager.CreateFireWall(player.GetOldPos());
+			if (player.GetRedValue() >= 1)
+				feManager.CreateFireWall(player.GetOldPos());
 		}
 
 		//地面
@@ -128,7 +146,7 @@ void GamePlayScene::Update()
 		scoreManager->GetCurrentScore()->SetPosition(Vector3());
 		scoreManager->GetCurrentScore()->Update();
 
-		time.SetSize(Vector3(32,32,32));
+		time.SetSize(Vector3(32, 32, 32));
 		time.SetPosition(Vector3(640, 0, 0));
 		time.SetTime((int)timeValue);
 		time.Update();
@@ -139,7 +157,20 @@ void GamePlayScene::Update()
 		}
 	}
 
+	squareManager.Update();
+
+	Vector3 oldCameraPos = mainCamera.GetPosition();
+	Vector3 oldTargetPos = mainCamera.GetTarget();
 	mainCamera.Update(keyboard, ctrler, player.GetPosition());
+	Vector3 newCameraPos = mainCamera.GetPosition();
+	Vector3 newTargetPos = mainCamera.GetTarget();
+
+	Vector3 v = Vector3::Lerp(oldCameraPos, newCameraPos, 0.05f);
+	Vector3 v1 = Vector3::Lerp(oldTargetPos, newTargetPos, 0.05f);
+
+	mainCamera.SetPosition(v);
+	mainCamera.SetTarget(v1);
+
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
 
 	if (keyboard->KeyPressTrigger(Key::D1))nextSceneFlag = true;
@@ -158,6 +189,7 @@ void GamePlayScene::Draw()
 	ID3D12GraphicsCommandList* pCmdList = device->GetCmdList();
 	simpleShader->Set(pCmdList);
 	perspective->Set(device->GetCmdList());
+	squareManager.Draw(pCmdList);
 	player.Draw(pCmdList, heap);
 	ground.Draw(pCmdList, heap);
 	enemyManager.Draw(pCmdList);

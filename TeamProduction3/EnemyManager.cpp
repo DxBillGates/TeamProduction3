@@ -36,6 +36,7 @@ void EnemyManager::Initialize()
 	for (auto& e : enemyList)
 	{
 		e->Initialize();
+		e->GetEnemyBulletPointer()->Initialize();
 	}
 }
 

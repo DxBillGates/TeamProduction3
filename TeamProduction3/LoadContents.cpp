@@ -214,6 +214,27 @@ void LoadContents::CreateModelData_Plane(float width, float height, SpriteData &
 	};
 }
 
+void LoadContents::CreateModelData_Floor(float width, float depth, MeshData & outputMeshData)
+{
+	outputMeshData.modelName = "Plane";
+	outputMeshData.materialData.material = {};
+	outputMeshData.materialData.name = "none";
+	outputMeshData.materialData.texture = nullptr;
+	outputMeshData.materialData.textureName = "none";
+	outputMeshData.vertices =
+	{
+		{{-width / 2.0f,0, depth / 2.0f},{0,0},{0,0,-1}},
+		{{ width / 2.0f,0, depth / 2.0f},{1,0},{0,0,-1}},
+		{{ width / 2.0f,0,-depth / 2.0f},{1,1},{0,0,-1}},
+		{{-width / 2.0f,0,-depth / 2.0f},{0,1},{0,0,-1}},
+	};
+	outputMeshData.indices =
+	{
+		0,1,2,
+		0,2,3,
+	};
+}
+
 Dx12_Texture2D * LoadContents::LoadTexture(std::string directoryPath, std::string fileName)
 {
 	std::string filepath = directoryPath + fileName;

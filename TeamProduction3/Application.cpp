@@ -8,7 +8,7 @@
 Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	gameWnd(appName, wndWidth, wndHeight),
 	device(gameWnd.GetHwnd(), gameWnd.GetWndWidth(), gameWnd.GetWndHeight()),
-	cbvSrvHeap(device.GetDevice(), device.GetCmdList(), 1280, 128),
+	cbvSrvHeap(device.GetDevice(), device.GetCmdList(), 2560, 128),
 	keyboard(gameWnd.GetHwnd(), gameWnd.GetHinstance()),loader(&device,&cbvSrvHeap)
 {
 	gameWnd.PreviewWindow();
@@ -73,7 +73,7 @@ bool Application::Run()
 		}
 		timeStart = timeEnd;
 		fps = 1.0f / frameTime;
-		printf("%3.3f\n", fps);
+		//printf("%3.3f\n", fps);
 		if (!Update())
 		{
 			break;

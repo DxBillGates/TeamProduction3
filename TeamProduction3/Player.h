@@ -24,9 +24,12 @@ private:
 	Vector3 vel;
 	Vector3 forward;
 	bool jumpFlag;
-	float fireValue;
+	float redValue;
 	Vector3 oldPos;
 	bool isMove;
+	bool isBuff;
+	float fireValue;
+	const float CONSTANT_FIRE_VALUE;
 public:
 	Player();
 	~Player();
@@ -42,5 +45,9 @@ public:
 	void SetFireValue(float fv);
 	bool GetIsMove();
 	Vector3 GetOldPos();
+	void Respawn();
+	float GetRedValue();
+	void SetRedValue(float s);
+	bool GetIsOverCFireValue();
 };
 

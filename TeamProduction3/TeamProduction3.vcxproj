@@ -164,6 +164,8 @@
     <ClCompile Include="SceneTransition.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="Square.cpp" />
+    <ClCompile Include="SquareManager.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -198,6 +200,7 @@
     <ClInclude Include="FourCornerBoxTransition.h" />
     <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LoadContents.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="SceneTransition.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="SquareManager.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Vector2.h" />

@@ -91,6 +91,15 @@
     <Filter Include="GameObject\Time\ソース ファイル">
       <UniqueIdentifier>{f2098458-472a-40ca-8d17-6c92931a89f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Square">
+      <UniqueIdentifier>{45f2a367-4688-496d-b542-ea28a9366a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Square\ヘッダー ファイル">
+      <UniqueIdentifier>{bc0da8ab-c220-460d-83f8-5bf7636b24c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Square\ソース ファイル">
+      <UniqueIdentifier>{194233d0-d323-43fc-9ab9-23ac7c221f63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -215,6 +224,12 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>Scene\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Square.cpp">
+      <Filter>GameObject\Square\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SquareManager.cpp">
+      <Filter>GameObject\Square\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +367,12 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>Scene\ヘッダ ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.h">
+      <Filter>GameObject\Square\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareManager.h">
+      <Filter>GameObject\Square\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
