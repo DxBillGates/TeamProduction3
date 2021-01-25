@@ -43,5 +43,5 @@ void ResultScene::Draw()
 
 SceneName ResultScene::GetNextSceneName()
 {
-	return TITLE;
+	return GAME_PLAY_SCENE;
 }

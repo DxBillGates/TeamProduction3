@@ -22,7 +22,7 @@ void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 
 void Player::Initialize()
 {
-	pos = Vector3(512, 0, 512);
+	pos = Vector3(1024, 0, 1024);
 	vel = Vector3();
 	forward = Vector3();
 	jumpFlag = false;

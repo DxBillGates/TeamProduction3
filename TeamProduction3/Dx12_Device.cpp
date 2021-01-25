@@ -224,6 +224,12 @@ void Dx12_Device::ScreecFlip()
 	mSwapChain->Present(0, 0);
 }
 
+void Dx12_Device::CommandReset()
+{
+	mCmdAlloc->Reset();
+	mCmdList->Reset(mCmdAlloc, nullptr);
+}
+
 ID3D12Device * Dx12_Device::GetDevice()
 {
 	return mDevice;

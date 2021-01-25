@@ -12,16 +12,25 @@
 #include "Time.h"
 #include "ScoreManager.h"
 #include "SquareManager.h"
+#include "Title.h"
+#include "KeyOperation.h"
+#include "Operation.h"
 
 class GamePlayScene : public Scene
 {
 private:
+	enum class SceneState
+	{
+		TITLE,TUTORIAL,PLAY,RESULT,
+	};
 private:
+	SceneState sceneState;
 	Camera mainCamera;
 	Dx12_CBuffer<DirectX::XMMATRIX>* orthograph;
 	Dx12_CBuffer<Perspective>* perspective;
 	Dx12_Pipeline* animetionShader;
 	Dx12_Pipeline* simpleShader;
+	Dx12_Pipeline* spriteShader;
 private:
 	Player player;
 	Ground ground;
@@ -29,6 +38,12 @@ private:
 	FieldEffectManager feManager;
 	ScoreManager* scoreManager;
 	SquareManager squareManager;
+
+	NormalEnemy tutorialEnemy;
+
+	Title title;
+	KeyOperation keyOperation;
+	Operation operation;
 
 	Time time;
 	float timeValue;

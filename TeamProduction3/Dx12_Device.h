@@ -37,6 +37,7 @@ public:
 	void ClearScreen(DirectX::XMFLOAT4 color);
 	void ClearDepth();
 	void ScreecFlip();
+	void CommandReset();
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCmdList();
 };

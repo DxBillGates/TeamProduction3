@@ -22,7 +22,7 @@ Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	sceneManager.Add(new TitleScene(), TITLE);
 	sceneManager.Add(new GamePlayScene(), GAME_PLAY_SCENE);
 	sceneManager.Add(new ResultScene(), RESULT);
-	sceneManager.ChangeScene(TITLE);
+	sceneManager.ChangeScene(GAME_PLAY_SCENE);
 
 }
 
