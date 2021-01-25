@@ -77,7 +77,8 @@ void GamePlayScene::Update()
 	if (sceneState == SceneState::TITLE)
 	{
 		title.Update();
-		if (keyboard->KeyPressTrigger(Key::SPACE))title.SetIsFada(true);
+		//if (keyboard->KeyPressTrigger(Key::SPACE))title.SetIsFada(true);
+		if (keyboard->CheakHitKeyAll())title.SetIsFada(true);
 		if (title.GetEndIsFade())
 		{
 			sceneState = SceneState::TUTORIAL;
@@ -196,7 +197,7 @@ void GamePlayScene::Update()
 			ez /= (int)Square::GetSize().x;
 			if (ex < (int)squares->size() && ez < (int)squares[0].size() && ex >= 0 && ez >= 0)
 			{
-				(*squares)[ex][ez].SetColor(Vector3(0, 0, 1));
+				(*squares)[ex][ez].SetColor(Vector3(0.25f, 0.25f, 0.25f));
 			}
 		}
 
@@ -221,7 +222,7 @@ void GamePlayScene::Update()
 							{
 								continue;
 							}
-							(*squares)[(int)cp.x][(int)cp.z].SetColor(Vector3(0, 0, 1));
+							(*squares)[(int)cp.x][(int)cp.z].SetColor(Vector3(0.25f, 0.25f, 0.25f));
 						}
 					}
 				}
