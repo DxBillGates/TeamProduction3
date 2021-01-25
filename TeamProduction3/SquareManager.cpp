@@ -1,6 +1,6 @@
 #include "SquareManager.h"
 
-SquareManager::SquareManager():width(32),depth(32),size(Vector3(32,1,32))
+SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)width,1, (float)depth))
 {
 	squares.resize(width);
 	for (auto itr = squares.begin(); itr != squares.end(); ++itr)
@@ -13,8 +13,8 @@ SquareManager::SquareManager():width(32),depth(32),size(Vector3(32,1,32))
 		for (int j = 0; j < depth; ++j)
 		{
 			Vector3 pos;
-			pos.x = i * size.x;
-			pos.z = j * size.z;
+			pos.x = i * size.x + (float)width/2.f;
+			pos.z = j * size.z + (float)depth/2.f;
 			squares[i][j].SetPosition(pos);
 		}
 	}
@@ -82,4 +82,14 @@ std::vector<std::vector<Square>>* SquareManager::GetSquares()
 Vector3 SquareManager::GetTilesInfomation()
 {
 	return Vector3((float)redTile, (float)blueTile, (float)whiteTile);
+}
+
+int SquareManager::GetWidth()
+{
+	return width;
+}
+
+int SquareManager::GetDepth()
+{
+	return depth;
 }

@@ -38,7 +38,7 @@ void Time::Update()
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = time % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 } });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 

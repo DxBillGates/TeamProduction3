@@ -11,6 +11,7 @@ private:
 		DirectX::XMMATRIX model;
 		DirectX::XMFLOAT4 ancerAndSize;
 		DirectX::XMFLOAT4 texSize;
+		DirectX::XMFLOAT4 color;
 	};
 private:
 	Vector3 pos;

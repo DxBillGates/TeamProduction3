@@ -12,6 +12,8 @@ struct Matrix4
 	static Matrix4 Translate(const Vector3& v);
 	static Vector3 Transform(const Vector3& v, const Matrix4& m);
 	static Matrix4 Transpose(const Matrix4& m);
+	static Matrix4 Inverse(const Matrix4& m);
+	static float Determinant(const Matrix4& m);
 };
 Matrix4& operator*=(Matrix4& m1, const Matrix4& m2);
 Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);

@@ -65,6 +65,8 @@ void GamePlayScene::Update()
 
 	if (!mainCamera.IsShake())
 	{
+#pragma region 当たり判定
+
 		//テスト書き
 		std::vector<NormalEnemy*>* neList = enemyManager.GetNormalEnemyList();
 		std::vector<FieldEffectPuddle>* feList = feManager.GetPuddleList();
@@ -114,17 +116,31 @@ void GamePlayScene::Update()
 			}
 		}
 		std::vector<std::vector<Square>>* squares = squareManager.GetSquares();
-		int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
-		px /= 32;
-		pz /= 32;
-		if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
 		{
-			(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
+			int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
+			px /= 32;
+			pz /= 32;
+			if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
+			{
+				(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
+			}
 		}
+		for (auto& ne : *neList)
+		{
+			int ex = (int)ne->GetPos().x, ez = (int)ne->GetPos().z;
+			ex /= 32;
+			ez /= 32;
+			if (ex < (int)squares->size() && ez < (int)squares[0].size() && ex >= 0 && ez >= 0)
+			{
+				(*squares)[ex][ez].SetColor(Vector3(0, 0, 1));
+			}
+		}
+
 		Vector3 c = squareManager.GetTilesInfomation();
 		if (keyboard->KeyPressTrigger(Key::SPACE))
 			printf("赤:%d,青:%d,白:%d\n", (int)c.x, (int)c.y, (int)c.z);
 
+#pragma endregion
 		//テスト書き
 		feManager.Update();
 		//フィールドエフェクト(炎)の生成
@@ -191,9 +207,10 @@ void GamePlayScene::Draw()
 	perspective->Set(device->GetCmdList());
 	squareManager.Draw(pCmdList);
 	player.Draw(pCmdList, heap);
-	ground.Draw(pCmdList, heap);
 	enemyManager.Draw(pCmdList);
 	feManager.Draw(pCmdList);
+	device->ClearDepth();
+	//ground.Draw(pCmdList, heap);
 }
 
 SceneName GamePlayScene::GetNextSceneName()

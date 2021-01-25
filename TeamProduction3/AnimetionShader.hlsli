@@ -14,4 +14,5 @@ cbuffer cbuff1 : register(b1)
 	matrix model;
 	float4 ancerAndSize;
 	float4 texSize;
+	float4 color;
 }

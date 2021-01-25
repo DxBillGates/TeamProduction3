@@ -15,7 +15,9 @@ private:
 	Dx12_Mesh mesh;
 	Dx12_CBuffer<CBData>* cb;
 	MeshData md;
+	Vector3 pos;
 	Vector3 size;
+	Matrix4 billBoard;
 public:
 	Ground();
 	~Ground();
@@ -24,6 +26,8 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* pCmdList, Dx12_CBVSRVUAVHeap* heap);
 	void SetSize(const Vector3& s);
+	void SetPosition(const Vector3& p);
 	Vector3 GetSize();
+	void SetBillBoard(const Matrix4& b);
 };
 

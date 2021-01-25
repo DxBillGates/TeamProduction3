@@ -35,6 +35,7 @@ public:
 	Dx12_Device(HWND hwnd, int wndWidth, int wndHeight);
 	~Dx12_Device();
 	void ClearScreen(DirectX::XMFLOAT4 color);
+	void ClearDepth();
 	void ScreecFlip();
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCmdList();

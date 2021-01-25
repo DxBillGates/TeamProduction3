@@ -13,17 +13,19 @@ void Ground::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 {
 	cb = new Dx12_CBuffer<CBData>(pDevice, heap, 1);
 	loader->LoadMeshData("Resources/Model/", "cube", md);
+	//loader->CreateModelData_Plane(32, 32, md);
 	mesh.Create(pDevice, &md);
 }
 
 void Ground::Initialize()
 {
 	size = Vector3(1280,1,1280);
+	billBoard = Matrix4::Identity();
 }
 
 void Ground::Update()
 {
-	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(Vector3(0,-32,0)),{1,1,1,1} });
+	cb->Map({Matrix4::Scale(size) * Matrix4::Translate(pos) * billBoard,{1,1,1,1} });
 }
 
 void Ground::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap * heap)
@@ -37,7 +39,17 @@ void Ground::SetSize(const Vector3 & s)
 	size = s;
 }
 
+void Ground::SetPosition(const Vector3 & p)
+{
+	pos = p;
+}
+
 Vector3 Ground::GetSize()
 {
 	return size;
+}
+
+void Ground::SetBillBoard(const Matrix4 & b)
+{
+	billBoard = b;
 }

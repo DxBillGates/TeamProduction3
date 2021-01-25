@@ -83,7 +83,7 @@ void Player::Update()
 
 	if (fireValue >= MAX_FIRE_VALUE)
 	{
-		Initialize();
+		//Initialize();
 	}
 	if (fireValue <= 0)
 	{

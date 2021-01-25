@@ -20,4 +20,6 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	std::vector<std::vector<Square>>* GetSquares();
 	Vector3 GetTilesInfomation();
+	int GetWidth();
+	int GetDepth();
 };
