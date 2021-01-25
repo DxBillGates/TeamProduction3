@@ -63,6 +63,18 @@ void GamePlayScene::Update()
 
 	Vector3 pos = player.GetPosition();
 
+	Vector3 oldCameraPos = mainCamera.GetPosition();
+	Vector3 oldTargetPos = mainCamera.GetTarget();
+	mainCamera.Update(keyboard, ctrler, player.GetPosition());
+	Vector3 newCameraPos = mainCamera.GetPosition();
+	Vector3 newTargetPos = mainCamera.GetTarget();
+
+	Vector3 v = Vector3::Lerp(oldCameraPos, newCameraPos, 0.05f);
+	Vector3 v1 = Vector3::Lerp(oldTargetPos, newTargetPos, 0.05f);
+
+	mainCamera.SetPosition(v);
+	mainCamera.SetTarget(v1);
+
 	if (!mainCamera.IsShake())
 	{
 #pragma region 当たり判定
@@ -90,7 +102,7 @@ void GamePlayScene::Update()
 			}
 			if (ne->GetEnemyBulletPointer()->GetIsOldUse() && !ne->GetEnemyBulletPointer()->GetIsUse())
 			{
-				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition());
+				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition()-Vector3(0,32,0));
 			}
 
 		}
@@ -118,8 +130,8 @@ void GamePlayScene::Update()
 		std::vector<std::vector<Square>>* squares = squareManager.GetSquares();
 		{
 			int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
-			px /= 32;
-			pz /= 32;
+			px /= (int)Square::GetSize().x;
+			pz /= (int)Square::GetSize().x;
 			if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
 			{
 				(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
@@ -128,11 +140,39 @@ void GamePlayScene::Update()
 		for (auto& ne : *neList)
 		{
 			int ex = (int)ne->GetPos().x, ez = (int)ne->GetPos().z;
-			ex /= 32;
-			ez /= 32;
+			ex /= (int)Square::GetSize().x;
+			ez /= (int)Square::GetSize().x;
 			if (ex < (int)squares->size() && ez < (int)squares[0].size() && ex >= 0 && ez >= 0)
 			{
 				(*squares)[ex][ez].SetColor(Vector3(0, 0, 1));
+			}
+		}
+
+		for (auto& fe : *feList)
+		{
+			if (fe.GetLiveFlag())
+			{
+				int width = 5, depth = 5;
+				Vector3 s = fe.GetSize() / (float)width;
+				Vector3 p = fe.GetPosition() - fe.GetSize()/2;
+				Vector3 cp;
+				for (int i = 0; i < width; ++i)
+				{
+					for (int j = 0; j < depth; ++j)
+					{
+						cp.x = p.x + s.x * i+(*squares)[0][0].GetSize().x/width;
+						cp.z = p.z + s.z * j+(*squares)[0][0].GetSize().x/width;
+						cp /= (*squares)[0][0].GetSize().x;
+						if ((int)cp.x < (int)squares->size() && (int)cp.z < (int)squares[0].size() && cp.x >= 0 && cp.z >= 0)
+						{
+							if ((*squares)[(int)cp.x][(int)cp.z].GetColor() == Vector3(0, 0, 1))
+							{
+								continue;
+							}
+							(*squares)[(int)cp.x][(int)cp.z].SetColor(Vector3(0, 0, 1));
+						}
+					}
+				}
 			}
 		}
 
@@ -140,17 +180,20 @@ void GamePlayScene::Update()
 		if (keyboard->KeyPressTrigger(Key::SPACE))
 			printf("赤:%d,青:%d,白:%d\n", (int)c.x, (int)c.y, (int)c.z);
 
-#pragma endregion
 		//テスト書き
+#pragma endregion
 		feManager.Update();
 		//フィールドエフェクト(炎)の生成
 		if (player.GetIsMove())
 		{
 			if (player.GetRedValue() >= 1)
-				feManager.CreateFireWall(player.GetOldPos());
+				feManager.CreateFireWall(player.GetOldPos()-Vector3(0,32,0));
 		}
 
 		//地面
+		ground.SetBillBoard(Matrix4::Inverse(mainCamera.GetViewMatrix()));
+		//ground.SetPosition(player.GetPosition());
+		//ground.SetPosition(mainCamera.GetPosition() + mainCamera.GetForward() * 10);
 		ground.Update();
 		//EnemyManagerにプレイヤーのポジションをセット
 		enemyManager.SetTarget(&player);
@@ -175,19 +218,8 @@ void GamePlayScene::Update()
 
 	squareManager.Update();
 
-	Vector3 oldCameraPos = mainCamera.GetPosition();
-	Vector3 oldTargetPos = mainCamera.GetTarget();
-	mainCamera.Update(keyboard, ctrler, player.GetPosition());
-	Vector3 newCameraPos = mainCamera.GetPosition();
-	Vector3 newTargetPos = mainCamera.GetTarget();
-
-	Vector3 v = Vector3::Lerp(oldCameraPos, newCameraPos, 0.05f);
-	Vector3 v1 = Vector3::Lerp(oldTargetPos, newTargetPos, 0.05f);
-
-	mainCamera.SetPosition(v);
-	mainCamera.SetTarget(v1);
-
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
+
 
 	if (keyboard->KeyPressTrigger(Key::D1))nextSceneFlag = true;
 }

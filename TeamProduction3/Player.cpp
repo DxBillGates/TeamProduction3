@@ -22,7 +22,7 @@ void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 
 void Player::Initialize()
 {
-	pos = Vector3(0, 0, 512);
+	pos = Vector3(512, 0, 512);
 	vel = Vector3();
 	forward = Vector3();
 	jumpFlag = false;
@@ -110,7 +110,7 @@ void Player::Update()
 void Player::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
 {
 	cb->Set(pCmdList);
-	//pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+	pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	mesh.Draw(pCmdList);
 }
 

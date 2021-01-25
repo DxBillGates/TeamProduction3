@@ -5,6 +5,7 @@
 class FieldEffectPuddle : public FieldEffect
 {
 private:
+	static MeshData md;
 	static Dx12_Mesh mesh;
 public:
 	FieldEffectPuddle();

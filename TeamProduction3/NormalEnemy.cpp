@@ -26,7 +26,7 @@ void NormalEnemy::LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap * heap)
 
 void NormalEnemy::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
-	loader->LoadMeshData("Resources/Model/", "cube", md);
+	loader->LoadMeshData("Resources/Model/enemy/", "enemy", md);
 	loader->LoadMeshData("Resources/Model/", "cube", coolTimeMd);
 	mesh.Create(device, &md);
 	coolTimeMesh.Create(device, &coolTimeMd);
@@ -106,6 +106,7 @@ void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 	if (liveFlag)
 	{
 		cb->Set(cmdList);
+		cmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 		mesh.Draw(cmdList);
 
 		coolTimeCB->Set(cmdList);

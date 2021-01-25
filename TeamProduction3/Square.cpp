@@ -33,7 +33,9 @@ void Square::Initialize()
 
 void Square::Update()
 {
-	cb->Map({ Matrix4::Scale(size) * Matrix4::Translate(pos),{color.x,color.y,color.z,1} });
+	Vector3 newpos = pos;
+	newpos.y = -32;
+	cb->Map({ Matrix4::Scale(size) * Matrix4::Translate(newpos),{color.x,color.y,color.z,1} });
 }
 
 void Square::Draw(ID3D12GraphicsCommandList * cmdList)

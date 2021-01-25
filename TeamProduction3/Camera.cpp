@@ -25,7 +25,7 @@ void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
 	const float R = 512;
 	const float S = 2;
-	const float SHAKE_RANGE = 10.f;
+	const float SHAKE_RANGE = 250.f;
 	pos += argpos - target;
 	target = argpos;
 
@@ -42,7 +42,7 @@ void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 	{
 		Vector3 vec;
 		vec.x = (float)std::rand() / RAND_MAX * SHAKE_RANGE - SHAKE_RANGE / 2.0f;
-		//vec.y = (float)std::rand() / RAND_MAX * SHAKE_RANGE - SHAKE_RANGE / 2.0f;
+		vec.z = (float)std::rand() / RAND_MAX * SHAKE_RANGE - SHAKE_RANGE / 2.0f;
 		pos += vec;
 		target += vec;
 

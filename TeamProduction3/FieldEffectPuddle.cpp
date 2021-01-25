@@ -1,4 +1,5 @@
 #include "FieldEffectPuddle.h"
+MeshData FieldEffectPuddle::md = MeshData();
 Dx12_Mesh FieldEffectPuddle::mesh = Dx12_Mesh();
 
 FieldEffectPuddle::FieldEffectPuddle() :FieldEffect()
@@ -49,7 +50,7 @@ void FieldEffectPuddle::Update()
 		alpha -= DECREASE_ALPHA;
 	}
 	size = Vector3(MAX_SIZE, 1, MAX_SIZE) * alpha;
-	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{0,0,1,alpha} });
+	cb->Map({ Matrix4::Scale(size/2)*Matrix4::Translate(pos),{0,0.5f,1,1} });
 	if (alpha <= 0)
 	{
 		Initialize();
@@ -59,12 +60,12 @@ void FieldEffectPuddle::Update()
 void FieldEffectPuddle::Draw(ID3D12GraphicsCommandList * cmdList)
 {
 	cb->Set(cmdList);
+	cmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	mesh.Draw(cmdList);
 }
 
 void FieldEffectPuddle::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
-	MeshData md;
 	loader->LoadMeshData("Resources/Model/mizu/", "mizu", md);
 	mesh.Create(device, &md);
 }

@@ -16,6 +16,7 @@
 class GamePlayScene : public Scene
 {
 private:
+private:
 	Camera mainCamera;
 	Dx12_CBuffer<DirectX::XMMATRIX>* orthograph;
 	Dx12_CBuffer<Perspective>* perspective;

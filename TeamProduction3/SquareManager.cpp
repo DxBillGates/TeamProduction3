@@ -1,6 +1,6 @@
 #include "SquareManager.h"
 
-SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)width,1, (float)depth))
+SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)64,1, (float)64))
 {
 	squares.resize(width);
 	for (auto itr = squares.begin(); itr != squares.end(); ++itr)

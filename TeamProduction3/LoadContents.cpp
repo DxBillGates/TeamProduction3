@@ -223,10 +223,10 @@ void LoadContents::CreateModelData_Floor(float width, float depth, MeshData & ou
 	outputMeshData.materialData.textureName = "none";
 	outputMeshData.vertices =
 	{
-		{{-width / 2.0f,0, depth / 2.0f},{0,0},{0,0,-1}},
-		{{ width / 2.0f,0, depth / 2.0f},{1,0},{0,0,-1}},
-		{{ width / 2.0f,0,-depth / 2.0f},{1,1},{0,0,-1}},
-		{{-width / 2.0f,0,-depth / 2.0f},{0,1},{0,0,-1}},
+		{{-width / 2.0f,0, depth / 2.0f},{0,0},{0,1,0}},
+		{{ width / 2.0f,0, depth / 2.0f},{1,0},{0,1,0}},
+		{{ width / 2.0f,0,-depth / 2.0f},{1,1},{0,1,0}},
+		{{-width / 2.0f,0,-depth / 2.0f},{0,1},{0,1,0}},
 	};
 	outputMeshData.indices =
 	{
