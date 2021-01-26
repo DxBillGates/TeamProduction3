@@ -12,6 +12,7 @@ private:
 	Dx12_CBuffer<CBData>*coolTimeCB;
 	EnemyBullet bullet;
 	float coolTime;
+	Vector3 moveVector;
 public:
 	NormalEnemy();
 	~NormalEnemy();
@@ -21,4 +22,6 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	EnemyBullet* GetEnemyBulletPointer();
+	void SetMoveVector(const Vector3& v);
+	float GetCoolTime();
 };

@@ -54,7 +54,6 @@ void GamePlayScene::Initialize()
 	time.Initialize();
 	timeValue = 60;
 	scoreManager->GetCurrentScore()->Initialize();
-	feManager.Initialize();
 	squareManager.Initialize();
 	sceneState = SceneState::TITLE;
 	title.Initialize();
@@ -77,7 +76,6 @@ void GamePlayScene::Update()
 	if (sceneState == SceneState::TITLE)
 	{
 		title.Update();
-		//if (keyboard->KeyPressTrigger(Key::SPACE))title.SetIsFada(true);
 		if (keyboard->CheakHitKeyAll())title.SetIsFada(true);
 		if (title.GetEndIsFade())
 		{
@@ -99,10 +97,12 @@ void GamePlayScene::Update()
 		}
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
-		tutorialEnemy.SetTargetPos(player.GetPosition());
+		tutorialEnemy.SetTargetPos(player.GetOldPos());
+		tutorialEnemy.SetMoveVector(player.GetOldPos() - tutorialEnemy.GetPos());
 		tutorialEnemy.Update();
-		if (Vector3::Distance(player.GetPosition(), tutorialEnemy.GetPos()) <= 16)
+		if (Vector3::Distance(player.GetPosition(), tutorialEnemy.GetPos()) <= 64)
 		{
+			mainCamera.ScreenShake();
 			tutorialEnemy.Initialize();
 			sceneState = SceneState::PLAY;
 		}
@@ -301,8 +301,8 @@ void GamePlayScene::Draw()
 	ID3D12GraphicsCommandList* pCmdList = device->GetCmdList();
 	simpleShader->Set(pCmdList);
 	perspective->Set(device->GetCmdList());
-	feManager.Draw(pCmdList);
 	squareManager.Draw(pCmdList);
+	feManager.Draw(pCmdList);
 	player.Draw(pCmdList, heap);
 	enemyManager.Draw(pCmdList);
 	if (sceneState == SceneState::TUTORIAL)

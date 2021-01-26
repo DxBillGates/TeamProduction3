@@ -50,6 +50,7 @@ void EnemyBullet::Update()
 void EnemyBullet::Draw(ID3D12GraphicsCommandList * cmdList)
 {
 	cb->Set(cmdList);
+	cmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	mesh.Draw(cmdList);
 }
 

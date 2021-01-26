@@ -41,6 +41,7 @@ void NormalEnemy::Initialize()
 	reviveT = 0;
 	vel = Vector3();
 	//bullet.Initialize();
+	moveVector = Vector3();
 }
 
 void NormalEnemy::Update()
@@ -71,7 +72,6 @@ void NormalEnemy::Update()
 			Vector3 target;
 			target.x = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.x;
 			target.z = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.z;
-			//target += (targetPos - pos);
 			bullet.SetTarget(target);
 			bullet.SetIsUse(true);
 			coolTime = COOL_TIME;
@@ -84,13 +84,15 @@ void NormalEnemy::Update()
 				coolTime = 0;
 			}
 		}
-		Vector3 moveVector;
-		moveVector = targetPos - pos;
-		pos += Vector3::Normalize(moveVector) + vel;
+		moveVector = moveVector.Normalize();
+		pos += moveVector + vel;
 	}
 
 	bullet.Update();
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * Matrix4::Translate(pos),{0,1,0,reviveT} });
+	Vector3 v = targetPos - pos;
+	v = v.Normalize();
+	float angle = atan2f(v.x, v.z);
+	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos),{0,1,0,reviveT} });
 	coolTimeCB->Map({ Matrix4::Scale(Vector3(8,32 * coolTime,8)) * Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
 
 	if (vel.Length() > 0)
@@ -105,16 +107,27 @@ void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 	bullet.Draw(cmdList);
 	if (liveFlag)
 	{
+		coolTimeCB->Set(cmdList);
+		coolTimeMesh.Draw(cmdList);
+
 		cb->Set(cmdList);
 		cmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 		mesh.Draw(cmdList);
 
-		coolTimeCB->Set(cmdList);
-		coolTimeMesh.Draw(cmdList);
 	}
 }
 
 EnemyBullet * NormalEnemy::GetEnemyBulletPointer()
 {
 	return &bullet;
+}
+
+void NormalEnemy::SetMoveVector(const Vector3 & v)
+{
+	moveVector = v;
+}
+
+float NormalEnemy::GetCoolTime()
+{
+	return coolTime;
 }

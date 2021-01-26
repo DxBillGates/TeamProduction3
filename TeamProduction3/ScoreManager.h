@@ -10,6 +10,7 @@ private:
 	std::vector<Score*> scores;
 	Score* currentScore;
 	bool isUpdateScore;
+	int updateIndex;
 public:
 	static ScoreManager* GetInstance();
 	static void Create();

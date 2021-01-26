@@ -24,6 +24,7 @@ void FieldEffectPuddle::Initialize()
 	liveFlag = false;
 	reviveT = 0;
 	alpha = 0;
+	cb->Map({ Matrix4::Scale(size / 2)*Matrix4::Translate(pos),{0,0.5f,1,1} });
 }
 
 void FieldEffectPuddle::Update()

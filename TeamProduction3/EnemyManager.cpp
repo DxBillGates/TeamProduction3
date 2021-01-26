@@ -43,7 +43,9 @@ void EnemyManager::Initialize()
 void EnemyManager::Update()
 {
 	const float REVIVE_RANGE = 1280;
+	const float TARGET_RANGE = 320;
 	const int REVIVE_COUNT = 120;
+	const float RANGE = 512;
 	bool revive = false;
 	if (count % REVIVE_COUNT == 0)
 	{
@@ -58,11 +60,29 @@ void EnemyManager::Update()
 				Vector3 randomPos;
 				randomPos.x = (float)std::rand() / RAND_MAX * REVIVE_RANGE - REVIVE_RANGE / 2.0f + pPlayer->GetPosition().x;
 				randomPos.z = (float)std::rand() / RAND_MAX * REVIVE_RANGE - REVIVE_RANGE / 2.0f + pPlayer->GetPosition().z;
+				if (randomPos.x < 0 || randomPos.x > 2048)continue;
+				if (randomPos.z < 0 || randomPos.z > 2048)continue;
 				e->Revive(randomPos);
 				revive = false;
 			}
 		}
-		e->SetTargetPos(pPlayer->GetPosition());
+		float dis = Vector3::Distance(pPlayer->GetPosition(), e->GetPos());
+		if (dis * dis <= RANGE * RANGE && pPlayer->GetRedValue() >= 0.6f)
+		{
+			e->SetTargetPos(pPlayer->GetPosition());
+			e->SetMoveVector(pPlayer->GetPosition() - e->GetPos());
+		}
+		else
+		{
+			if (e->GetCoolTime() <= 0)
+			{
+				Vector3 randomPos;
+				randomPos.x = (float)std::rand() / RAND_MAX * TARGET_RANGE - TARGET_RANGE / 2.0f + e->GetPos().x;
+				randomPos.z = (float)std::rand() / RAND_MAX * TARGET_RANGE - TARGET_RANGE / 2.0f + e->GetPos().z;
+				e->SetTargetPos(randomPos);
+			}
+			e->SetMoveVector(Vector3());
+		}
 		e->Update();
 
 		if (e->GetLiveFlag())

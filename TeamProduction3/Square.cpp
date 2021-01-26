@@ -29,6 +29,7 @@ void Square::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadCon
 void Square::Initialize()
 {
 	color = Vector3(1, 1, 1);
+	cb->Map({ Matrix4::Scale(size) * Matrix4::Translate(pos),{color.x,color.y,color.z,1} });
 }
 
 void Square::Update()

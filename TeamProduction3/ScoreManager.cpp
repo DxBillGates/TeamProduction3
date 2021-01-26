@@ -38,16 +38,20 @@ void ScoreManager::Initialize()
 		(*itr)->Initialize();
 	}
 	currentScore->Initialize();
+	updateIndex = 0;
+
 }
 
 void ScoreManager::Update()
 {
 	int i = 0;
-	for (auto itr = scores.begin(); itr != scores.end(); ++itr,++i)
+	for (auto itr = scores.begin(); itr != scores.end(); ++itr, ++i)
 	{
-		(*itr)->SetPosition(Vector3(0,(float)(64 * i), 0));
+		(*itr)->SetPosition(Vector3(0, (float)(64 * i), 0));
 		(*itr)->Update();
 	}
+	scores[updateIndex]->SetPosition(Vector3(640,640,0));
+	scores[updateIndex]->Update();
 }
 
 void ScoreManager::UpdateScore()
@@ -55,7 +59,7 @@ void ScoreManager::UpdateScore()
 	int i = 0;
 	bool isFirstUpdate = false;
 	int oldScore = 0;
-	for (auto itr = scores.begin(); itr != scores.end(); ++itr)
+	for (auto itr = scores.begin(); itr != scores.end(); ++itr,++i)
 	{
 		if (!isFirstUpdate)
 		{
@@ -63,6 +67,7 @@ void ScoreManager::UpdateScore()
 			{
 				oldScore = (*itr)->GetScore();
 				(*itr)->SetScore(currentScore->GetScore());
+				updateIndex = i;
 				isFirstUpdate = true;
 			}
 		}
@@ -73,6 +78,7 @@ void ScoreManager::UpdateScore()
 			oldScore = olddScore;
 		}
 	}
+	printf("%d\n", updateIndex);
 }
 
 void ScoreManager::Draw(ID3D12GraphicsCommandList * cmdList)

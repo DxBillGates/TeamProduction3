@@ -24,6 +24,7 @@ void FieldEffectFireWall::Initialize()
 	liveFlag = false;
 	reviveT = 0;
 	alpha = 0;
+	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{1,0,0,alpha} });
 }
 
 void FieldEffectFireWall::Update()
