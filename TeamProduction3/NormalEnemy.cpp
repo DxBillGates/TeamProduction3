@@ -48,7 +48,7 @@ void NormalEnemy::Update()
 	const float REVIVE_TIME = 1;
 	const float RANGE = 320;
 	const float RANDOM_RANGE = 128;
-	const float COOL_TIME = 2;
+	const float COOL_TIME = 5;
 	if (reviveFlag)
 	{
 		if (reviveT < 1)

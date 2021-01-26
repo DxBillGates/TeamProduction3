@@ -52,7 +52,7 @@ void GamePlayScene::Initialize()
 	printf("GamePlay\n");
 	feManager.Initialize();
 	time.Initialize();
-	timeValue = 999;
+	timeValue = 60;
 	scoreManager->GetCurrentScore()->Initialize();
 	feManager.Initialize();
 	squareManager.Initialize();
@@ -65,13 +65,13 @@ void GamePlayScene::Initialize()
 void GamePlayScene::Update()
 {
 	const float PLAYER_TO_FIREWALL_DIS = 32;     //プレイヤーと壁の判定距離
-	const float PLAYER_TO_ENEMY_DIS = 16;		 //プレイヤーと敵の判定距離
+	const float PLAYER_TO_ENEMY_DIS = 32;		 //プレイヤーと敵の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
-	const float DECREASE_FIRE_VALUE = 0.2f;		 //プレイヤーの燃えてる値を減らす定数
+	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数
 	const float PLAYER_TO_PUDDLE_DIS = 128 * 256;//プレイヤーと水たまりの判定距離(蒸発距離)
 	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
-	const float DECREASE_PUDDLE_VALUE = 0.01f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
-	const float FIREWALL_TO_ENEMY_DIS = 16;		 //壁と敵の攻撃の判定距離
+	const float DECREASE_PUDDLE_VALUE = 0.025f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
+	const float FIREWALL_TO_ENEMY_DIS = 64;		 //壁と敵の攻撃の判定距離
 
 
 	if (sceneState == SceneState::TITLE)

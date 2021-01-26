@@ -35,9 +35,9 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	const float MOVE_SPEED = 1.f;
+	const float MOVE_SPEED = 1.5f;
 	const float G = 0.98f;
-	const float INCREASE_FIRE_VALUE = 1.f / 60.f;
+	const float INCREASE_FIRE_VALUE = 0.5f / 60.f;
 	const float UPDATE_OLDPOS_DISTANCE = 64;
 	const float MAX_FIRE_VALUE = 600;
 
@@ -73,12 +73,14 @@ void Player::Update()
 	if (moveVector.Length() > 0)
 	{
 		fireValue += 1;
-		if(fireValue >= CONSTANT_FIRE_VALUE)redValue += INCREASE_FIRE_VALUE;
+		//if(fireValue >= CONSTANT_FIRE_VALUE)
+			redValue += INCREASE_FIRE_VALUE;
 	}
 	else
 	{
 		fireValue -= 1;
-		if (fireValue < CONSTANT_FIRE_VALUE)redValue -= INCREASE_FIRE_VALUE;
+		//if (fireValue < CONSTANT_FIRE_VALUE)
+			redValue -= INCREASE_FIRE_VALUE;
 	}
 
 	if (fireValue >= MAX_FIRE_VALUE)

@@ -28,9 +28,9 @@ void FieldEffectFireWall::Initialize()
 
 void FieldEffectFireWall::Update()
 {
-	const float REVIVE_TIME = 60;
-	const float LIVE_TIME = 128;
-	const Vector3 MAX_SIZE = Vector3(16, 16, 16);
+	const float REVIVE_TIME = 30;
+	const float LIVE_TIME = 256;
+	const Vector3 MAX_SIZE = Vector3(32, 32, 32);
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
