@@ -15,6 +15,8 @@
 #include "Title.h"
 #include "KeyOperation.h"
 #include "Operation.h"
+#include "Thermometer.h"
+#include "PlayerParticleManager.h"
 
 class GamePlayScene : public Scene
 {
@@ -33,6 +35,9 @@ private:
 	Dx12_Pipeline* spriteShader;
 private:
 	Player player;
+	Thermometer thermometer;
+	PlayerParticleManager playerParticleManager;
+
 	Ground ground;
 	EnemyManager enemyManager;
 	FieldEffectManager feManager;

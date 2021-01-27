@@ -15,7 +15,7 @@ ResultScene::~ResultScene()
 
 void ResultScene::LoadAsset()
 {
-	animetionShader = new Dx12_Pipeline(device->GetDevice(), new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(device->GetDevice(), { CBV,CBV,SRV }), { POSITION,TEXCOORD, });
+	animetionShader = new Dx12_Pipeline(device->GetDevice(), new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(device->GetDevice(), { CBV,CBV,SRV }), { POSITION,TEXCOORD, }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
 }
 
 void ResultScene::Initialize()

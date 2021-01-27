@@ -22,7 +22,7 @@ protected:
 public:
 	FieldEffect():cb(nullptr),pos(Vector3()),size(Vector3()),liveFlag(false),reviveFlag(false),reviveT(0),alpha(0) {}
 	virtual ~FieldEffect() {}
-	virtual void LoadAsset(ID3D12Device* device,Dx12_CBVSRVUAVHeap* heap) = 0;
+	virtual void LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap* heap) {}
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;

@@ -3,7 +3,7 @@
 FieldEffectManager::FieldEffectManager()
 {
 	fePuddleList.resize(20);
-	feFireWallList.resize(64);
+	feFireWallList.resize(32);
 }
 
 FieldEffectManager::~FieldEffectManager()
@@ -20,7 +20,7 @@ void FieldEffectManager::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * h
 	}
 	for (auto& fe : feFireWallList)
 	{
-		fe.LoadAsset(device, heap);
+		fe.LoadAsset(device, heap,loader);
 	}
 }
 

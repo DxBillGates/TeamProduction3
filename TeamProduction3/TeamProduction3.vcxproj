@@ -148,9 +148,13 @@
     <ClCompile Include="FieldEffectManager.cpp" />
     <ClCompile Include="FieldEffectPuddle.cpp" />
     <ClCompile Include="FillScreenTransition.cpp" />
+    <ClCompile Include="FireParticle.cpp" />
+    <ClCompile Include="FireParticleManager.cpp" />
     <ClCompile Include="FourCornerBoxTransition.cpp" />
     <ClCompile Include="GamePlayScene.cpp" />
     <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="HitParticle.cpp" />
+    <ClCompile Include="HitParticleManager.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="KeyOperation.cpp" />
     <ClCompile Include="LoadContents.cpp" />
@@ -159,6 +163,8 @@
     <ClCompile Include="NormalEnemy.cpp" />
     <ClCompile Include="Operation.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerParticle.cpp" />
+    <ClCompile Include="PlayerParticleManager.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -168,6 +174,7 @@
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareManager.cpp" />
+    <ClCompile Include="Thermometer.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -200,11 +207,17 @@
     <ClInclude Include="FieldEffectManager.h" />
     <ClInclude Include="FieldEffectPuddle.h" />
     <ClInclude Include="FillScreenTransition.h" />
+    <ClInclude Include="FireParticle.h" />
+    <ClInclude Include="FireParticleManager.h" />
     <ClInclude Include="FourCornerBoxTransition.h" />
     <ClInclude Include="GamePlayScene.h" />
     <ClInclude Include="Ground.h" />
+    <ClInclude Include="HitParticle.h" />
+    <ClInclude Include="HitParticleManager.h" />
     <ClInclude Include="KeyOperation.h" />
     <ClInclude Include="Operation.h" />
+    <ClInclude Include="PlayerParticle.h" />
+    <ClInclude Include="PlayerParticleManager.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Keyboard.h" />
@@ -220,6 +233,7 @@
     <ClInclude Include="Score.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SquareManager.h" />
+    <ClInclude Include="Thermometer.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TitleScene.h" />

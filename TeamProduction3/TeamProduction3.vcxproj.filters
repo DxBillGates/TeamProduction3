@@ -100,6 +100,15 @@
     <Filter Include="GameObject\Square\ソース ファイル">
       <UniqueIdentifier>{194233d0-d323-43fc-9ab9-23ac7c221f63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{ffb4ccf1-881c-417e-9f1a-e83283e21c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\ヘッダー ファイル">
+      <UniqueIdentifier>{f26fa317-5ebb-41f9-9604-37a60586ec2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle\ソース ファイル">
+      <UniqueIdentifier>{b5b75ff0-2ddc-4a52-a3a4-1287c9e6b61d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +248,27 @@
     </ClCompile>
     <ClCompile Include="Operation.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FireParticle.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FireParticleManager.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HitParticle.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HitParticleManager.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerParticle.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerParticleManager.cpp">
+      <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Thermometer.cpp">
+      <Filter>GameObject\Player\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +421,27 @@
     </ClInclude>
     <ClInclude Include="Operation.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FireParticle.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FireParticleManager.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HitParticle.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HitParticleManager.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerParticle.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerParticleManager.h">
+      <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Thermometer.h">
+      <Filter>GameObject\Player\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

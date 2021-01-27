@@ -11,9 +11,10 @@ FieldEffectFireWall::~FieldEffectFireWall()
 	delete cb;
 }
 
-void FieldEffectFireWall::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap)
+void FieldEffectFireWall::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents* loader)
 {
 	cb = new Dx12_CBuffer<CBData>(device, heap, 1);
+	fpManager.LoadAsset(device, heap, loader);
 }
 
 void FieldEffectFireWall::Initialize()
@@ -25,6 +26,7 @@ void FieldEffectFireWall::Initialize()
 	reviveT = 0;
 	alpha = 0;
 	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{1,0,0,alpha} });
+	fpManager.Initialize();
 }
 
 void FieldEffectFireWall::Update()
@@ -52,16 +54,32 @@ void FieldEffectFireWall::Update()
 	}
 	size = Vector3(MAX_SIZE) * alpha;
 	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{1,0,0,alpha} });
-	if (alpha <= 0.0f)
+	if(liveFlag)
 	{
-		Initialize();
+		fpManager.SetPosition(pos);
+		fpManager.Update();
 	}
+	if (alpha <= 0.0f && liveFlag)
+	{
+		pos = Vector3();
+		size = Vector3();
+		reviveFlag = false;
+		liveFlag = false;
+		reviveT = 0;
+		alpha = 0;
+	}
+
 }
 
 void FieldEffectFireWall::Draw(ID3D12GraphicsCommandList * cmdList)
 {
 	cb->Set(cmdList);
 	mesh.Draw(cmdList);
+
+	if (liveFlag)
+	{
+		fpManager.Draw(cmdList, nullptr);
+	}
 }
 
 void FieldEffectFireWall::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)

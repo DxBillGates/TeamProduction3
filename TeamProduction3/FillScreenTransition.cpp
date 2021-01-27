@@ -13,7 +13,7 @@ FillScreenTransition::~FillScreenTransition()
 
 void FillScreenTransition::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents* loader)
 {
-	shader = new Dx12_Pipeline(device, new Dx12_Shader(L"FillVS.hlsl", L"FillPS.hlsl"), new Dx12_RootSignature(device, { CBV,CBV }), {POSITION,TEXCOORD});
+	shader = new Dx12_Pipeline(device, new Dx12_Shader(L"FillVS.hlsl", L"FillPS.hlsl"), new Dx12_RootSignature(device, { CBV,CBV }), {POSITION,TEXCOORD},BLENDMODE_ALPHA,D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,true,false);
 	cb = new Dx12_CBuffer<CBData>(device, heap, 1);
 	SpriteData sd;
 	loader->CreateModelData_Plane(1280, 720, sd);

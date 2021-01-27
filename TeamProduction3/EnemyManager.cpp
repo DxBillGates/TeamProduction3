@@ -46,6 +46,7 @@ void EnemyManager::Update()
 	const float TARGET_RANGE = 320;
 	const int REVIVE_COUNT = 120;
 	const float RANGE = 512;
+	const float SHOT_RANGE = 256;
 	bool revive = false;
 	if (count % REVIVE_COUNT == 0)
 	{
@@ -71,6 +72,10 @@ void EnemyManager::Update()
 		{
 			e->SetTargetPos(pPlayer->GetPosition());
 			e->SetMoveVector(pPlayer->GetPosition() - e->GetPos());
+			if (dis * dis <= SHOT_RANGE * SHOT_RANGE)
+			{
+				e->SetMoveVector(e->GetPos() - pPlayer->GetPosition());
+			}
 		}
 		else
 		{

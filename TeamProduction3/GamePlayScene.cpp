@@ -22,9 +22,11 @@ GamePlayScene::~GamePlayScene()
 void GamePlayScene::LoadAsset()
 {
 	ID3D12Device* pDevice = device->GetDevice();
+	PlayerParticle::StaticLoadAsset(pDevice, loader);
+	FireParticle::StaticLoadAsset(pDevice, loader);
 	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,NORMAL });
-	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, });
-	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, });
+	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
+	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,true,false);
 	player.LoadAsset(pDevice, heap, loader);
 	ground.LoadAsset(pDevice, heap, loader);
 	enemyManager.LoadAsset(pDevice, heap, loader);
@@ -35,6 +37,8 @@ void GamePlayScene::LoadAsset()
 	tutorialEnemy.LoadAsset(pDevice, heap);
 	keyOperation.LoadAsset(pDevice, heap, loader);
 	operation.LoadAsset(pDevice, heap, loader);
+	thermometer.LoadAsset(pDevice, heap, loader);
+	playerParticleManager.LoadAsset(pDevice, heap, loader);
 }
 
 void GamePlayScene::Initialize()
@@ -59,6 +63,8 @@ void GamePlayScene::Initialize()
 	title.Initialize();
 	tutorialEnemy.Initialize();
 	operation.Initialize();
+	thermometer.Initialize();
+	playerParticleManager.Initialize();
 }
 
 void GamePlayScene::Update()
@@ -97,6 +103,7 @@ void GamePlayScene::Update()
 		}
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
+		thermometer.Update(player.GetPosition() + Vector3(0,64,0), player.GetRedValue(), mainCamera.GetPosition());
 		tutorialEnemy.SetTargetPos(player.GetOldPos());
 		tutorialEnemy.SetMoveVector(player.GetOldPos() - tutorialEnemy.GetPos());
 		tutorialEnemy.Update();
@@ -110,6 +117,11 @@ void GamePlayScene::Update()
 		if (player.GetRedValue() >= 1)
 		{
 			operation.TextureChange();
+		}
+		if (keyboard->CheakHitKey(Key::F))
+		{
+			operation.TextureChange();
+			sceneState = SceneState::PLAY;
 		}
 	}
 #pragma region カメラ処理
@@ -253,6 +265,7 @@ void GamePlayScene::Update()
 		//プレイヤーの移動方向をカメラから取得
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
+		thermometer.Update(player.GetPosition() + Vector3(0, 64, 0), player.GetRedValue(), mainCamera.GetPosition());
 
 
 #pragma region 制限時間
@@ -272,6 +285,8 @@ void GamePlayScene::Update()
 	scoreManager->GetCurrentScore()->Update();
 	feManager.Update();
 	squareManager.Update();
+	playerParticleManager.SetPosition(player.GetPosition());
+	playerParticleManager.Update(player.GetRedValue());
 
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
 
@@ -285,14 +300,16 @@ void GamePlayScene::DrawSprite()
 	orthograph->Set(device->GetCmdList());
 	if (sceneState == SceneState::TITLE)
 		title.Draw(device->GetCmdList());
-	keyOperation.Draw(device->GetCmdList());
-	operation.Draw(device->GetCmdList());
+	if (sceneState != SceneState::TITLE)
+	{
+		keyOperation.Draw(device->GetCmdList());
+		operation.Draw(device->GetCmdList());
 
-	animetionShader->Set(device->GetCmdList());
-	orthograph->Set(device->GetCmdList());
-	time.Draw(device->GetCmdList());
-	scoreManager->GetCurrentScore()->Draw(device->GetCmdList());
-
+		animetionShader->Set(device->GetCmdList());
+		orthograph->Set(device->GetCmdList());
+		time.Draw(device->GetCmdList());
+		scoreManager->GetCurrentScore()->Draw(device->GetCmdList());
+	}
 
 }
 
@@ -303,12 +320,15 @@ void GamePlayScene::Draw()
 	perspective->Set(device->GetCmdList());
 	squareManager.Draw(pCmdList);
 	feManager.Draw(pCmdList);
-	player.Draw(pCmdList, heap);
+	if (sceneState != SceneState::TITLE)
+		player.Draw(pCmdList, heap);
 	enemyManager.Draw(pCmdList);
 	if (sceneState == SceneState::TUTORIAL)
 	{
 		tutorialEnemy.Draw(pCmdList);
 	}
+	thermometer.Draw(pCmdList, heap);
+	playerParticleManager.Draw(pCmdList, heap);
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);
 }
