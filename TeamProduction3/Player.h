@@ -5,6 +5,7 @@
 #include "Xinput.h"
 #include "Vector3.h"
 #include "Matrix4.h"
+#include "Quaternion.h"
 class Player
 {
 private:
@@ -30,6 +31,9 @@ private:
 	bool isBuff;
 	float fireValue;
 	const float CONSTANT_FIRE_VALUE;
+	Vector3 angle;
+
+	Quaternion qLocal;
 public:
 	Player();
 	~Player();

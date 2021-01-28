@@ -40,6 +40,7 @@ public:
 	~Xinput();
 	void Update();
 	bool CheckHitKey(XinputPadKey key);
+	bool CheckHitKeyAll();
 	bool CheckHitKeyTrigger(XinputPadKey key);
 	float GetRStickX();
 	float GetRStickY();

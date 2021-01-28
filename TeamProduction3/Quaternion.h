@@ -13,6 +13,7 @@ struct Quaternion
 	Quaternion(float x, float y, float z, float w = 1.0f);
 	Quaternion(const Vector3& v, float angle);
 	Quaternion(const Matrix4& m);
+	Quaternion(const Vector3& v, const Quaternion& q);
 
 	static Quaternion Normalize(const Quaternion& q);
 	static Quaternion Conjugate(const Quaternion& q);

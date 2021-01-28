@@ -46,10 +46,10 @@ void NormalEnemy::Initialize()
 
 void NormalEnemy::Update()
 {
-	const float REVIVE_TIME = 1;
-	const float RANGE = 320;
-	const float RANDOM_RANGE = 128;
-	const float COOL_TIME = 5;
+	const float REVIVE_TIME = 1;       //復活時間(秒)
+	const float RANGE = 320;	       //どれくらいの距離で球を打つか
+	const float RANDOM_RANGE = 128;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
+	const float COOL_TIME = 5;	       //弾の再装填時間
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
@@ -69,6 +69,7 @@ void NormalEnemy::Update()
 		{
 			bullet.Initialize();
 			bullet.SetPosition(pos);
+			bullet.SetSpawnPosition(pos);
 			Vector3 target;
 			target.x = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.x;
 			target.z = (float)std::rand() / RAND_MAX * RANDOM_RANGE - RANDOM_RANGE / 2.0f + targetPos.z;

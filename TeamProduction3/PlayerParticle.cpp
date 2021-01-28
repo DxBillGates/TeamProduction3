@@ -58,7 +58,7 @@ void PlayerParticle::Update()
 void PlayerParticle::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
 {
 	cb->Set(pCmdList);
-	//pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+	pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	if(liveFlag)
 	mesh.Draw(pCmdList);
 }

@@ -4,7 +4,7 @@ Keyboard* Player::keyboard = nullptr;
 Xinput* Player::ctrler = nullptr;
 
 Player::Player()
-	:cb(nullptr), pos(Vector3()),CONSTANT_FIRE_VALUE(300)
+	:cb(nullptr), pos(Vector3()), CONSTANT_FIRE_VALUE(300)
 {
 }
 
@@ -31,15 +31,20 @@ void Player::Initialize()
 	oldPos = pos;
 	isMove = false;
 	isBuff = false;
+	angle = Vector3();
+	qLocal = Quaternion(Vector3(0, 0, 1), 0);
 }
 
 void Player::Update()
 {
+	const float MAX_VELOCITY_LENGTH = 2;
+	const float FIRE_MOVE_VALUE = 5;
 	const float MOVE_SPEED = 1.5f;
 	const float G = 0.98f;
 	const float INCREASE_FIRE_VALUE = 0.5f / 60.f;
 	const float UPDATE_OLDPOS_DISTANCE = 64;
 	const float MAX_FIRE_VALUE = 600;
+	float f = 0.01f;
 
 	if (Vector3::Distance(oldPos, pos) >= UPDATE_OLDPOS_DISTANCE)
 	{
@@ -56,31 +61,48 @@ void Player::Update()
 	if (keyboard->CheakHitKey(Key::W) || ctrler->CheckHitKey(XinputPadKey::XINPUT_UP) || ctrler->GetLStickY() < 0.0f)
 	{
 		moveVector += forward;
+		angle.x += -f;
 	}
 	if (keyboard->CheakHitKey(Key::A) || ctrler->CheckHitKey(XinputPadKey::XINPUT_LEFT) || ctrler->GetLStickX() < 0.0f)
 	{
 		moveVector -= Vector3::Normalize(Vector3::Cross(Vector3(0, 1, 0), forward));;
+		angle.z += -f;
 	}
 	if (keyboard->CheakHitKey(Key::S) || ctrler->CheckHitKey(XinputPadKey::XINPUT_DOWN) || ctrler->GetLStickY() > 0.0f)
 	{
 		moveVector -= forward;
+		angle.x += f;
 	}
 	if (keyboard->CheakHitKey(Key::D) || ctrler->CheckHitKey(XinputPadKey::XINPUT_RIGHT) || ctrler->GetLStickX() > 0.0f)
 	{
 		moveVector += Vector3::Normalize(Vector3::Cross(Vector3(0, 1, 0), forward));;
+		angle.z += f;
+	}
+
+	if (keyboard->CheakHitKey(Key::X))
+	{
+		angle.x = 0.1f;
+	}
+	if (keyboard->CheakHitKey(Key::Y))
+	{
+		angle.y = 0.1f;
+	}
+	if (keyboard->CheakHitKey(Key::Z))
+	{
+		angle.z = 0.1f;
 	}
 
 	if (moveVector.Length() > 0)
 	{
 		fireValue += 1;
 		//if(fireValue >= CONSTANT_FIRE_VALUE)
-			redValue += INCREASE_FIRE_VALUE;
+		redValue += INCREASE_FIRE_VALUE;
 	}
 	else
 	{
 		fireValue -= 1;
 		//if (fireValue < CONSTANT_FIRE_VALUE)
-			redValue -= INCREASE_FIRE_VALUE;
+		redValue -= INCREASE_FIRE_VALUE;
 	}
 
 	if (fireValue >= MAX_FIRE_VALUE)
@@ -103,10 +125,44 @@ void Player::Update()
 	else if (redValue > 1)
 	{
 		redValue = 1;
-		moveVector *= 5;
+		moveVector *= FIRE_MOVE_VALUE;
 	}
-	pos += moveVector * MOVE_SPEED;
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(atan2f(forward.x,forward.z))* Matrix4::Translate(pos),{redValue,0,0,1} });
+	vel += moveVector.Normalize();
+	if (moveVector.Length() == 0)
+	{
+		Vector3 v = vel;
+		vel -= v.Normalize() / 100;
+		if (vel.Length() < 1)
+		{
+			vel = Vector3();
+		}
+	}
+	if (vel.Length() > MAX_VELOCITY_LENGTH)
+	{
+		vel = vel.Normalize() * MAX_VELOCITY_LENGTH;
+	}
+	pos += vel + moveVector;
+
+	const Vector3 UNITX = Vector3(1, 0, 0), UNITY = Vector3(0, 1, 0), UNITZ = Vector3(0, 0, 1);
+
+	Vector3 vSideAxis = Quaternion::GetAxis(Quaternion(UNITX, qLocal));
+	Vector3 vUpAxis = Quaternion::GetAxis(Quaternion(UNITY, qLocal));
+	Vector3 vForwardAxis = Quaternion::GetAxis(Quaternion(UNITZ, qLocal));
+
+	Vector3 v = moveVector.Normalize()/10;
+	Quaternion qRoll = Quaternion(vUpAxis,    v.y);
+	Quaternion qPitch = Quaternion(vSideAxis, v.z);
+	Quaternion qYow = Quaternion(vForwardAxis,v.x);
+
+	qLocal = qRoll * qLocal;
+	qLocal = qPitch * qLocal;
+	qLocal = qYow * qLocal;
+
+	printf("%f,%f,%f,%f\n", qLocal.x, qLocal.y, qLocal.z, qLocal.w);
+	Matrix4 mR = Quaternion::Rotation(qLocal);
+	//Vector3 v = moveVector.Normalize()+angle;
+	//Matrix4 mR = Matrix4::RotationZ(-v.x) * Matrix4::RotationX(v.z) * Matrix4::RotationY(v.y);
+	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{redValue,0,0,1} });
 }
 
 void Player::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)

@@ -24,6 +24,14 @@ Quaternion::Quaternion(const Vector3 & v, float angle)
 	w = cos;
 }
 
+Quaternion::Quaternion(const Vector3 & v, const Quaternion & q)
+{
+	Quaternion qq = Conjugate(q);
+	Quaternion qv = Quaternion(v.x, v.y, v.z, 0);
+	*this = q * qv * qq;
+}
+
+
 Quaternion::Quaternion(const Matrix4 & m)
 {
 	Quaternion result;
@@ -152,7 +160,7 @@ Vector3 Quaternion::GetAxis(const Quaternion & q)
 	float x, y, z, length;
 	x = q.x;
 	y = q.y;
-	z = q.y;
+	z = q.z;
 	length = Length(q);
 	result =
 	{

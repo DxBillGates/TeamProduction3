@@ -15,6 +15,7 @@ private:
 	static Dx12_Mesh mesh;
 	Dx12_CBuffer<CBData>* cb;
 private:
+	Vector3 spPos;
 	Vector3 pos;
 	Vector3 vel;
 	Vector3 target;
@@ -35,4 +36,5 @@ public:
 	bool GetIsUse();
 	bool GetIsOldUse();
 	Vector3 GetLostPosition();
+	void SetSpawnPosition(const Vector3& p);
 };

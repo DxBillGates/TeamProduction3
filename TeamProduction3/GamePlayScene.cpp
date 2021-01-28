@@ -83,6 +83,7 @@ void GamePlayScene::Update()
 	{
 		title.Update();
 		if (keyboard->CheakHitKeyAll())title.SetIsFada(true);
+		if(ctrler->CheckHitKeyAll())title.SetIsFada(true);
 		if (title.GetEndIsFade())
 		{
 			sceneState = SceneState::TUTORIAL;
@@ -167,7 +168,7 @@ void GamePlayScene::Update()
 			}
 			if (ne->GetEnemyBulletPointer()->GetIsOldUse() && !ne->GetEnemyBulletPointer()->GetIsUse())
 			{
-				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetLostPosition() - Vector3(0, 32, 0));
+				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetPosition() - Vector3(0, 24, 0));
 			}
 
 		}

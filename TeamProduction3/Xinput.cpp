@@ -97,6 +97,17 @@ bool Xinput::CheckHitKey(XinputPadKey key)
 	return false;
 }
 
+bool Xinput::CheckHitKeyAll()
+{
+	bool isHit = false;
+	int j = 1;
+	for (int i = 0;i < 14; ++i,j *= 2)
+	{
+		if (ctrlState.Gamepad.wButtons & j)isHit = true;
+	}
+	return isHit;
+}
+
 bool Xinput::CheckHitKeyTrigger(XinputPadKey key)
 {
 	for (int i = 0; i < 14; ++i)

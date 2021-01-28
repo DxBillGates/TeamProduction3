@@ -25,6 +25,7 @@ void EnemyBullet::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 
 void EnemyBullet::Initialize()
 {
+	spPos = Vector3();
 	pos = Vector3();
 	vel = Vector3();
 	target = Vector3();
@@ -34,14 +35,19 @@ void EnemyBullet::Initialize()
 
 void EnemyBullet::Update()
 {
+	const float RANGE = 32;    //ë≈Ç¡ÇΩèÍèäÇ©ÇÁÇ«ÇÃÇ≠ÇÁÇ¢Ç≈êÖÇΩÇ‹ÇËÇ…Ç∑ÇÈÇ©ÅAílÇ™ëÂÇ´ÇØÇÍÇŒâìÇ≠Ç‹Ç≈îÚÇŒÇπÇÈ
 	isOldUse = isUse;
 	if (isUse)
 	{
 		pos += vel;
-		if (Vector3::Distance(pos, target) <= 16)
+		if (Vector3::Distance(spPos, pos) >= RANGE)
 		{
 			isUse = false;
 		}
+		//if (Vector3::Distance(pos, target) <= 16)
+		//{
+		//	isUse = false;
+		//}
 	}
 	float a = (isUse) ? 1.0f : 0.0f;
 	cb->Map({ Matrix4::Scale(Vector3(8,8,8)) * Matrix4::Translate(pos),{0,0,1,a} });
@@ -88,4 +94,9 @@ bool EnemyBullet::GetIsOldUse()
 Vector3 EnemyBullet::GetLostPosition()
 {
 	return Vector3(target.x,1,target.z);
+}
+
+void EnemyBullet::SetSpawnPosition(const Vector3 & p)
+{
+	spPos = p;
 }

@@ -66,7 +66,7 @@ void Thermometer::Update(Vector3 pos,float thermol,Vector3 cameraPos)
 void Thermometer::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
 {
 	cb->Set(pCmdList);
-	//pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+	pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	if (liveFlag)
 		mesh.Draw(pCmdList);
 }

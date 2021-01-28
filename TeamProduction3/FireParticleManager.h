@@ -13,7 +13,7 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 private:
-	static const int size = 10;
+	static const int size = 5;
 	FireParticle particle[size];
 
 

@@ -38,6 +38,7 @@ Window::Window(const char * className, int wndWidth, int wndHeight) :
 		nullptr,
 		mWndClass.hInstance,
 		nullptr);
+
 }
 
 Window::~Window()
