@@ -26,7 +26,7 @@ void Score::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadCont
 
 void Score::StaticLoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
 {
-	tex = loader->LoadTexture("Resources/Texture/", "blackNum.png");
+	tex = loader->LoadTexture("Resources/Texture/", "whiteNum.png");
 	SpriteData spriteData = {};
 	loader->CreateModelData_Plane(32, 32, spriteData);
 	sprite.Create(device, &spriteData);
@@ -48,7 +48,7 @@ void Score::Initialize()
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = score % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,128,128 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 
@@ -59,7 +59,7 @@ void Score::Update()
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = score % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,128,128 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 

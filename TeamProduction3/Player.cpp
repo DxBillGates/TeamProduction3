@@ -128,6 +128,7 @@ void Player::Update()
 		moveVector *= FIRE_MOVE_VALUE;
 	}
 	vel += moveVector.Normalize();
+	printf("%f\n", vel.Length());
 	if (moveVector.Length() == 0)
 	{
 		Vector3 v = vel;
@@ -158,7 +159,7 @@ void Player::Update()
 	qLocal = qPitch * qLocal;
 	qLocal = qYow * qLocal;
 
-	printf("%f,%f,%f,%f\n", qLocal.x, qLocal.y, qLocal.z, qLocal.w);
+	//printf("%f,%f,%f,%f\n", qLocal.x, qLocal.y, qLocal.z, qLocal.w);
 	Matrix4 mR = Quaternion::Rotation(qLocal);
 	//Vector3 v = moveVector.Normalize()+angle;
 	//Matrix4 mR = Matrix4::RotationZ(-v.x) * Matrix4::RotationX(v.z) * Matrix4::RotationY(v.y);
