@@ -282,6 +282,7 @@ void GamePlayScene::Update()
 #pragma endregion
 	}
 
+	scoreManager->GetCurrentScore()->SetScore((int)squareManager.GetTilesInfomation().x);
 	scoreManager->GetCurrentScore()->SetPosition(Vector3());
 	scoreManager->GetCurrentScore()->Update();
 	feManager.Update();

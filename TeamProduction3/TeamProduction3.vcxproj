@@ -166,6 +166,8 @@
     <ClCompile Include="PlayerParticle.cpp" />
     <ClCompile Include="PlayerParticleManager.cpp" />
     <ClCompile Include="Quaternion.cpp" />
+    <ClCompile Include="ResultEffect.cpp" />
+    <ClCompile Include="ResultParticle.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -220,6 +222,8 @@
     <ClInclude Include="Operation.h" />
     <ClInclude Include="PlayerParticle.h" />
     <ClInclude Include="PlayerParticleManager.h" />
+    <ClInclude Include="ResultEffect.h" />
+    <ClInclude Include="ResultParticle.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundData.h" />
     <ClInclude Include="Square.h" />

@@ -3,9 +3,9 @@
 Dx12_Sprite Score::sprite = Dx12_Sprite();
 Dx12_Texture2D* Score::tex = nullptr;
 
-Score::Score():pos(Vector3()),size(Vector3()),score(0)
+Score::Score() :pos(Vector3()), size(Vector3()), score(0)
 {
-	scoreAnimetionDatas.resize(8);
+	scoreAnimetionDatas.resize(3);
 }
 
 Score::~Score()
@@ -26,7 +26,7 @@ void Score::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadCont
 
 void Score::StaticLoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
 {
-	tex = loader->LoadTexture("Resources/Texture/", "whiteNum.png");
+	tex = loader->LoadTexture("Resources/Texture/", "num2.png");
 	SpriteData spriteData = {};
 	loader->CreateModelData_Plane(32, 32, spriteData);
 	sprite.Create(device, &spriteData);
@@ -40,16 +40,9 @@ void Score::DestroyAsset()
 void Score::Initialize()
 {
 	pos = Vector3();
-	size = Vector3(32,32,32);
+	size = Vector3(32, 32, 32);
+	scale = { 1,1,1 };
 	score = 0;
-
-	int value = 0;
-	Vector2 vec = { (float)tex->GetMetadata()->width,(float)tex->GetMetadata()->height };
-	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
-	{
-		value = score % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,128,128 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
-	}
 }
 
 void Score::Update()
@@ -59,7 +52,7 @@ void Score::Update()
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = score % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,128,128 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(scale.x,scale.y,scale.z) * DirectX::XMMatrixTranslation(size.x *scale.x* (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 
@@ -91,4 +84,8 @@ void Score::SetSize(Vector3 size)
 void Score::SetPosition(const Vector3 & p)
 {
 	pos = p;
+}
+void Score::SetScale(Vector3 scale)
+{
+	this->scale = scale;
 }

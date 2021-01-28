@@ -1,42 +1,36 @@
 #pragma once
-#include "Vector2.h"
-#include "Vector3.h"
 #include "Dx12_Sprite.h"
+#include "Dx12_Texture2D.h"
 #include "Dx12_CBuffer.h"
-class Score
+#include "Matrix4.h"
+class ResultParticle
 {
 private:
-	struct AnimetionData
+	struct CBData
 	{
-		DirectX::XMMATRIX model;
-		DirectX::XMFLOAT4 ancerAndSize;
-		DirectX::XMFLOAT4 texSize;
+		Matrix4 mat;
 		DirectX::XMFLOAT4 color;
 	};
-
 private:
-	Vector3 pos;
-	Vector3 size;
-	Vector3 scale;
-	int score;
-	std::vector<Dx12_CBuffer<AnimetionData>*> scoreAnimetionDatas;
 	static Dx12_Sprite sprite;
 	static Dx12_Texture2D* tex;
-
-
+	Dx12_CBuffer<CBData>* cb;
+	Vector3 pos;
+	Vector3 vel;
+	Vector3 scale;
+	Vector3 color;
+	bool liveFlag;
 public:
-	Score();
-	~Score();
+	ResultParticle();
+	~ResultParticle();
 	void LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap* heap, LoadContents* loader);
 	static void StaticLoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap* heap, LoadContents* loader);
-	static void DestroyAsset();
 	void Initialize();
+	void Emitte(Vector3 pos);
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	void SetScore(int value = 0);
-	int GetScore();
-	void SetSize(Vector3 size);
 	void SetPosition(const Vector3& p);
-	void SetScale(Vector3 scale);
+	Vector3 GetPosition();
+	static void StaticDelete();
 };
 

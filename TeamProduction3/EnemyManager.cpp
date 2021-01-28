@@ -95,8 +95,8 @@ void EnemyManager::Update()
 			if (Vector3::Distance(pPlayer->GetPosition(), e->GetPos()) <= 32 && pPlayer->GetFireValue() >= 1)
 			{
 				Camera::ScreenShake();
-				Score* s = ScoreManager::GetInstance()->GetCurrentScore();
-				s->SetScore(s->GetScore() + 100);
+				//Score* s = ScoreManager::GetInstance()->GetCurrentScore();
+				//s->SetScore(s->GetScore() + 100);
 				e->Initialize();
 			}
 		}
