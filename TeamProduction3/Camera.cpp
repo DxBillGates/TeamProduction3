@@ -23,18 +23,18 @@ void Camera::Initialize()
 
 void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
-	const float R = 512;
-	const float S = 2;
-	const float SHAKE_RANGE = 250.f;
+	const float Y = 1024;           //ƒJƒƒ‰‚Ì‚‚³
+	const float R = 1024;			//’Ž‹“_‚Æ‚Ì‹——£
+	const float SHAKE_RANGE = 250.f;//‰æ–Ê—h‚ê’l
 	pos += argpos - target;
 	target = argpos;
 
 	//ƒJƒƒ‰‚Ì‰ñ“]
-	yaw += (keyboard->CheakHitKey(Key::RIGHT) || ctrler->GetRStickX() > 0) ? S : 0;
-	yaw += (keyboard->CheakHitKey(Key::LEFT) || ctrler->GetRStickX() < 0) ? -S : 0;
+	//yaw += (keyboard->CheakHitKey(Key::RIGHT) || ctrler->GetRStickX() > 0) ? S : 0;
+	//yaw += (keyboard->CheakHitKey(Key::LEFT) || ctrler->GetRStickX() < 0) ? -S : 0;
 	Vector3 v;
 	v.x = R * sinf(DirectX::XM_2PI / 360 * yaw)+target.x;
-	v.y = 512;
+	v.y = Y;
 	v.z = R * cosf(DirectX::XM_2PI / 360 * yaw)+target.z;
 	pos = v;
 

@@ -172,6 +172,8 @@
     <ClCompile Include="SceneTransition.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundData.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareManager.cpp" />
     <ClCompile Include="Thermometer.cpp" />
@@ -218,6 +220,8 @@
     <ClInclude Include="Operation.h" />
     <ClInclude Include="PlayerParticle.h" />
     <ClInclude Include="PlayerParticleManager.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundData.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Keyboard.h" />

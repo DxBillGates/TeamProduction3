@@ -94,7 +94,7 @@ void NormalEnemy::Update()
 	v = v.Normalize();
 	float angle = atan2f(v.x, v.z);
 	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos),{0,1,0,reviveT} });
-	coolTimeCB->Map({ Matrix4::Scale(Vector3(8,32 * coolTime,8)) * Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
+	coolTimeCB->Map({ Matrix4::Scale(Vector3(32 * coolTime,8,8)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
 
 	if (vel.Length() > 0)
 	{

@@ -26,7 +26,7 @@ void GamePlayScene::LoadAsset()
 	FireParticle::StaticLoadAsset(pDevice, loader);
 	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,NORMAL });
 	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
-	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,true,false);
+	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
 	player.LoadAsset(pDevice, heap, loader);
 	ground.LoadAsset(pDevice, heap, loader);
 	enemyManager.LoadAsset(pDevice, heap, loader);
@@ -83,7 +83,7 @@ void GamePlayScene::Update()
 	{
 		title.Update();
 		if (keyboard->CheakHitKeyAll())title.SetIsFada(true);
-		if(ctrler->CheckHitKeyAll())title.SetIsFada(true);
+		if (ctrler->CheckHitKeyAll())title.SetIsFada(true);
 		if (title.GetEndIsFade())
 		{
 			sceneState = SceneState::TUTORIAL;
@@ -104,7 +104,7 @@ void GamePlayScene::Update()
 		}
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
-		thermometer.Update(player.GetPosition() + Vector3(0,64,0), player.GetRedValue(), mainCamera.GetPosition());
+		thermometer.Update(player.GetPosition() + Vector3(0, 64, 0), player.GetRedValue(), mainCamera.GetPosition());
 		tutorialEnemy.SetTargetPos(player.GetOldPos());
 		tutorialEnemy.SetMoveVector(player.GetOldPos() - tutorialEnemy.GetPos());
 		tutorialEnemy.Update();
@@ -322,13 +322,16 @@ void GamePlayScene::Draw()
 	squareManager.Draw(pCmdList);
 	feManager.Draw(pCmdList);
 	if (sceneState != SceneState::TITLE)
+	{
 		player.Draw(pCmdList, heap);
+		thermometer.Draw(pCmdList, heap);
+	}
+
 	enemyManager.Draw(pCmdList);
 	if (sceneState == SceneState::TUTORIAL)
 	{
 		tutorialEnemy.Draw(pCmdList);
 	}
-	thermometer.Draw(pCmdList, heap);
 	playerParticleManager.Draw(pCmdList, heap);
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);

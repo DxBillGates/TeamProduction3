@@ -1,7 +1,7 @@
 #include "SquareManager.h"
 
 //width,depthは枚数,size.x.zは一辺の大きさ、sizeを変更する場合に敵の生成処理(範囲外チェック)も変更する必要があります
-SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)32,1, (float)32))
+SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)64,1, (float)64))
 {
 	squares.resize(width);
 	for (auto itr = squares.begin(); itr != squares.end(); ++itr)

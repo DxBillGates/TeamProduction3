@@ -3,6 +3,7 @@
 #include "GamePlayScene.h"
 #include "ResultScene.h"
 #include "ScoreManager.h"
+#include "Sound.h"
 #include <stdio.h>
 #pragma comment(lib,"winmm.lib")
 Application::Application(const char * appName, int wndWidth, int wndHeight) :
@@ -24,6 +25,7 @@ Application::Application(const char * appName, int wndWidth, int wndHeight) :
 	sceneManager.Add(new ResultScene(), RESULT);
 	sceneManager.ChangeScene(GAME_PLAY_SCENE);
 
+	Sound::SetAudioEngine();
 }
 
 Application::~Application()
@@ -53,6 +55,9 @@ bool Application::Initialize()
 bool Application::Run()
 {
 	//********************‚¢‚¶‚é‚ÈŠëŒ¯**********************//
+	SoundData bgmData = SoundData("Resources/Music/daruma.wav");
+	Sound bgm = Sound(&bgmData);
+
 	LoadAsset();
 	if (!Initialize())
 	{
@@ -78,6 +83,7 @@ bool Application::Run()
 		{
 			break;
 		}
+		bgm.Start();
 		Draw();
 	}
 	return true;
