@@ -47,7 +47,7 @@ void NormalEnemy::Initialize()
 void NormalEnemy::Update()
 {
 	const float REVIVE_TIME = 1;       //復活時間(秒)
-	const float RANGE = 320;	       //どれくらいの距離で球を打つか
+	const float RANGE = 1024;	       //どれくらいの距離で球を打つか
 	const float RANDOM_RANGE = 128;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
 	const float COOL_TIME = 5;	       //弾の再装填時間
 	if (reviveFlag)
