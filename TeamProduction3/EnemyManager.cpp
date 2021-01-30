@@ -47,6 +47,8 @@ void EnemyManager::Update()
 	const int REVIVE_COUNT = 120;	    //‰½ƒtƒŒ[ƒ€‚Éˆê“x“G‚ğo‚·‚©
 	const float RANGE = 1024;		    //õ“G”ÍˆÍ
 	const float SHOT_RANGE = 256;	    //õ“G”ÍˆÍ“à‚Ì‚É‚Ç‚ê‚­‚ç‚¢‚Ì‹——£‚©‚ç’e‚ğ”­Ë‚·‚é‚©
+	const float DISTANCE = 64;			//“–‚½‚è”»’è
+
 	bool revive = false;
 	if (count % REVIVE_COUNT == 0)
 	{
@@ -102,7 +104,6 @@ void EnemyManager::Update()
 		}
 	}
 
-	const float DISTANCE = 16;
 	for (auto& e : enemyList)
 	{
 		//“G“¯m‚Ì“–‚½‚è”»’è
