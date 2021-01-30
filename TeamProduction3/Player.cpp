@@ -128,7 +128,7 @@ void Player::Update()
 		moveVector *= FIRE_MOVE_VALUE;
 	}
 	vel += moveVector.Normalize();
-	printf("%f\n", vel.Length());
+	//printf("%f\n", vel.Length());
 	if (moveVector.Length() == 0)
 	{
 		Vector3 v = vel;

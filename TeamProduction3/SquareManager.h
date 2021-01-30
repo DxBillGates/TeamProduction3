@@ -22,4 +22,5 @@ public:
 	Vector3 GetTilesInfomation();
 	int GetWidth();
 	int GetDepth();
+	Vector3 GetSize();
 };

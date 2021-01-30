@@ -1,7 +1,7 @@
 #include "SquareManager.h"
 
 //width,depthは枚数,size.x.zは一辺の大きさ、sizeを変更する場合に敵の生成処理(範囲外チェック)も変更する必要があります
-SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)64,1, (float)64))
+SquareManager::SquareManager():width(16),depth(16),size(Vector3((float)128,1, (float)128))
 {
 	squares.resize(width);
 	for (auto itr = squares.begin(); itr != squares.end(); ++itr)
@@ -14,8 +14,8 @@ SquareManager::SquareManager():width(32),depth(32),size(Vector3((float)64,1, (fl
 		for (int j = 0; j < depth; ++j)
 		{
 			Vector3 pos;
-			pos.x = i * size.x + (float)width/2.f;
-			pos.z = j * size.z + (float)depth/2.f;
+			pos.x = i * size.x + size.x/2.f;
+			pos.z = j * size.z + size.z/2.f;
 			squares[i][j].SetPosition(pos);
 		}
 	}
@@ -93,4 +93,13 @@ int SquareManager::GetWidth()
 int SquareManager::GetDepth()
 {
 	return depth;
+}
+
+Vector3 SquareManager::GetSize()
+{
+	Vector3 s;
+	s.x = width * size.x;
+	s.y = 0;
+	s.z = depth * size.z;
+	return s;
 }

@@ -184,6 +184,7 @@
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Xinput.cpp" />
   </ItemGroup>
@@ -247,6 +248,7 @@
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Xinput.h" />
   </ItemGroup>

@@ -17,6 +17,8 @@
 #include "Operation.h"
 #include "Thermometer.h"
 #include "PlayerParticleManager.h"
+#include "Wall.h"
+#include "Vector2.h"
 
 class GamePlayScene : public Scene
 {
@@ -50,6 +52,8 @@ private:
 	KeyOperation keyOperation;
 	Operation operation;
 
+	Vector3 worldSize;
+
 	Time time;
 	float timeValue;
 public:
@@ -61,4 +65,5 @@ public:
 	void DrawSprite();
 	void Draw();
 	SceneName GetNextSceneName();
+	Vector3 CheckHitWall(const Vector3& p,bool& b);
 };

@@ -39,6 +39,7 @@ void GamePlayScene::LoadAsset()
 	operation.LoadAsset(pDevice, heap, loader);
 	thermometer.LoadAsset(pDevice, heap, loader);
 	playerParticleManager.LoadAsset(pDevice, heap, loader);
+	Wall::StaticLoadAsset(pDevice, heap, loader);
 }
 
 void GamePlayScene::Initialize()
@@ -65,6 +66,9 @@ void GamePlayScene::Initialize()
 	operation.Initialize();
 	thermometer.Initialize();
 	playerParticleManager.Initialize();
+
+	//壁のサイズとポジションの設定
+	worldSize = squareManager.GetSize();
 }
 
 void GamePlayScene::Update()
@@ -170,6 +174,10 @@ void GamePlayScene::Update()
 			{
 				feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetPosition() - Vector3(0, 24, 0));
 			}
+			bool a = false;
+			ne->SetPos(CheckHitWall(ne->GetPos(), a));
+			CheckHitWall(ne->GetEnemyBulletPointer()->GetPosition(), a);
+			if (a)	feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetPosition() - Vector3(0, 24, 0));
 
 		}
 		for (auto& fe : *feList)
@@ -268,7 +276,6 @@ void GamePlayScene::Update()
 		player.Update();
 		thermometer.Update(player.GetPosition() + Vector3(0, 64, 0), player.GetRedValue(), mainCamera.GetPosition());
 
-
 #pragma region 制限時間
 		time.SetSize(Vector3(32, 32, 32));
 		time.SetPosition(Vector3(640, 0, 0));
@@ -289,9 +296,13 @@ void GamePlayScene::Update()
 	squareManager.Update();
 	playerParticleManager.SetPosition(player.GetPosition());
 	playerParticleManager.Update(player.GetRedValue());
+	{
+		bool a = false;
+		player.SetPosition(CheckHitWall(player.GetPosition(), a));
+	}
+
 
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
-
 
 	if (keyboard->KeyPressTrigger(Key::D1))nextSceneFlag = true;
 }
@@ -334,6 +345,8 @@ void GamePlayScene::Draw()
 		tutorialEnemy.Draw(pCmdList);
 	}
 	playerParticleManager.Draw(pCmdList, heap);
+
+
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);
 }
@@ -341,4 +354,15 @@ void GamePlayScene::Draw()
 SceneName GamePlayScene::GetNextSceneName()
 {
 	return RESULT;
+}
+
+Vector3 GamePlayScene::CheckHitWall(const Vector3 & p, bool& b)
+{
+	Vector3 resultPos = p;
+	if (p.x <= 0)resultPos.x = 0;
+	if (p.z <= 0)resultPos.z = 0;
+	if (p.x >= worldSize.x-1)resultPos.x = worldSize.x-1;
+	if (p.z >= worldSize.z-1)resultPos.z = worldSize.z-1;
+	if (!(resultPos == p))b = true;
+	return resultPos;
 }

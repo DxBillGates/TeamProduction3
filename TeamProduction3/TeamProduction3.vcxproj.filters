@@ -109,6 +109,15 @@
     <Filter Include="Particle\ソース ファイル">
       <UniqueIdentifier>{b5b75ff0-2ddc-4a52-a3a4-1287c9e6b61d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Wall">
+      <UniqueIdentifier>{3bb9766e-9026-4e4e-ad68-3189707e5864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Wall\ヘッダー ファイル">
+      <UniqueIdentifier>{2ae5cfbc-9d6e-4e61-acbd-d8d7e3cadb3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Wall\ソース ファイル">
+      <UniqueIdentifier>{37c6a151-3bd6-4ad8-b135-891a2278bbb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -281,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="ResultParticle.cpp">
       <Filter>Particle\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>GameObject\Wall\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +478,9 @@
     </ClInclude>
     <ClInclude Include="ResultParticle.h">
       <Filter>Particle\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>GameObject\Wall\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
