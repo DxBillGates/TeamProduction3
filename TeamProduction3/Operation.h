@@ -18,6 +18,9 @@ private:
 	Dx12_Texture2D* tex2;
 	Dx12_Texture2D* currentTex;
 	Dx12_CBuffer<CBData>* cb;
+	Vector3 pos;
+	float t;
+	bool isFade;
 public:
 	Operation();
 	~Operation();
@@ -26,6 +29,7 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void TextureChange();
+	void SetIsFade(bool b);
 };
 
 

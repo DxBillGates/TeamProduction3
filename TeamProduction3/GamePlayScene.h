@@ -19,6 +19,7 @@
 #include "PlayerParticleManager.h"
 #include "Wall.h"
 #include "Vector2.h"
+#include "TutorialArrow.h"
 
 class GamePlayScene : public Scene
 {
@@ -47,6 +48,7 @@ private:
 	SquareManager squareManager;
 
 	NormalEnemy tutorialEnemy;
+	TutorialArrow tutorialArrow;
 
 	Title title;
 	KeyOperation keyOperation;
@@ -56,6 +58,9 @@ private:
 
 	Time time;
 	float timeValue;
+
+	Sound* jouhatsuSE;
+	SoundData* jouhatsuSEData;
 public:
 	GamePlayScene();
 	~GamePlayScene();

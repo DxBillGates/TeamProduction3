@@ -11,6 +11,8 @@ Player::Player()
 Player::~Player()
 {
 	delete cb;
+	delete se;
+	delete seData;
 }
 
 void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
@@ -18,6 +20,9 @@ void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 	cb = new Dx12_CBuffer<CBData>(pDevice, heap, 1);
 	loader->LoadMeshData("Resources/Model/daruma/", "player", md);
 	mesh.Create(pDevice, &md);
+
+	seData = new SoundData("Resources/Music/fire.wav");
+	se = new Sound(seData);
 }
 
 void Player::Initialize()
@@ -124,6 +129,7 @@ void Player::Update()
 	}
 	else if (redValue > 1)
 	{
+		se->Start();
 		redValue = 1;
 		moveVector *= FIRE_MOVE_VALUE;
 	}

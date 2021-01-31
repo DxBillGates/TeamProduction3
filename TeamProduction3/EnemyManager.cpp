@@ -10,6 +10,7 @@ EnemyManager::EnemyManager()
 	{
 		enemyList.push_back(new NormalEnemy());
 	}
+	hitParticleManager.resize(MAX_ENEMY);
 }
 
 EnemyManager::~EnemyManager()
@@ -18,6 +19,9 @@ EnemyManager::~EnemyManager()
 	{
 		delete e;
 	}
+
+	delete hitSE;
+	delete hitSEData;
 }
 
 void EnemyManager::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
@@ -28,6 +32,13 @@ void EnemyManager::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, L
 	{
 		e->LoadAsset(device, heap);
 	}
+	for (auto& p : hitParticleManager)
+	{
+		p.LoadAsset(device, heap, loader);
+	}
+
+	hitSEData = new SoundData("Resources/Music/hit.wav");
+	hitSE = new Sound(hitSEData);
 }
 
 void EnemyManager::Initialize()
@@ -37,6 +48,11 @@ void EnemyManager::Initialize()
 	{
 		e->Initialize();
 		e->GetEnemyBulletPointer()->Initialize();
+	}
+
+	for (auto& p : hitParticleManager)
+	{
+		p.Initialize();
 	}
 }
 
@@ -52,6 +68,7 @@ void EnemyManager::Update()
 	{
 		revive = true;
 	}
+	int i = 0;
 	for (auto& e : enemyList)
 	{
 		if (revive)
@@ -94,12 +111,14 @@ void EnemyManager::Update()
 		{
 			if (Vector3::Distance(pPlayer->GetPosition(), e->GetPos()) <= 32 && pPlayer->GetFireValue() >= 1)
 			{
+				hitSE->Start();
 				Camera::ScreenShake();
-				//Score* s = ScoreManager::GetInstance()->GetCurrentScore();
-				//s->SetScore(s->GetScore() + 100);
+				hitParticleManager[i].Emitte(e->GetPos());
 				e->Initialize();
 			}
 		}
+
+		++i;
 	}
 
 	const float DISTANCE = 16;
@@ -121,6 +140,11 @@ void EnemyManager::Update()
 		}
 	}
 	++count;
+
+	for (auto& p : hitParticleManager)
+	{
+		p.Update();
+	}
 }
 
 void EnemyManager::Draw(ID3D12GraphicsCommandList * cmdList)
@@ -128,6 +152,11 @@ void EnemyManager::Draw(ID3D12GraphicsCommandList * cmdList)
 	for (auto& e : enemyList)
 	{
 		e->Draw(cmdList);
+	}
+
+	for (auto& p : hitParticleManager)
+	{
+		p.Draw(cmdList,nullptr);
 	}
 }
 

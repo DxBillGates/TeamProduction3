@@ -20,7 +20,7 @@ void HitParticle::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap)
 
 void HitParticle::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
 {
-	loader->LoadMeshData("Resources/Model/", "Player", md);
+	loader->LoadMeshData("Resources/Model/", "cube", md);
 	mesh.Create(device, &md);
 }
 void HitParticle::Initialize()
@@ -52,13 +52,13 @@ void HitParticle::Update()
 	vel.y -= 0.1f;
 	pos += vel;
 	//scale -= Vector3(scaleFade, scaleFade, scaleFade);
-	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{0.2f,1.0f,0.2f,1} });
+	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{0.0f,1.0f,0.0f,1} });
 }
 
 void HitParticle::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
 {
 	cb->Set(pCmdList);
-	//pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+	pCmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 	if(liveFlag)
 	mesh.Draw(pCmdList);
 }

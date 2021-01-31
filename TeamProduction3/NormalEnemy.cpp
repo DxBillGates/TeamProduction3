@@ -15,6 +15,9 @@ NormalEnemy::~NormalEnemy()
 {
 	delete cb;
 	delete coolTimeCB;
+
+	delete shotSE;
+	delete shotSEData;
 }
 
 void NormalEnemy::LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap * heap)
@@ -22,6 +25,9 @@ void NormalEnemy::LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap * heap)
 	cb = new Dx12_CBuffer<CBData>(device, heap, 1);
 	coolTimeCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 	bullet.LoadAsset(device, heap);
+
+	shotSEData = new SoundData("Resources/Music/waterShot2.wav");
+	shotSE = new Sound(shotSEData);
 }
 
 void NormalEnemy::StaticLoadAsset(ID3D12Device * device, LoadContents * loader)
@@ -42,6 +48,7 @@ void NormalEnemy::Initialize()
 	vel = Vector3();
 	//bullet.Initialize();
 	moveVector = Vector3();
+	coolTime = 5;
 }
 
 void NormalEnemy::Update()
@@ -76,6 +83,7 @@ void NormalEnemy::Update()
 			bullet.SetTarget(target);
 			bullet.SetIsUse(true);
 			coolTime = COOL_TIME;
+			shotSE->Start();
 		}
 		if (coolTime > 0)
 		{

@@ -13,9 +13,6 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 private:
-	Dx12_Mesh mesh;
-	MeshData md;
-	Dx12_CBuffer<CBData>* cb;
 	static const int size = 10;
 	HitParticle particle[size];
 

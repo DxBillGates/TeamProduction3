@@ -6,6 +6,7 @@
 #include "Vector3.h"
 #include "Matrix4.h"
 #include "Quaternion.h"
+#include "Sound.h"
 class Player
 {
 private:
@@ -34,6 +35,9 @@ private:
 	Vector3 angle;
 
 	Quaternion qLocal;
+
+	Sound* se;
+	SoundData* seData;
 public:
 	Player();
 	~Player();

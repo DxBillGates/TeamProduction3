@@ -17,12 +17,16 @@ GamePlayScene::~GamePlayScene()
 	delete simpleShader;
 	delete animetionShader;
 	delete spriteShader;
+
+	delete jouhatsuSE;
+	delete jouhatsuSEData;
 }
 
 void GamePlayScene::LoadAsset()
 {
 	ID3D12Device* pDevice = device->GetDevice();
 	PlayerParticle::StaticLoadAsset(pDevice, loader);
+	HitParticle::StaticLoadAsset(pDevice, loader);
 	FireParticle::StaticLoadAsset(pDevice, loader);
 	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,NORMAL });
 	animetionShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD, }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
@@ -40,6 +44,10 @@ void GamePlayScene::LoadAsset()
 	thermometer.LoadAsset(pDevice, heap, loader);
 	playerParticleManager.LoadAsset(pDevice, heap, loader);
 	Wall::StaticLoadAsset(pDevice, heap, loader);
+	tutorialArrow.LoadAsset(pDevice, heap, loader);
+
+	jouhatsuSEData = new SoundData("Resources/Music/jouhatu.wav");
+	jouhatsuSE = new Sound(jouhatsuSEData);
 }
 
 void GamePlayScene::Initialize()
@@ -63,6 +71,9 @@ void GamePlayScene::Initialize()
 	sceneState = SceneState::TITLE;
 	title.Initialize();
 	tutorialEnemy.Initialize();
+	tutorialEnemy.SetPos(Vector3(640, 0, 0));
+	tutorialArrow.Initialize();
+
 	operation.Initialize();
 	thermometer.Initialize();
 	playerParticleManager.Initialize();
@@ -85,27 +96,20 @@ void GamePlayScene::Update()
 
 	if (sceneState == SceneState::TITLE)
 	{
-		title.Update();
-		if (keyboard->CheakHitKeyAll())title.SetIsFada(true);
-		if (ctrler->CheckHitKeyAll())title.SetIsFada(true);
+		title.Update(player.GetRedValue() * 2);
+		player.SetForward(mainCamera.GetForward());
+		player.Update();
+		thermometer.Update(player.GetPosition() + Vector3(0, 64, 0), player.GetRedValue(), mainCamera.GetPosition());
+		if (player.GetRedValue() >= 1)title.SetIsFada(true);
 		if (title.GetEndIsFade())
 		{
 			sceneState = SceneState::TUTORIAL;
 			tutorialEnemy.Revive(Vector3());
+			tutorialEnemy.SetPos(Vector3(worldSize.x / 2, 0, 0));
 		}
 	}
 	if (sceneState == SceneState::TUTORIAL)
 	{
-		std::vector<std::vector<Square>>* squares = squareManager.GetSquares();
-		{
-			int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
-			px /= (int)Square::GetSize().x;
-			pz /= (int)Square::GetSize().x;
-			if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
-			{
-				(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
-			}
-		}
 		player.SetForward(mainCamera.GetForward());
 		player.Update();
 		thermometer.Update(player.GetPosition() + Vector3(0, 64, 0), player.GetRedValue(), mainCamera.GetPosition());
@@ -117,17 +121,20 @@ void GamePlayScene::Update()
 			mainCamera.ScreenShake();
 			tutorialEnemy.Initialize();
 			sceneState = SceneState::PLAY;
+			operation.SetIsFade(true);
 		}
 
 		if (player.GetRedValue() >= 1)
 		{
 			operation.TextureChange();
 		}
-		if (keyboard->CheakHitKey(Key::F))
-		{
-			operation.TextureChange();
-			sceneState = SceneState::PLAY;
-		}
+
+		Vector3 tutorialPos = tutorialEnemy.GetPos() - player.GetPosition();
+		Vector3 forward = tutorialPos.Normalize();
+		float length = tutorialPos.Length();
+		tutorialPos = tutorialPos.Normalize();
+		tutorialPos = player.GetPosition() + tutorialPos * 100 + Vector3(0, 16, 0);
+		tutorialArrow.Update(tutorialPos, forward);
 	}
 #pragma region ÉJÉÅÉâèàóù
 	Vector3 pos = player.GetPosition();
@@ -186,7 +193,10 @@ void GamePlayScene::Update()
 			if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= PLAYER_TO_PUDDLE_DIS)
 			{
 				if (player.GetFireValue() >= 0.8f)
+				{
+					jouhatsuSE->Start();
 					fe.SetAlphaValue(fe.GetAlphaValue() - DECREASE_PUDDLE_VALUE);
+				}
 				if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
 				{
 					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
@@ -213,6 +223,7 @@ void GamePlayScene::Update()
 		}
 		for (auto& ne : *neList)
 		{
+			if (!ne->GetLiveFlag())continue;
 			int ex = (int)ne->GetPos().x, ez = (int)ne->GetPos().z;
 			ex /= (int)Square::GetSize().x;
 			ez /= (int)Square::GetSize().x;
@@ -301,7 +312,7 @@ void GamePlayScene::Update()
 		player.SetPosition(CheckHitWall(player.GetPosition(), a));
 	}
 
-
+	operation.Update();
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
 
 	if (keyboard->KeyPressTrigger(Key::D1))nextSceneFlag = true;
@@ -313,11 +324,14 @@ void GamePlayScene::DrawSprite()
 	orthograph->Set(device->GetCmdList());
 	if (sceneState == SceneState::TITLE)
 		title.Draw(device->GetCmdList());
+
+	keyOperation.Draw(device->GetCmdList());
+
 	if (sceneState != SceneState::TITLE)
-	{
-		keyOperation.Draw(device->GetCmdList());
 		operation.Draw(device->GetCmdList());
 
+	if (sceneState == SceneState::PLAY)
+	{
 		animetionShader->Set(device->GetCmdList());
 		orthograph->Set(device->GetCmdList());
 		time.Draw(device->GetCmdList());
@@ -333,19 +347,16 @@ void GamePlayScene::Draw()
 	perspective->Set(device->GetCmdList());
 	squareManager.Draw(pCmdList);
 	feManager.Draw(pCmdList);
-	if (sceneState != SceneState::TITLE)
-	{
-		player.Draw(pCmdList, heap);
-		thermometer.Draw(pCmdList, heap);
-	}
+	player.Draw(pCmdList, heap);
+	thermometer.Draw(pCmdList, heap);
 
 	enemyManager.Draw(pCmdList);
 	if (sceneState == SceneState::TUTORIAL)
 	{
 		tutorialEnemy.Draw(pCmdList);
+		tutorialArrow.Draw(pCmdList);
 	}
 	playerParticleManager.Draw(pCmdList, heap);
-
 
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);
@@ -361,8 +372,8 @@ Vector3 GamePlayScene::CheckHitWall(const Vector3 & p, bool& b)
 	Vector3 resultPos = p;
 	if (p.x <= 0)resultPos.x = 0;
 	if (p.z <= 0)resultPos.z = 0;
-	if (p.x >= worldSize.x-1)resultPos.x = worldSize.x-1;
-	if (p.z >= worldSize.z-1)resultPos.z = worldSize.z-1;
+	if (p.x >= worldSize.x - 1)resultPos.x = worldSize.x - 1;
+	if (p.z >= worldSize.z - 1)resultPos.z = worldSize.z - 1;
 	if (!(resultPos == p))b = true;
 	return resultPos;
 }

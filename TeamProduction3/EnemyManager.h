@@ -1,12 +1,18 @@
 #pragma once
 #include "NormalEnemy.h"
 #include "Player.h"
+#include "HitParticleManager.h"
+#include "Sound.h"
 class EnemyManager
 {
 private:
 	std::vector<NormalEnemy*> enemyList;
+	std::vector<HitParticleManager> hitParticleManager;
 	int count;
 	Player* pPlayer;
+
+	Sound* hitSE;
+	SoundData* hitSEData;
 public:
 	EnemyManager();
 	~EnemyManager();

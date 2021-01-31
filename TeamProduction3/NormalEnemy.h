@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "EnemyBullet.h"
+#include "Sound.h"
 
 class NormalEnemy : public Enemy
 {
@@ -13,6 +14,9 @@ private:
 	EnemyBullet bullet;
 	float coolTime;
 	Vector3 moveVector;
+
+	Sound* shotSE;
+	SoundData* shotSEData;
 public:
 	NormalEnemy();
 	~NormalEnemy();

@@ -27,7 +27,7 @@ public:
 	~Title();
 	void LoadAsset(ID3D12Device* device, Dx12_CBVSRVUAVHeap* heap, LoadContents* loader);
 	void Initialize();
-	void Update();
+	void Update(float size = 1);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void SetPosition(const Vector3& p);
 	Vector3 GetPosition();
