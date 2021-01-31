@@ -48,15 +48,15 @@ void NormalEnemy::Initialize()
 	vel = Vector3();
 	//bullet.Initialize();
 	moveVector = Vector3();
-	coolTime = 5;
+	coolTime = 2.5f;
 }
 
 void NormalEnemy::Update()
 {
 	const float REVIVE_TIME = 1;       //復活時間(秒)
-	const float RANGE = 320;	       //どれくらいの距離で球を打つか
-	const float RANDOM_RANGE = 128;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
-	const float COOL_TIME = 5;	       //弾の再装填時間
+	const float RANGE = 256;	       //どれくらいの距離で球を打つか
+	const float RANDOM_RANGE = 256;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
+	const float COOL_TIME = 7;	       //弾の再装填時間
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
