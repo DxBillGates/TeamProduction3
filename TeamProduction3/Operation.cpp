@@ -27,6 +27,7 @@ void Operation::Initialize()
 	currentTex = tex2;
 	pos = Vector3(1280 - 398, 0, 0);
 	isFade = false;
+	t = 0;
 }
 
 void Operation::Update()
