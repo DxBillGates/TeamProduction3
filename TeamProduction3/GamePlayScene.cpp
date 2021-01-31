@@ -183,8 +183,15 @@ void GamePlayScene::Update()
 			}
 			bool a = false;
 			ne->SetPos(CheckHitWall(ne->GetPos(), a));
-			CheckHitWall(ne->GetEnemyBulletPointer()->GetPosition(), a);
-			if (a)	feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetPosition() - Vector3(0, 24, 0));
+			if (ne->GetEnemyBulletPointer()->GetIsUse())
+			{
+				CheckHitWall(ne->GetEnemyBulletPointer()->GetPosition(), a);
+				if (a)
+				{
+					feManager.CreatePuddle(ne->GetEnemyBulletPointer()->GetPosition() - Vector3(0, 24, 0));
+					ne->GetEnemyBulletPointer()->Initialize();
+				}
+			}
 
 		}
 		for (auto& fe : *feList)
