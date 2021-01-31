@@ -48,7 +48,6 @@ void NormalEnemy::Initialize()
 	vel = Vector3();
 	//bullet.Initialize();
 	moveVector = Vector3();
-	coolTime = 5;
 }
 
 void NormalEnemy::Update()
