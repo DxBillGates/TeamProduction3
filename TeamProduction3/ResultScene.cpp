@@ -2,8 +2,8 @@
 #include "ScoreManager.h"
 #include"ResultParticle.h"
 
-ResultScene::ResultScene():
-orthograph(new Dx12_CBuffer<DirectX::XMMATRIX>(device->GetDevice(), heap, 0))
+ResultScene::ResultScene() :
+	orthograph(new Dx12_CBuffer<DirectX::XMMATRIX>(device->GetDevice(), heap, 0))
 {
 	orthograph->Map(DirectX::XMMatrixOrthographicOffCenterLH(0, 1280, 720, 0, 0, 1));
 }
@@ -34,14 +34,16 @@ void ResultScene::Initialize()
 	{
 		particle.Emitte(Vector3(640, 360, 0));
 	}
+	time = 10; //s
 }
 
 void ResultScene::Update()
 {
 	ScoreManager::GetInstance()->Update();
-	if (keyboard->CheakHitKey(Key::SPACE))nextSceneFlag = true;
-
+	if (keyboard->CheakHitKeyAll() || ctrler->CheckHitKeyAll())nextSceneFlag = true;
+	if (time <= 0)nextSceneFlag = true;
 	particle.Update();
+	time -= 0.016f;
 }
 
 void ResultScene::DrawSprite()

@@ -9,7 +9,7 @@ private:
 	Dx12_CBuffer<DirectX::XMMATRIX>* orthograph;
 	Dx12_Pipeline* animetionShader;
 	Dx12_Pipeline* spriteShader;
-
+	float time;
 
 	ResultEffect particle;
 public:
