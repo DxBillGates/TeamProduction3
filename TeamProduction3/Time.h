@@ -16,6 +16,11 @@ private:
 private:
 	Vector3 pos;
 	Vector3 size;
+	Vector3 scale;
+	Vector3 color;
+
+	bool verge;
+	float a, b;
 	int time;
 	std::vector<Dx12_CBuffer<AnimetionData>*> scoreAnimetionDatas;
 	Dx12_Sprite sprite;

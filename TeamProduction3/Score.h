@@ -18,6 +18,8 @@ private:
 	Vector3 pos;
 	Vector3 size;
 	Vector3 scale;
+	bool effectFlag;
+	float a, b;
 	int score;
 	std::vector<Dx12_CBuffer<AnimetionData>*> scoreAnimetionDatas;
 	static Dx12_Sprite sprite;
@@ -33,6 +35,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void SetEffectFlag();
 	void SetScore(int value = 0);
 	int GetScore();
 	void SetSize(Vector3 size);

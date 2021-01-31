@@ -42,11 +42,33 @@ void Score::Initialize()
 	pos = Vector3();
 	size = Vector3(32, 32, 32);
 	scale = { 1,1,1 };
+	b = 1;
 	score = 0;
+	effectFlag = false;
+	a = 0;
 }
 
 void Score::Update()
 {
+	if (a > 3.15)
+	{
+		effectFlag = false;
+	}
+	if (effectFlag)
+	{
+		//Ž©•ª‚ÌƒXƒP[ƒ‹‚Ì•Ï“®
+		//0.2f‚Í”¼Œa‚Å‚·
+		b = 1 + sin(a)*0.2f;
+		//‘å‚«‚­‚È‚é‘¬‚³
+		a += 0.1f;
+	}
+	else
+	{
+		b = 1;
+		a = 0;
+	}
+	scale = { b,b,b };
+
 	int value = 0;
 	Vector2 vec = { (float)tex->GetMetadata()->width,(float)tex->GetMetadata()->height };
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
@@ -64,6 +86,10 @@ void Score::Draw(ID3D12GraphicsCommandList * cmdList)
 		s->Set(cmdList);
 		sprite.Draw(cmdList);
 	}
+}
+void Score::SetEffectFlag()
+{
+	effectFlag = true;
 }
 
 void Score::SetScore(int value)

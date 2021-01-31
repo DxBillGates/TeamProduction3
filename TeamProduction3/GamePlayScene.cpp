@@ -311,6 +311,11 @@ void GamePlayScene::Update()
 	scoreManager->GetCurrentScore()->SetScore((int)squareManager.GetTilesInfomation().x);
 	scoreManager->GetCurrentScore()->SetPosition(Vector3());
 	scoreManager->GetCurrentScore()->Update();
+	if (scoreManager->GetCurrentScore()->GetScore() % 10 == 0)
+	{
+		scoreManager->GetCurrentScore()->SetEffectFlag();
+	}
+
 	feManager.Update();
 	squareManager.Update();
 	playerParticleManager.SetPosition(player.GetPosition());

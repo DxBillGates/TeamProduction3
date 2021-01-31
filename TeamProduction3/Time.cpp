@@ -30,22 +30,53 @@ void Time::Initialize()
 {
 	time = 0;
 	int value = 0;
+	scale = { 1,1,1 };
+	color = { 1,1,1 };
+	verge = false;
+	a = 0;
+	b = 1;
 	Vector2 vec = { (float)tex->GetMetadata()->width,(float)tex->GetMetadata()->height };
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = time % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(b,b,scale.z) * DirectX::XMMatrixTranslation(b*size.x * (float)i + pos.x-b,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 
 void Time::Update()
 {
+
+#pragma region 制限時間間近になったら赤くなって知らせる
+	const int vergrTime = 50;	//点滅を始める残り時間
+	
+	if (time <vergrTime)
+	{
+		verge = true;
+	}
+	else
+	{
+		verge = false;
+	}
+	if (verge)
+	{
+		 color = { 1,0,0 };
+		b = scale.x + sin(a)*0.1f;
+		a += 0.1f;
+	}
+	else
+	{
+		 color = { 1,1,1 };
+		b = 1;
+		a = 0;
+	}
+#pragma endregion
+	
 	int value = 0;
 	Vector2 vec = { (float)tex->GetMetadata()->width,(float)tex->GetMetadata()->height };
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = time % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(1,1,1) * DirectX::XMMatrixTranslation(size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(b,b,scale.z) * DirectX::XMMatrixTranslation(b*size.x * (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{color.x,color.y,color.z,1} });
 	}
 }
 
