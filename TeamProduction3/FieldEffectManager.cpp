@@ -2,7 +2,7 @@
 
 FieldEffectManager::FieldEffectManager()
 {
-	fePuddleList.resize(20);
+	fePuddleList.resize(64);
 	feFireWallList.resize(64);
 }
 
