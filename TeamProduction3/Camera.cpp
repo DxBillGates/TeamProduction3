@@ -24,7 +24,7 @@ void Camera::Initialize()
 void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
 	const float Y = 1024;           //カメラの高さ
-	const float R = 16;			//注視点との距離
+	const float R = 512;			//注視点との距離
 	const float SHAKE_RANGE = 250.f;//画面揺れ値
 	pos += argpos - target;
 	target = argpos;
