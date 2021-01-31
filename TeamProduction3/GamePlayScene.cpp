@@ -18,8 +18,8 @@ GamePlayScene::~GamePlayScene()
 	delete animetionShader;
 	delete spriteShader;
 
-	delete jouhatsuSE;
-	delete jouhatsuSEData;
+	delete hitSE;
+	delete hitSEData;
 }
 
 void GamePlayScene::LoadAsset()
@@ -46,8 +46,8 @@ void GamePlayScene::LoadAsset()
 	Wall::StaticLoadAsset(pDevice, heap, loader);
 	tutorialArrow.LoadAsset(pDevice, heap, loader);
 
-	jouhatsuSEData = new SoundData("Resources/Music/jouhatu.wav");
-	jouhatsuSE = new Sound(jouhatsuSEData);
+	hitSEData = new SoundData("Resources/Music/hit.wav");
+	hitSE = new Sound(hitSEData);
 }
 
 void GamePlayScene::Initialize()
@@ -118,6 +118,7 @@ void GamePlayScene::Update()
 		tutorialEnemy.Update();
 		if (Vector3::Distance(player.GetPosition(), tutorialEnemy.GetPos()) <= 64)
 		{
+			hitSE->Start();
 			mainCamera.ScreenShake();
 			tutorialEnemy.Initialize();
 			sceneState = SceneState::PLAY;
@@ -201,7 +202,7 @@ void GamePlayScene::Update()
 			{
 				if (player.GetFireValue() >= 0.8f)
 				{
-					jouhatsuSE->Start();
+					fe.GetSE()->Start();
 					fe.SetAlphaValue(fe.GetAlphaValue() - DECREASE_PUDDLE_VALUE);
 				}
 				if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)

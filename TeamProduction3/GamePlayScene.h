@@ -59,8 +59,8 @@ private:
 	Time time;
 	float timeValue;
 
-	Sound* jouhatsuSE;
-	SoundData* jouhatsuSEData;
+	Sound* hitSE;
+	SoundData* hitSEData;
 public:
 	GamePlayScene();
 	~GamePlayScene();

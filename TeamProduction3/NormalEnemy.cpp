@@ -101,7 +101,7 @@ void NormalEnemy::Update()
 	Vector3 v = targetPos - pos;
 	v = v.Normalize();
 	float angle = atan2f(v.x, v.z);
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos),{0,1,0,reviveT} });
+	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos),{1,1,1,reviveT} });
 	coolTimeCB->Map({ Matrix4::Scale(Vector3(32 * coolTime,8,8)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
 
 	if (vel.Length() > 0)
@@ -118,7 +118,6 @@ void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 	{
 		coolTimeCB->Set(cmdList);
 		coolTimeMesh.Draw(cmdList);
-
 		cb->Set(cmdList);
 		cmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
 		mesh.Draw(cmdList);

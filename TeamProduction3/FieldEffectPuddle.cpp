@@ -9,11 +9,15 @@ FieldEffectPuddle::FieldEffectPuddle() :FieldEffect()
 FieldEffectPuddle::~FieldEffectPuddle()
 {
 	delete cb;
+	delete se;
+	delete seData;
 }
 
 void FieldEffectPuddle::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap)
 {
 	cb = new Dx12_CBuffer<CBData>(device, heap, 1);
+	seData = new SoundData("Resources/Music/jouhatu.wav");
+	se = new Sound(seData);
 }
 
 void FieldEffectPuddle::Initialize()
@@ -69,4 +73,9 @@ void FieldEffectPuddle::StaticLoadAsset(ID3D12Device * device, LoadContents * lo
 {
 	loader->LoadMeshData("Resources/Model/mizu/", "mizu", md);
 	mesh.Create(device, &md);
+}
+
+Sound * FieldEffectPuddle::GetSE()
+{
+	return se;
 }
