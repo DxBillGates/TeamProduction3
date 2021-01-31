@@ -72,7 +72,7 @@ void NormalEnemy::Update()
 	}
 	if (liveFlag)
 	{
-		if (!bullet.GetIsUse() && Vector3::Distance(targetPos,pos) < RANGE && coolTime == 0)
+		if (!bullet.GetIsUse() /*&& Vector3::Distance(targetPos,pos) < RANGE*/ && coolTime == 0)
 		{
 			bullet.Initialize();
 			bullet.SetPosition(pos);
@@ -102,7 +102,7 @@ void NormalEnemy::Update()
 	v = v.Normalize();
 	float angle = atan2f(v.x, v.z);
 	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos),{1,1,1,reviveT} });
-	coolTimeCB->Map({ Matrix4::Scale(Vector3(32 * coolTime,8,8)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos+Vector3(0,32+16,0)),{0,0,1,reviveT} });
+	coolTimeCB->Map({ Matrix4::Scale(Vector3(32 * coolTime,8,8)) *Matrix4::RotationY(angle)* Matrix4::Translate(pos + Vector3(0,32 + 16,0)),{0,0,1,reviveT} });
 
 	if (vel.Length() > 0)
 	{
@@ -112,7 +112,7 @@ void NormalEnemy::Update()
 
 void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 {
-	
+
 	bullet.Draw(cmdList);
 	if (liveFlag)
 	{

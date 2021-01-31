@@ -169,7 +169,8 @@ void Player::Update()
 	Matrix4 mR = Quaternion::Rotation(qLocal);
 	//Vector3 v = moveVector.Normalize()+angle;
 	//Matrix4 mR = Matrix4::RotationZ(-v.x) * Matrix4::RotationX(v.z) * Matrix4::RotationY(v.y);
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{redValue,1,1,1} });
+	//cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{redValue,1,1,1} });
+	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{1,1,1,1} });
 }
 
 void Player::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
