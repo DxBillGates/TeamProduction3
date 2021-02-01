@@ -84,7 +84,7 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	const float PLAYER_TO_FIREWALL_DIS = 64;     //プレイヤーと壁の判定距離
+	const float PLAYER_TO_FIREWALL_DIS = 32;     //プレイヤーと壁の判定距離
 	const float PLAYER_TO_ENEMY_DIS = 32;		 //プレイヤーと敵の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数

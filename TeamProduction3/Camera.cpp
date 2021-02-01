@@ -2,7 +2,7 @@
 #include "Quaternion.h"
 #include <random>
 
-float Camera::MAX_SHAKE_TIME = 0.1f;
+float Camera::MAX_SHAKE_TIME = 0.2f;
 float Camera::shakeTime = 0;
 bool Camera::isShake = false;
 
@@ -25,7 +25,7 @@ void Camera::Update(Keyboard * keyboard, Xinput * ctrler, const Vector3& argpos)
 {
 	const float Y = 1024;           //カメラの高さ
 	const float R = 512;			//注視点との距離
-	const float SHAKE_RANGE = 250.f;//画面揺れ値
+	const float SHAKE_RANGE = 450.f;//画面揺れ値
 	pos += argpos - target;
 	target = argpos;
 
