@@ -57,6 +57,7 @@ void NormalEnemy::Update()
 	const float RANGE = 256;	       //どれくらいの距離で球を打つか
 	const float RANDOM_RANGE = 256;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
 	const float COOL_TIME = 7;	       //弾の再装填時間
+	const float SPEED = 0;             //移動方向にSPEED倍する値
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
@@ -94,7 +95,7 @@ void NormalEnemy::Update()
 			}
 		}
 		moveVector = moveVector.Normalize();
-		pos += moveVector + vel;
+		pos += moveVector + vel + moveVector * SPEED;
 	}
 
 	bullet.Update();
