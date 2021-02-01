@@ -35,7 +35,7 @@ void EnemyBullet::Initialize()
 
 void EnemyBullet::Update()
 {
-	const float RANGE = 200;    //打った場所からどのくらいで水たまりにするか、値が大きければ遠くまで飛ばせる
+	const float RANGE = 256;    //打った場所からどのくらいで水たまりにするか、値が大きければ遠くまで飛ばせる
 	isOldUse = isUse;
 	if (isUse)
 	{

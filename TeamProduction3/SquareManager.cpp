@@ -51,7 +51,7 @@ void SquareManager::Initialize()
 void SquareManager::Update()
 {
 	redTile = blueTile = whiteTile = 0;
-	Vector3 red = Vector3(1,0,0), blue = Vector3(0, 0, 1), white = Vector3(1, 1, 1);
+	Vector3 red = Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255), blue = Vector3(0, 0, 1), white = Vector3(1, 1, 1);
 	for (int i = 0; i < width; ++i)
 	{
 		for (int j = 0; j < depth; ++j)

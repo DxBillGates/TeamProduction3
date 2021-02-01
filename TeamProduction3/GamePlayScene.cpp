@@ -84,14 +84,14 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	const float PLAYER_TO_FIREWALL_DIS = 32;     //プレイヤーと壁の判定距離
+	const float PLAYER_TO_FIREWALL_DIS = 64;     //プレイヤーと壁の判定距離
 	const float PLAYER_TO_ENEMY_DIS = 32;		 //プレイヤーと敵の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数
-	const float PLAYER_TO_PUDDLE_DIS = 128 * 80;//プレイヤーと水たまりの判定距離(蒸発距離)
+	const float PLAYER_TO_PUDDLE_DIS = 128 * 96;//プレイヤーと水たまりの判定距離(蒸発距離)
 	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
-	const float DECREASE_PUDDLE_VALUE = 0.05f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
-	const float FIREWALL_TO_ENEMY_DIS = 64;		 //壁と敵の攻撃の判定距離
+	const float DECREASE_PUDDLE_VALUE = 0.055f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
+	const float FIREWALL_TO_ENEMY_DIS = 32;		 //壁と敵の攻撃の判定距離
 
 
 	if (sceneState == SceneState::TITLE)
@@ -226,7 +226,7 @@ void GamePlayScene::Update()
 			pz /= (int)Square::GetSize().x;
 			if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
 			{
-				(*squares)[px][pz].SetColor(Vector3(1, 0, 0));
+				(*squares)[px][pz].SetColor(Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255));
 			}
 		}
 		for (auto& ne : *neList)

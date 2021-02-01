@@ -33,9 +33,9 @@ void FieldEffectPuddle::Initialize()
 
 void FieldEffectPuddle::Update()
 {
-	const float REVIVE_TIME = 1;        //生成時間(秒)
-	const float MAX_SIZE = 128;         //マックスサイズ
-	const float DECREASE_ALPHA = 0.001f; //自然になくなる値
+	const float REVIVE_TIME = 1;			//生成時間(秒)
+	const float MAX_SIZE = 128;				//マックスサイズ
+	const float DECREASE_ALPHA = 0.001f;	//自然になくなる値
 	if (reviveFlag)
 	{
 		if (reviveT < 1)

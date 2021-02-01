@@ -5,7 +5,7 @@
 
 EnemyManager::EnemyManager()
 {
-	const int MAX_ENEMY = 10;
+	const int MAX_ENEMY = 20;
 	for (int i = 0; i < MAX_ENEMY; ++i)
 	{
 		enemyList.push_back(new NormalEnemy());
@@ -58,12 +58,12 @@ void EnemyManager::Initialize()
 
 void EnemyManager::Update()
 {
-	const float REVIVE_RANGE = 1280;    //プレイヤーの周りにスポーンする範囲
-	const float TARGET_RANGE = 1200;	//プレイヤーが索敵範囲外の時用の自分の周辺に飛ばす値、大きければ範囲が広がる
-	const int REVIVE_COUNT = 120;	    //何フレームに一度敵を出すか
+	const float REVIVE_RANGE = 2048;    //プレイヤーの周りにスポーンする範囲
+	const float TARGET_RANGE = 128;	//プレイヤーが索敵範囲外の時用の自分の周辺に飛ばす値、大きければ範囲が広がる
+	const int REVIVE_COUNT = 150;	    //何フレームに一度敵を出すか
 	const float RANGE = 1024;		    //索敵範囲
 	const float SHOT_RANGE = 256;	    //索敵範囲内の時にどれくらいの距離から弾を発射するか
-	const float DISTANCE = 64;			//当たり判定
+	const float DISTANCE = 96;			//当たり判定
 
 	bool revive = false;
 	if (count % REVIVE_COUNT == 0)

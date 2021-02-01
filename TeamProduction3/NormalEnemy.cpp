@@ -56,8 +56,8 @@ void NormalEnemy::Update()
 	const float REVIVE_TIME = 1;       //•œŠˆŠÔ(•b)
 	const float RANGE = 256;	       //‚Ç‚ê‚­‚ç‚¢‚Ì‹——£‚Å‹…‚ğ‘Å‚Â‚©
 	const float RANDOM_RANGE = 256;    //’e‚Ì¸“x(”ÍˆÍ)A’l‚ª‘å‚«‚¯‚ê‚Î‘å‚«‚¢‚¾‚¯¸“x‚ª—‚¿‚é
-	const float COOL_TIME = 7;	       //’e‚ÌÄ‘•“UŠÔ
-	const float SPEED = 0;             //ˆÚ“®•ûŒü‚ÉSPEED”{‚·‚é’l
+	const float COOL_TIME = 5;	       //’e‚ÌÄ‘•“UŠÔ
+	const float SPEED = 1.3f;          //ˆÚ“®•ûŒü‚ÉSPEED”{‚·‚é’l
 	if (reviveFlag)
 	{
 		if (reviveT < 1)

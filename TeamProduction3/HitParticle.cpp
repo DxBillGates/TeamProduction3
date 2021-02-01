@@ -34,7 +34,7 @@ void HitParticle::Emitte(Vector3 pos)
 {
 	this->pos = pos;
 	//
-	const int length = 60;
+	const int length = 90;
 	const int division = 10;
 	vel = Vector3((float)(rand() % length - length / 2)/division, (float)(rand() % length) / division, (float)(rand() % length - length / 2) / division);
 	scale = { 20.0f,20.0f,20.0f };
@@ -43,7 +43,7 @@ void HitParticle::Emitte(Vector3 pos)
 
 void HitParticle::Update()
 {
-	const float scaleFade = 1.0f;
+	const float scaleFade = 0.5f;
 
 	if (scale.x < 0)
 	{
@@ -51,7 +51,7 @@ void HitParticle::Update()
 	}
 	vel.y -= 0.1f;
 	pos += vel;
-	//scale -= Vector3(scaleFade, scaleFade, scaleFade);
+	scale -= Vector3(scaleFade, scaleFade, scaleFade);
 	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{0.0f,1.0f,0.0f,1} });
 }
 
