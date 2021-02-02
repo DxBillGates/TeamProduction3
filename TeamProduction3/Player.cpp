@@ -46,6 +46,7 @@ void Player::Initialize()
 	isDraw = true;
 	isDamage = false;
 	damageTime = 0;
+	size = Vector3(32, 32, 32);
 }
 
 void Player::Update()
@@ -181,7 +182,7 @@ void Player::Update()
 	//Vector3 v = moveVector.Normalize()+angle;
 	//Matrix4 mR = Matrix4::RotationZ(-v.x) * Matrix4::RotationX(v.z) * Matrix4::RotationY(v.y);
 	//cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{redValue,1,1,1} });
-	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{1,1,1,1} });
+	cb->Map({ Matrix4::Scale(size) * mR * Matrix4::Translate(pos),{1,1,1,1} });
 
 	if (isDamage)
 	{
@@ -287,6 +288,11 @@ void Player::SetIsDamage(bool b)
 {
 	hitSE->Start();
 	isDamage = b;
+}
+
+Vector3 Player::GetSize()
+{
+	return size;
 }
 
 

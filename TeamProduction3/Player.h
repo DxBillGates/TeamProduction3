@@ -46,6 +46,8 @@ private:
 	bool isDamage;
 	bool isDraw;
 	int damageTime;
+
+	Vector3 size;
 public:
 	Player();
 	~Player();
@@ -68,5 +70,7 @@ public:
 
 	bool GetIsDamage();
 	void SetIsDamage(bool b);
+
+	Vector3 GetSize();
 };
 

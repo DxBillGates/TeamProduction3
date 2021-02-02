@@ -94,6 +94,8 @@ void GamePlayScene::Update()
 	const float DECREASE_PUDDLE_VALUE = 0.055f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
 	const float FIREWALL_TO_ENEMY_DIS = 32;		 //壁と敵の攻撃の判定距離
 
+	const float PLAYER_SIZE_MAGNI = 2;           //プレイヤーのサイズを実際のサイズより大きく判定させるための値(床との当たり判定用)
+
 
 	if (sceneState == SceneState::TITLE)
 	{
@@ -232,9 +234,8 @@ void GamePlayScene::Update()
 			//	(*squares)[px][pz].SetColor(Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255));
 			//}
 
-
 			int width = 2, depth = 2;
-			Vector3 size = Vector3(64, 64, 64);
+			Vector3 size = player.GetSize();
 			Vector3 s = size/(float)width;
 			Vector3 p = player.GetPosition() - size/2;
 			Vector3 pp = player.GetPosition();
