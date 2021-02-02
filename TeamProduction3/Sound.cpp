@@ -33,7 +33,7 @@ void Sound::CreateVoice()
 
 void Sound::Start()
 {
-	if (!isStart)
+	if (!isPlay)
 	{
 		isEnd = false;
 		sourceVoice->SubmitSourceBuffer(pSoundData->GetAudioBuffer());

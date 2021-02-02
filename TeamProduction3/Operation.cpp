@@ -39,6 +39,11 @@ void Operation::Update()
 		Vector3 lerp = Vector3::Lerp(pos, target, t);
 		cb->Map({ Matrix4::Translate(lerp),{1,1,1,1} });
 	}
+	if (t >= 1)
+	{
+		t = 1;
+		isFade = false;
+	}
 }
 
 void Operation::Draw(ID3D12GraphicsCommandList * cmdList)

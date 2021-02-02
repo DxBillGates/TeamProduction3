@@ -166,6 +166,7 @@ void GamePlayScene::Update()
 			if (ne->GetEnemyBulletPointer()->GetIsUse())
 				if (Vector3::Distance(ne->GetEnemyBulletPointer()->GetPosition(), player.GetPosition()) <= PLAYER_TO_ENEMY_DIS)
 				{
+					player.SetIsDamage(true);
 					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
 					ne->GetEnemyBulletPointer()->Initialize();
 				}
@@ -207,6 +208,7 @@ void GamePlayScene::Update()
 				}
 				if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
 				{
+					player.SetIsDamage(true);
 					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
 				}
 			}

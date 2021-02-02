@@ -39,6 +39,13 @@ private:
 
 	Sound* se;
 	SoundData* seData;
+
+	Sound* hitSE;
+	SoundData* hitSEData;
+
+	bool isDamage;
+	bool isDraw;
+	int damageTime;
 public:
 	Player();
 	~Player();
@@ -58,5 +65,8 @@ public:
 	float GetRedValue();
 	void SetRedValue(float s);
 	bool GetIsOverCFireValue();
+
+	bool GetIsDamage();
+	void SetIsDamage(bool b);
 };
 

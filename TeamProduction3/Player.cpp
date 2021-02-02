@@ -13,6 +13,8 @@ Player::~Player()
 	delete cb;
 	delete se;
 	delete seData;
+	delete hitSE;
+	delete hitSEData;
 }
 
 void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
@@ -23,6 +25,9 @@ void Player::LoadAsset(ID3D12Device * pDevice, Dx12_CBVSRVUAVHeap * heap, LoadCo
 
 	seData = new SoundData("Resources/Music/fire.wav");
 	se = new Sound(seData);
+
+	hitSEData = new SoundData("Resources/Music/PlayerHit.wav");
+	hitSE = new Sound(hitSEData);
 }
 
 void Player::Initialize()
@@ -38,6 +43,9 @@ void Player::Initialize()
 	isBuff = false;
 	angle = Vector3();
 	qLocal = Quaternion(Vector3(0, 0, 1), 0);
+	isDraw = true;
+	isDamage = false;
+	damageTime = 0;
 }
 
 void Player::Update()
@@ -50,6 +58,8 @@ void Player::Update()
 	const float UPDATE_OLDPOS_DISTANCE = 64;
 	const float MAX_FIRE_VALUE = 600;
 	float f = 0.01f;
+	const int DAMAGE_TIME = 10;
+	const int MAX_DAMAGE_TIME = 30;
 
 	if (Vector3::Distance(oldPos, pos) >= UPDATE_OLDPOS_DISTANCE)
 	{
@@ -171,13 +181,31 @@ void Player::Update()
 	//Matrix4 mR = Matrix4::RotationZ(-v.x) * Matrix4::RotationX(v.z) * Matrix4::RotationY(v.y);
 	//cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{redValue,1,1,1} });
 	cb->Map({ Matrix4::Scale(Vector3(32,32,32)) * mR * Matrix4::Translate(pos),{1,1,1,1} });
+
+	if (isDamage)
+	{
+		if (damageTime % DAMAGE_TIME == 0)
+		{
+			isDraw = (isDraw) ? false : true;
+		}
+		if (damageTime >= MAX_DAMAGE_TIME)
+		{
+			isDamage = false;
+			isDraw = true;
+			damageTime = 0;
+		}
+		++damageTime;
+	}
 }
 
 void Player::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
 {
-	cb->Set(pCmdList);
-	pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
-	mesh.Draw(pCmdList);
+	if (isDraw)
+	{
+		cb->Set(pCmdList);
+		pCmdList->SetGraphicsRootDescriptorTable(2, heap->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+		mesh.Draw(pCmdList);
+	}
 }
 
 void Player::SetInputDevice(Keyboard * pKeyboard, Xinput * pCtrler)
@@ -247,6 +275,17 @@ bool Player::GetIsOverCFireValue()
 		return true;
 	}
 	return false;
+}
+
+bool Player::GetIsDamage()
+{
+	return isDamage;
+}
+
+void Player::SetIsDamage(bool b)
+{
+	hitSE->Start();
+	isDamage = b;
 }
 
 

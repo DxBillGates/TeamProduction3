@@ -27,11 +27,13 @@ private:
 	STDMETHOD_(void, OnBufferStart) (THIS_ void* pBufferContext)
 	{
 		isStart = true;
+		isPlay = true;
 		isEnd = false;
 	};
 	STDMETHOD_(void, OnBufferEnd) (THIS_ void* pBufferContext)
 	{
 		isStart = false;
+		isPlay = false;
 		isEnd = true;
 	};
 	STDMETHOD_(void, OnLoopEnd) (THIS_ void* pBufferContext) {};
