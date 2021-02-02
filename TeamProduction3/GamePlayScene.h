@@ -21,6 +21,7 @@
 #include "Vector2.h"
 #include "TutorialArrow.h"
 #include"BackGround.h"
+#include "TileInfo.h"
 
 
 class GamePlayScene : public Scene
@@ -63,6 +64,8 @@ private:
 
 	Sound* hitSE;
 	SoundData* hitSEData;
+
+	TileInfo tileInfo;
 public:
 	GamePlayScene();
 	~GamePlayScene();

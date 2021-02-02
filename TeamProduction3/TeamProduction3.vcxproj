@@ -180,6 +180,7 @@
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="SquareManager.cpp" />
     <ClCompile Include="Thermometer.cpp" />
+    <ClCompile Include="TileInfo.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SquareManager.h" />
     <ClInclude Include="Thermometer.h" />
+    <ClInclude Include="TileInfo.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="TitleScene.h" />

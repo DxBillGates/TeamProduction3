@@ -46,6 +46,7 @@ void GamePlayScene::LoadAsset()
 	Wall::StaticLoadAsset(pDevice, heap, loader);
 	tutorialArrow.LoadAsset(pDevice, heap, loader);
 	bg.LoadAsset(pDevice, heap, loader);
+	tileInfo.LoadAsset(pDevice, heap, loader);
 	//bg.TreeLoadAsset(pDevice, heap, loader);
 
 	hitSEData = new SoundData("Resources/Music/hit.wav");
@@ -82,6 +83,7 @@ void GamePlayScene::Initialize()
 	bg.Initialize();
 	//壁のサイズとポジションの設定
 	worldSize = squareManager.GetSize();
+	tileInfo.Initialize();
 }
 
 void GamePlayScene::Update()
@@ -340,12 +342,15 @@ void GamePlayScene::Update()
 	}
 
 	scoreManager->GetCurrentScore()->SetScore((int)squareManager.GetTilesInfomation().x);
-	scoreManager->GetCurrentScore()->SetPosition(Vector3(32,32,0));
+	scoreManager->GetCurrentScore()->SetPosition(Vector3(64+16,32,0));
 	scoreManager->GetCurrentScore()->Update();
 	if (scoreManager->GetCurrentScore()->GetScore() % 10 == 0)
 	{
 		scoreManager->GetCurrentScore()->SetEffectFlag();
 	}
+
+	tileInfo.SetPosition(Vector3(32, 32, 0));
+	tileInfo.Update();
 
 	feManager.Update();
 	squareManager.Update();
@@ -374,6 +379,9 @@ void GamePlayScene::DrawSprite()
 
 	if (sceneState != SceneState::TITLE)
 		operation.Draw(device->GetCmdList());
+
+	if (sceneState == SceneState::PLAY)
+		tileInfo.Draw(device->GetCmdList());
 
 	if (sceneState == SceneState::PLAY)
 	{
