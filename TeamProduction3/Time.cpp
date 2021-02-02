@@ -47,7 +47,7 @@ void Time::Update()
 {
 
 #pragma region 制限時間間近になったら赤くなって知らせる
-	const int vergrTime = 50;	//点滅を始める残り時間
+	const int vergrTime = 20;	//点滅を始める残り時間
 	
 	if (time <vergrTime)
 	{
