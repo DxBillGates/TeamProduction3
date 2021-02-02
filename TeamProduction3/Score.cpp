@@ -61,20 +61,20 @@ void Score::Update()
 		b = 1 + sin(a)*0.2f;
 		//‘å‚«‚­‚È‚é‘¬‚³
 		a += 0.1f;
+		scale = { b,b,b };
 	}
 	else
 	{
 		b = 1;
 		a = 0;
 	}
-	scale = { b,b,b };
 
 	int value = 0;
 	Vector2 vec = { (float)tex->GetMetadata()->width,(float)tex->GetMetadata()->height };
 	for (int i = (int)scoreAnimetionDatas.size() - 1, j = 10, k = 1; i >= 0; --i, j *= 10, k *= 10)
 	{
 		value = score % j / k;
-		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(scale.x,scale.y,scale.z) * DirectX::XMMatrixTranslation(size.x *scale.x* (float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
+		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(scale.x,scale.y,scale.z) * DirectX::XMMatrixTranslation(size.x*scale.x*(float)i + pos.x,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
 }
 
