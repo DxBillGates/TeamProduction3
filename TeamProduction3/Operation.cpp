@@ -1,4 +1,5 @@
 #include "Operation.h"
+#include "Easing.h"
 
 Operation::Operation()
 {
@@ -36,7 +37,7 @@ void Operation::Update()
 	{
 		t += 0.016f;
 		Vector3 target = Vector3(2480, 0, 0);
-		Vector3 lerp = Vector3::Lerp(pos, target, t);
+		Vector3 lerp = Vector3::Lerp(pos, target, GatesEngine::Math::Easing::EaseInCubic(t));
 		cb->Map({ Matrix4::Translate(lerp),{1,1,1,1} });
 	}
 	if (t >= 1)
