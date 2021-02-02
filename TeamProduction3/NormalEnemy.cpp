@@ -57,7 +57,7 @@ void NormalEnemy::Update()
 	const float RANGE = 256;	       //どれくらいの距離で球を打つか
 	const float RANDOM_RANGE = 256;    //弾の精度(範囲)、値が大きければ大きいだけ精度が落ちる
 	const float COOL_TIME = 5;	       //弾の再装填時間
-	const float SPEED = 1.3f;          //移動方向にSPEED倍する値
+	const float SPEED = 1.4f;          //移動方向にSPEED倍する値
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
