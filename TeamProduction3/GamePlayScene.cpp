@@ -328,7 +328,7 @@ void GamePlayScene::Update()
 
 #pragma region §ŒÀŽžŠÔ
 		time.SetSize(Vector3(32, 32, 32));
-		time.SetPosition(Vector3(640, 0, 0));
+		time.SetPosition(Vector3(608, 32, 0));
 		time.SetTime((int)timeValue);
 		time.Update();
 		timeValue -= 0.016f;
@@ -340,7 +340,7 @@ void GamePlayScene::Update()
 	}
 
 	scoreManager->GetCurrentScore()->SetScore((int)squareManager.GetTilesInfomation().x);
-	scoreManager->GetCurrentScore()->SetPosition(Vector3());
+	scoreManager->GetCurrentScore()->SetPosition(Vector3(32,32,0));
 	scoreManager->GetCurrentScore()->Update();
 	if (scoreManager->GetCurrentScore()->GetScore() % 10 == 0)
 	{

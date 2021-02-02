@@ -50,7 +50,7 @@ void ScoreManager::Initialize()
 
 void ScoreManager::Update()
 {
-	const Vector3 displayPos = { 50,100,0 };
+	const Vector3 displayPos = { 64,116,0 };
 
 	int i = 0;
 	for (auto itr = scores.begin(); itr != scores.end(); ++itr, ++i)

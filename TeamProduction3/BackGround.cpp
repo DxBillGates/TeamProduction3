@@ -46,7 +46,7 @@ void BackGround::Initialize()
 		{
 			pos3[y] = Vector3(0.0f, 130.0f, 300.0f * y);
 			roteY[y] = 0;
-			pos3[8+y] = Vector3(mapLength.x-64,130.0f, mapLength.z- 290.0f * y);
+			pos3[8+y] = Vector3(mapLength.x,130.0f, mapLength.z- 290.0f * y);
 			roteY[8 + y] = -1.57f;
 		}
 	}

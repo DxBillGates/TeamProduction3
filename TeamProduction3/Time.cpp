@@ -22,7 +22,7 @@ void Time::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadConte
 	}
 	tex = loader->LoadTexture("Resources/Texture/", "num2.png");
 	SpriteData spriteData = {};
-	loader->CreateModelData_Plane(32, 32, spriteData);
+	loader->CreateModelData_Plane(64, 64, spriteData,true);
 	sprite.Create(device, &spriteData);
 }
 
@@ -41,17 +41,22 @@ void Time::Initialize()
 		value = time % j / k;
 		scoreAnimetionDatas[i]->Map({ {DirectX::XMMatrixScaling(b,b,scale.z) * DirectX::XMMatrixTranslation(b*size.x * (float)i + pos.x-b,pos.y,0) }, { (float)value,0,64,64 }, { vec.x,vec.y,0,0 },{1,1,1,1} });
 	}
+	pos = Vector3(0,64,0);
+	t = 0;
 }
 
 void Time::Update()
 {
 
 #pragma region 制限時間間近になったら赤くなって知らせる
-	const int vergrTime = 20;	//点滅を始める残り時間
+	const int vergrTime = 60;	//点滅を始める残り時間
 	
 	if (time <vergrTime)
 	{
+		if (t >= 1)t = 1;
 		verge = true;
+		pos = Vector3::Lerp(Vector3(608, 32, 0), Vector3(608, 240, 0), t);
+		t += 0.016f;
 	}
 	else
 	{

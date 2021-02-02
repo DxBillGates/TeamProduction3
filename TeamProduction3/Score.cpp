@@ -28,7 +28,7 @@ void Score::StaticLoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, Lo
 {
 	tex = loader->LoadTexture("Resources/Texture/", "num2.png");
 	SpriteData spriteData = {};
-	loader->CreateModelData_Plane(32, 32, spriteData);
+	loader->CreateModelData_Plane(64, 64, spriteData,true);
 	sprite.Create(device, &spriteData);
 }
 

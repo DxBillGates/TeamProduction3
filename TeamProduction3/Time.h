@@ -25,6 +25,8 @@ private:
 	std::vector<Dx12_CBuffer<AnimetionData>*> scoreAnimetionDatas;
 	Dx12_Sprite sprite;
 	Dx12_Texture2D* tex;
+
+	float t;
 public:
 	Time();
 	~Time();
