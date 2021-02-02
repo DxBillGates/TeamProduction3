@@ -18,6 +18,7 @@ private:
 	Vector3 pos;
 	Vector3 size;
 	Vector3 scale;
+	Vector3 color;
 	bool effectFlag;
 	float a, b;
 	int score;
@@ -41,5 +42,6 @@ public:
 	void SetSize(Vector3 size);
 	void SetPosition(const Vector3& p);
 	void SetScale(Vector3 scale);
+	void SetColor(Vector3 color);
 };
 
