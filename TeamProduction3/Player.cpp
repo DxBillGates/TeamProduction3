@@ -46,7 +46,7 @@ void Player::Initialize()
 	isDraw = true;
 	isDamage = false;
 	damageTime = 0;
-	size = Vector3(32, 32, 32);
+	size = Vector3(64,64,64);
 }
 
 void Player::Update()
@@ -55,7 +55,7 @@ void Player::Update()
 	const float FIRE_MOVE_VALUE = 6;
 	const float MOVE_SPEED = 2.5f;
 	const float G = 0.98f;
-	const float INCREASE_FIRE_VALUE = 0.5f / 60.f;
+	const float INCREASE_FIRE_VALUE = 1.0f / 60.f;
 	const float UPDATE_OLDPOS_DISTANCE = 64;
 	const float MAX_FIRE_VALUE = 600;
 	float f = 0.01f;

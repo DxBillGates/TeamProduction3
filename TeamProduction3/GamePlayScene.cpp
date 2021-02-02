@@ -85,12 +85,12 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	const float PLAYER_TO_FIREWALL_DIS = 32;     //プレイヤーと壁の判定距離
-	const float PLAYER_TO_ENEMY_DIS = 32;		 //プレイヤーと敵の判定距離
+	const float PLAYER_TO_FIREWALL_DIS = 64;     //プレイヤーと壁の判定距離
+	const float PLAYER_TO_ENEMY_DIS = 64;		 //プレイヤーと弾の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数
-	const float PLAYER_TO_PUDDLE_DIS = 128 * 96;//プレイヤーと水たまりの判定距離(蒸発距離)
-	const float PUDDLE_TO_PLAYER_DIS = 128 * 32; //プレイヤーと水たまりの判定距離(ダメージ距離)
+	const float PLAYER_TO_PUDDLE_DIS = 128 * 128;//プレイヤーと水たまりの判定距離(蒸発距離)
+	const float PUDDLE_TO_PLAYER_DIS = 128 * 64; //プレイヤーと水たまりの判定距離(ダメージ距離)
 	const float DECREASE_PUDDLE_VALUE = 0.055f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
 	const float FIREWALL_TO_ENEMY_DIS = 32;		 //壁と敵の攻撃の判定距離
 
@@ -235,17 +235,17 @@ void GamePlayScene::Update()
 			//}
 
 			int width = 2, depth = 2;
-			Vector3 size = player.GetSize();
+			Vector3 size = player.GetSize()*PLAYER_SIZE_MAGNI;
 			Vector3 s = size/(float)width;
-			Vector3 p = player.GetPosition() - size/2;
+			Vector3 p = player.GetPosition() - s;
 			Vector3 pp = player.GetPosition();
 			Vector3 cp;
 			for (int i = 0; i < width; ++i)
 			{
 				for (int j = 0;j < depth; ++j)
 				{
-					cp.x = p.x + s.x * i;
-					cp.z = p.z + s.z * j;
+					cp.x = p.x + size.x * i;
+					cp.z = p.z + size.z * j;
 					cp /= (*squares)[0][0].GetSize().x;
 					if ((int)cp.x < (int)squares->size() && (int)cp.z < (int)squares[0].size() && cp.x >= 0 && cp.z >= 0)
 					{

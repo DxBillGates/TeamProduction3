@@ -38,7 +38,7 @@ void ResultScene::Initialize()
 	{
 		particle.Emitte(Vector3(640, 360, 0));
 	}
-	time = 10; //s
+	time = 30; //s
 }
 
 void ResultScene::Update()

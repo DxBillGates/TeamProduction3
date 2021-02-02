@@ -37,4 +37,3 @@ protected:
 	ScoreManager(const ScoreManager&) = delete;
 	ScoreManager& operator=(const ScoreManager&) = delete;
 };
-
