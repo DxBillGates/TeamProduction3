@@ -4,8 +4,6 @@
 #include "Dx12_Pipeline.h"
 #include "Camera.h"
 #include "ResultEffect.h"
-#include"BackGround.h"
-
 class ResultScene : public Scene
 {
 private:
@@ -17,7 +15,6 @@ private:
 	float time;
 	Camera mainCamera;
 	ResultEffect particle;
-	BackGround bg;
 public:
 	ResultScene();
 	~ResultScene();
@@ -27,6 +24,4 @@ public:
 	void DrawSprite();
 	void Draw();
 	SceneName GetNextSceneName();
-
-	
 };

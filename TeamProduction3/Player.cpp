@@ -46,7 +46,7 @@ void Player::Initialize()
 	isDraw = true;
 	isDamage = false;
 	damageTime = 0;
-	size = Vector3(64,64,64);
+	size = Vector3(32, 32, 32);
 }
 
 void Player::Update()

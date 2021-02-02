@@ -13,14 +13,12 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 private:
-	static const int a = 16
-		;
-	Dx12_Mesh mesh1, mesh2, mesh3;
-	MeshData md1, md2, md3;
-	Dx12_CBuffer<CBData>* cb1, *cb2, *cb3[a];
-	float roteY[a];
+	Dx12_Mesh mesh1, mesh2;
+	MeshData md1, md2;
+	Dx12_CBuffer<CBData>* cb1, *cb2;
 
-	Vector3 pos1, pos2, pos3[a];
+	Vector3 pos1, pos2;
+	Vector3 vel1, vel2;
 public:
 	BackGround();
 	~BackGround();
@@ -28,7 +26,5 @@ public:
 	void Initialize();
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* pCmdList, Dx12_CBVSRVUAVHeap* heap);
-	void TreeDraw(ID3D12GraphicsCommandList* pCmdList, Dx12_CBVSRVUAVHeap* heap);
-	void SetOBJPosition(Vector3 p1, Vector3 p2, Vector3 p3);
 };
 

@@ -67,9 +67,8 @@ void ScoreManager::Update()
 
 	scores[updateIndex]->SetPosition(displayPos+Vector3(50, (float)(64 * updateIndex), 0));
 	scores[updateIndex]->Update();
-	myScore->SetPosition(Vector3(600, 520, 0));
+	myScore->SetPosition(Vector3(600, 400, 0));
 	myScore->SetScale(Vector3(4, 4, 4));
-	myScore->SetColor(Vector3(0.2f, 0.2f, 1));
 	myScore->Update();
 }
 

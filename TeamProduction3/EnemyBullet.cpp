@@ -50,7 +50,7 @@ void EnemyBullet::Update()
 		//}
 	}
 	float a = (isUse) ? 1.0f : 0.0f;
-	cb->Map({ Matrix4::Scale(Vector3(16,16,16)) * Matrix4::Translate(pos),{0,0,1,a} });
+	cb->Map({ Matrix4::Scale(Vector3(8,8,8)) * Matrix4::Translate(pos),{0,0,1,a} });
 }
 
 void EnemyBullet::Draw(ID3D12GraphicsCommandList * cmdList)
@@ -63,7 +63,7 @@ void EnemyBullet::Draw(ID3D12GraphicsCommandList * cmdList)
 void EnemyBullet::SetTarget(const Vector3 & tp,float value)
 {
 	target = tp;
-	vel = Vector3::Normalize(target - pos) * 6;
+	vel = Vector3::Normalize(target - pos) * 5;
 }
 
 void EnemyBullet::SetPosition(const Vector3 & p)
