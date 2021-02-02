@@ -2,7 +2,7 @@
 #include "Quaternion.h"
 #include <random>
 
-float Camera::MAX_SHAKE_TIME = 0.2f;
+float Camera::MAX_SHAKE_TIME = 0.3f;
 float Camera::shakeTime = 0;
 bool Camera::isShake = false;
 

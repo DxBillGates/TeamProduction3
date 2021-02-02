@@ -1,0 +1,39 @@
+diff a/TeamProduction3/HitParticle.cpp b/TeamProduction3/HitParticle.cpp	(rejected hunks)
+@@ -36,31 +36,31 @@
+ 	//
+ 	const int length = 90;
+ 	const int division = 10;
+-	vel = Vector3((float)(rand() % length - length / 2) / division, (float)(rand() % length) / division, (float)(rand() % length - length / 2) / division);
++	vel = Vector3((float)(rand() % length - length / 2)/division, (float)(rand() % length) / division, (float)(rand() % length - length / 2) / division);
+ 	scale = { 20.0f,20.0f,20.0f };
+ 	liveFlag = true;;
+ }
+ 
+ void HitParticle::Update()
+ {
+-	const float scaleFade = 0.25f;
++	const float scaleFade = 0.5f;
+ 
+ 	if (scale.x < 0)
+ 	{
+ 		liveFlag = false;
+ 	}
+-	vel.y -= 0.5f;
++	vel.y -= 0.1f;
+ 	pos += vel;
+ 	scale -= Vector3(scaleFade, scaleFade, scaleFade);
+-	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{0.0f,(float)250 / 255,(float)10 / 255,1} });
++	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{0.0f,1.0f,0.0f,1} });
+ }
+ 
+ void HitParticle::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)
+ {
+ 	cb->Set(pCmdList);
+ 	pCmdList->SetGraphicsRootDescriptorTable(2, cb->GetHeap()->GetSRVHandleForGPU(md.materialData.texture->GetSRVNumber()));
+-	if (liveFlag)
+-		mesh.Draw(pCmdList);
++	if(liveFlag)
++	mesh.Draw(pCmdList);
+ }
+ 
+ void HitParticle::SetPosition(const Vector3 & p)

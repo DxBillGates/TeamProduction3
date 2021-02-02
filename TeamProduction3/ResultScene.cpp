@@ -40,7 +40,7 @@ void ResultScene::Initialize()
 	{
 		particle.Emitte(Vector3(640, 360, 0));
 	}
-	time = 10; //s
+	time = 30; //s
 	bg.SetOBJPosition(Vector3(0,0,100), Vector3(0,3700,0), Vector3(100, 100, 100));
 }
 
