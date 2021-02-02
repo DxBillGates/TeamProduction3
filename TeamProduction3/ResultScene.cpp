@@ -3,6 +3,7 @@
 #include"ResultParticle.h"
 
 ResultScene::ResultScene() :
+	perspective(new Dx12_CBuffer<Perspective>(device->GetDevice(), heap, 0)),
 	orthograph(new Dx12_CBuffer<DirectX::XMMATRIX>(device->GetDevice(), heap, 0))
 {
 	orthograph->Map(DirectX::XMMatrixOrthographicOffCenterLH(0, 1280, 720, 0, 0, 1));
@@ -11,6 +12,8 @@ ResultScene::ResultScene() :
 ResultScene::~ResultScene()
 {
 	delete orthograph;
+	delete perspective;
+	delete simpleShader;
 	delete animetionShader;
 	delete spriteShader;
 	ResultParticle::StaticDelete();
@@ -19,6 +22,7 @@ ResultScene::~ResultScene()
 void ResultScene::LoadAsset()
 {
 	ID3D12Device* pDevice = device->GetDevice();
+	simpleShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SimpleVS.hlsl", L"SimplePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD,NORMAL });
 	animetionShader = new Dx12_Pipeline(device->GetDevice(), new Dx12_Shader(L"AnimetionVS.hlsl", L"AnimetionPS.hlsl"), new Dx12_RootSignature(device->GetDevice(), { CBV,CBV,SRV }), { POSITION,TEXCOORD, }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
 	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
 	ResultParticle::StaticLoadAsset(pDevice, heap, loader);
@@ -39,17 +43,22 @@ void ResultScene::Initialize()
 
 void ResultScene::Update()
 {
+	mainCamera.SetPosition(Vector3());
+	mainCamera.SetTarget(Vector3(0,0,1));
+
 	ScoreManager::GetInstance()->Update();
 	if (keyboard->CheakHitKeyAll() || ctrler->CheckHitKeyAll())nextSceneFlag = true;
 	if (time <= 0)nextSceneFlag = true;
 	particle.Update();
 	time -= 0.016f;
+
+	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
 }
 
 void ResultScene::DrawSprite()
 {
 	spriteShader->Set(device->GetCmdList());
-
+	orthograph->Set(device->GetCmdList());
 	particle.Draw(device->GetCmdList());
 
 	animetionShader->Set(device->GetCmdList());
@@ -60,6 +69,8 @@ void ResultScene::DrawSprite()
 
 void ResultScene::Draw()
 {
+	simpleShader->Set(device->GetCmdList());
+	perspective->Set(device->GetCmdList());
 }
 
 SceneName ResultScene::GetNextSceneName()

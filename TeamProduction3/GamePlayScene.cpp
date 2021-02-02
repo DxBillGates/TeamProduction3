@@ -224,12 +224,38 @@ void GamePlayScene::Update()
 		}
 		std::vector<std::vector<Square>>* squares = squareManager.GetSquares();
 		{
-			int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
-			px /= (int)Square::GetSize().x;
-			pz /= (int)Square::GetSize().x;
-			if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
+			//int px = (int)player.GetPosition().x, pz = (int)player.GetPosition().z;
+			//px /= (int)Square::GetSize().x;
+			//pz /= (int)Square::GetSize().x;
+			//if (px < (int)squares->size() && pz < (int)squares[0].size() && px >= 0 && pz >= 0)
+			//{
+			//	(*squares)[px][pz].SetColor(Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255));
+			//}
+
+
+			int width = 2, depth = 2;
+			Vector3 size = Vector3(64, 64, 64);
+			Vector3 s = size/(float)width;
+			Vector3 p = player.GetPosition() - size/2;
+			Vector3 pp = player.GetPosition();
+			Vector3 cp;
+			for (int i = 0; i < width; ++i)
 			{
-				(*squares)[px][pz].SetColor(Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255));
+				for (int j = 0;j < depth; ++j)
+				{
+					cp.x = p.x + s.x * i;
+					cp.z = p.z + s.z * j;
+					cp /= (*squares)[0][0].GetSize().x;
+					if ((int)cp.x < (int)squares->size() && (int)cp.z < (int)squares[0].size() && cp.x >= 0 && cp.z >= 0)
+					{
+						if ((*squares)[(int)cp.x][(int)cp.z].GetColor() == Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255))
+						{
+							continue;
+						}
+						(*squares)[(int)cp.x][(int)cp.z].SetColor(Vector3((float)245 / 255, (float)27 / 255, (float)27 / 255));
+					}
+
+				}
 			}
 		}
 		for (auto& ne : *neList)
@@ -256,8 +282,8 @@ void GamePlayScene::Update()
 				{
 					for (int j = 0; j < depth; ++j)
 					{
-						cp.x = p.x + s.x * i + (*squares)[0][0].GetSize().x / width;
-						cp.z = p.z + s.z * j + (*squares)[0][0].GetSize().x / width;
+						cp.x = p.x + s.x * i;
+						cp.z = p.z + s.z * j;
 						cp /= (*squares)[0][0].GetSize().x;
 						if ((int)cp.x < (int)squares->size() && (int)cp.z < (int)squares[0].size() && cp.x >= 0 && cp.z >= 0)
 						{
