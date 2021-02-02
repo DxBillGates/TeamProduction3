@@ -13,13 +13,13 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 private:
-	Dx12_Sprite kingSprite, rfSprite, maiSprite;
-	Dx12_Texture2D *kingTex, *rfTex, *maiTex;
-	Dx12_CBuffer<CBData>*kingCB[3], *rfCB, *maiCB;
+	Dx12_Sprite kingSprite,rfSprite,maiSprite;
+	Dx12_Texture2D *kingTex,*rfTex,*maiTex;
+	Dx12_CBuffer<CBData>*kingCB[3],*rfCB,*maiCB;
 
-	static const int particleCount = 30;
+	static const int particleCount=30;
 	ResultParticle particle[particleCount];
-	Vector3 kingTexPos, rfPos, maiPos;
+	Vector3 kingTexPos,rfPos,maiPos;
 
 public:
 	ResultEffect();
@@ -32,3 +32,4 @@ public:
 	void SetPosition(const Vector3& p);
 	Vector3 GetPosition();
 };
+

@@ -27,6 +27,7 @@ void ResultScene::LoadAsset()
 	spriteShader = new Dx12_Pipeline(pDevice, new Dx12_Shader(L"SpriteVS.hlsl", L"SpritePS.hlsl"), new Dx12_RootSignature(pDevice, { CBV,CBV,SRV }), { POSITION,TEXCOORD }, BLENDMODE_ALPHA, D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, true, false);
 	ResultParticle::StaticLoadAsset(pDevice, heap, loader);
 	particle.LoadAsset(pDevice, heap, loader);
+	bg.LoadAsset(pDevice, heap, loader);
 }
 
 void ResultScene::Initialize()
@@ -34,24 +35,26 @@ void ResultScene::Initialize()
 	ScoreManager::GetInstance()->UpdateScore();
 	nextSceneFlag = false;
 	particle.Initialize();
+	bg.Initialize();
 	if (ScoreManager::GetInstance()->GetFirstFlag())
 	{
 		particle.Emitte(Vector3(640, 360, 0));
 	}
-	time = 30; //s
+	time = 10; //s
+	bg.SetOBJPosition(Vector3(0,0,100), Vector3(0,3700,0), Vector3(100, 100, 100));
 }
 
 void ResultScene::Update()
 {
-	mainCamera.SetPosition(Vector3());
-	mainCamera.SetTarget(Vector3(0,0,1));
+	mainCamera.SetPosition(Vector3(0, 128, 1280));
+	mainCamera.SetTarget(Vector3(0, 96, 0));
 
 	ScoreManager::GetInstance()->Update();
 	if (keyboard->CheakHitKeyAll() || ctrler->CheckHitKeyAll())nextSceneFlag = true;
 	if (time <= 0)nextSceneFlag = true;
 	particle.Update();
 	time -= 0.016f;
-
+	bg.Update();
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
 }
 
@@ -71,6 +74,7 @@ void ResultScene::Draw()
 {
 	simpleShader->Set(device->GetCmdList());
 	perspective->Set(device->GetCmdList());
+	bg.Draw(device->GetCmdList(),heap);
 }
 
 SceneName ResultScene::GetNextSceneName()

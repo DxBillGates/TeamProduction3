@@ -60,7 +60,7 @@ void EnemyManager::Update()
 {
 	const float REVIVE_RANGE = 2048;    //プレイヤーの周りにスポーンする範囲
 	const float TARGET_RANGE = 128;	//プレイヤーが索敵範囲外の時用の自分の周辺に飛ばす値、大きければ範囲が広がる
-	const int REVIVE_COUNT = 60;	    //何フレームに一度敵を出すか
+	const int REVIVE_COUNT = 100;	    //何フレームに一度敵を出すか
 	const float RANGE = 1024;		    //索敵範囲
 	const float SHOT_RANGE = 256;	    //索敵範囲内の時にどれくらいの距離から弾を発射するか
 	const float DISTANCE = 64;			//敵同士当たり判定

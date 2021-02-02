@@ -44,3 +44,4 @@ public:
 	void SetScale(Vector3 scale);
 	void SetColor(Vector3 color);
 };
+

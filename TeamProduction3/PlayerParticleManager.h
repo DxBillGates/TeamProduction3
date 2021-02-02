@@ -16,7 +16,7 @@ private:
 	Dx12_Mesh mesh;
 	MeshData md;
 	Dx12_CBuffer<CBData>* cb;
-	static const int size = 30;
+	static const int size = 20;
 	PlayerParticle particle[size];
 
 

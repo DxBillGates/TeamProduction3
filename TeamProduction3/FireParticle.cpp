@@ -54,7 +54,7 @@ void FireParticle::Update()
 	}
 	pos += vel;
 	scale -= Vector3(scaleFade, scaleFade, scaleFade);
-	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(setPos+pos),{1,0.12f,0,1} });
+	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(setPos+pos),{1,0.2f,0,1} });
 }
 
 void FireParticle::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)

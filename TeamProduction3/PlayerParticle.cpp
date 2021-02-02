@@ -26,15 +26,15 @@ void PlayerParticle::StaticLoadAsset(ID3D12Device * device, LoadContents * loade
 
 void PlayerParticle::Initialize()
 {
-	const int SPAWNVEC = 80;
+
 	setPos = Vector3(0, 0, 0);
-	spawnPos = Vector3((float)(rand() % SPAWNVEC) - SPAWNVEC/2, 0, (float)(rand() % SPAWNVEC) - SPAWNVEC/2);
+	spawnPos = Vector3((float)(rand() % 50) - 25, 0, (float)(rand() % 50) - 25);
 	Init();
 }
 void PlayerParticle::Init()
 {
 	vel = Vector3(0, 0, 0);
-	float sRand = (float)(rand() % 40);
+	float sRand = (float)(rand() % 25);
 	scale = Vector3((float)sRand, (float)sRand, (float)sRand);
 	pos = setPos + spawnPos;
 }
@@ -52,7 +52,7 @@ void PlayerParticle::Update()
 	}
 	pos += vel;
 	scale -= Vector3(scaleFade, scaleFade, scaleFade);
-	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{(float)250/255,(float)10/255,0,1} });
+	cb->Map({ Matrix4::Scale(scale) *Matrix4::RotationY(0)* Matrix4::Translate(pos),{1,0.2f,0,1} });
 }
 
 void PlayerParticle::Draw(ID3D12GraphicsCommandList * pCmdList, Dx12_CBVSRVUAVHeap* heap)

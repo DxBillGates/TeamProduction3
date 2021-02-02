@@ -46,6 +46,7 @@ void GamePlayScene::LoadAsset()
 	Wall::StaticLoadAsset(pDevice, heap, loader);
 	tutorialArrow.LoadAsset(pDevice, heap, loader);
 	bg.LoadAsset(pDevice, heap, loader);
+	//bg.TreeLoadAsset(pDevice, heap, loader);
 
 	hitSEData = new SoundData("Resources/Music/hit.wav");
 	hitSE = new Sound(hitSEData);
@@ -55,7 +56,7 @@ void GamePlayScene::Initialize()
 {
 	//カメラの初期化
 	mainCamera.Initialize();
-	mainCamera.SetPosition(Vector3(0, 128, -512));
+	mainCamera.SetPosition(Vector3(0, 100, -512));
 	mainCamera.SetTarget(Vector3(0, 0, 0));
 
 	player.Initialize();
@@ -85,7 +86,7 @@ void GamePlayScene::Initialize()
 
 void GamePlayScene::Update()
 {
-	const float PLAYER_TO_FIREWALL_DIS = 64;     //プレイヤーと壁の判定距離
+	const float PLAYER_TO_FIREWALL_DIS = 80;     //プレイヤーと壁の判定距離
 	const float PLAYER_TO_ENEMY_DIS = 64;		 //プレイヤーと弾の判定距離
 	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数
@@ -354,7 +355,7 @@ void GamePlayScene::Update()
 		bool a = false;
 		player.SetPosition(CheckHitWall(player.GetPosition(), a));
 	}
-	//bg.Update();
+	bg.Update();
 
 	operation.Update();
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
@@ -402,6 +403,7 @@ void GamePlayScene::Draw()
 	}
 	playerParticleManager.Draw(pCmdList, heap);
 	bg.Draw(pCmdList, heap);
+	bg.TreeDraw(pCmdList, heap);
 
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);

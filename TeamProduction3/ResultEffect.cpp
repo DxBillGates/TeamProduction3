@@ -35,7 +35,7 @@ void ResultEffect::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, L
 	kingTex = loader->LoadTexture("Resources/Texture/", "king.png");
 	rfTex = loader->LoadTexture("Resources/Texture/", "runkingFont.png");
 	maiTex = loader->LoadTexture("Resources/Texture/", "ui05.png");
-
+	
 	rfCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 	maiCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 
@@ -72,12 +72,12 @@ void ResultEffect::Update()
 {
 
 	kingCB[0]->Map({ Matrix4::Translate(kingTexPos)*Matrix4::Scale({1,1,1}),{1,1,0,1} });
-	kingCB[1]->Map({ Matrix4::Translate(kingTexPos + Vector3(0,64,0))*Matrix4::Scale({1,1,1}),{0.6f,0.6f,0.6f,1} });
+	kingCB[1]->Map({ Matrix4::Translate(kingTexPos+Vector3(0,64,0))*Matrix4::Scale({1,1,1}),{0.6f,0.6f,0.6f,1} });
 	kingCB[2]->Map({ Matrix4::Translate(kingTexPos + Vector3(0,128,0))*Matrix4::Scale({1,1,1}),{0.5f,0.2f,0,1} });
 
 	rfCB->Map({ Matrix4::Translate(rfPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
 	maiCB->Map({ Matrix4::Translate(maiPos)*Matrix4::Scale({1,1,1}),{0.2f,0.2f,1,1} });
-
+	
 	for (int i = 0; i < particleCount; i++)
 	{
 		particle[i].Update();
@@ -116,3 +116,8 @@ void ResultEffect::SetPosition(const Vector3 & p)
 		particle[i].SetPosition(p);
 	}
 }
+
+
+
+
+
