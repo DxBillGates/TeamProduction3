@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Dx12_CBVSRVUAVHeap.cpp" />
     <ClCompile Include="Dx12_Device.cpp" />
@@ -191,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseApplication.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="COMRelease.h" />

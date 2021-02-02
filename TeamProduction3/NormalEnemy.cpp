@@ -113,8 +113,8 @@ void NormalEnemy::Update()
 
 void NormalEnemy::Draw(ID3D12GraphicsCommandList * cmdList)
 {
-
-	bullet.Draw(cmdList);
+	if (bullet.GetIsUse())
+		bullet.Draw(cmdList);
 	if (liveFlag)
 	{
 		coolTimeCB->Set(cmdList);

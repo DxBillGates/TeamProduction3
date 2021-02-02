@@ -61,6 +61,7 @@ void Player::Update()
 	const int DAMAGE_TIME = 10;
 	const int MAX_DAMAGE_TIME = 30;
 
+
 	if (Vector3::Distance(oldPos, pos) >= UPDATE_OLDPOS_DISTANCE)
 	{
 		isMove = true;
@@ -166,10 +167,10 @@ void Player::Update()
 	Vector3 vUpAxis = Quaternion::GetAxis(Quaternion(UNITY, qLocal));
 	Vector3 vForwardAxis = Quaternion::GetAxis(Quaternion(UNITZ, qLocal));
 
-	Vector3 v = moveVector.Normalize()/10;
-	Quaternion qRoll = Quaternion(vUpAxis,    v.y);
+	Vector3 v = moveVector.Normalize() / 10;
+	Quaternion qRoll = Quaternion(vUpAxis, v.y);
 	Quaternion qPitch = Quaternion(vSideAxis, v.z);
-	Quaternion qYow = Quaternion(vForwardAxis,v.x);
+	Quaternion qYow = Quaternion(vForwardAxis, v.x);
 
 	qLocal = qRoll * qLocal;
 	qLocal = qPitch * qLocal;

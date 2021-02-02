@@ -131,8 +131,8 @@ void Application::Draw()
 {
 	SceneTransition* pSceneTransition = &fillScreenTransition;
 	//pSceneTransition = &fourCornerBoxTransition;
-	device.ClearScreen({ 0.2f,0.5f,1.0f,0 });
-	//device.ClearScreen({ 0.0f,0.0f,0.0f,0 });
+	//device.ClearScreen({ 0.2f,0.5f,1.0f,0 });
+	device.ClearScreen({ 0.0f,0.0f,0.0f,0 });
 	sceneManager.Draw();
 	sceneManager.DrawSprite();
 	pSceneTransition->Draw(device.GetCmdList());

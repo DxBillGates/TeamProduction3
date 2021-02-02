@@ -20,6 +20,8 @@
 #include "Wall.h"
 #include "Vector2.h"
 #include "TutorialArrow.h"
+#include"BackGround.h"
+
 
 class GamePlayScene : public Scene
 {
@@ -46,14 +48,14 @@ private:
 	FieldEffectManager feManager;
 	ScoreManager* scoreManager;
 	SquareManager squareManager;
-
+	BackGround bg;
 	NormalEnemy tutorialEnemy;
 	TutorialArrow tutorialArrow;
-
+	
 	Title title;
 	KeyOperation keyOperation;
 	Operation operation;
-
+	
 	Vector3 worldSize;
 
 	Time time;

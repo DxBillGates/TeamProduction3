@@ -50,11 +50,13 @@ void FieldEffectFireWall::Update()
 	}
 	else
 	{
-		alpha -= (1.0f / LIVE_TIME);
+		if (liveFlag)
+			alpha -= (1.0f / LIVE_TIME);
 	}
 	size = Vector3(MAX_SIZE) * alpha;
+	//printf("%f,%f,%f\n", size.x, size.y, alpha);
 	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{1,0,0,alpha} });
-	if(liveFlag)
+	if (liveFlag)
 	{
 		fpManager.SetPosition(pos);
 		fpManager.Update();
@@ -73,8 +75,8 @@ void FieldEffectFireWall::Update()
 
 void FieldEffectFireWall::Draw(ID3D12GraphicsCommandList * cmdList)
 {
-	cb->Set(cmdList);
-	mesh.Draw(cmdList);
+	//cb->Set(cmdList);
+	//mesh.Draw(cmdList);
 
 	if (liveFlag)
 	{

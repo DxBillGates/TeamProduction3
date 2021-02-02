@@ -45,6 +45,7 @@ void GamePlayScene::LoadAsset()
 	playerParticleManager.LoadAsset(pDevice, heap, loader);
 	Wall::StaticLoadAsset(pDevice, heap, loader);
 	tutorialArrow.LoadAsset(pDevice, heap, loader);
+	bg.LoadAsset(pDevice, heap, loader);
 
 	hitSEData = new SoundData("Resources/Music/hit.wav");
 	hitSE = new Sound(hitSEData);
@@ -77,7 +78,7 @@ void GamePlayScene::Initialize()
 	operation.Initialize();
 	thermometer.Initialize();
 	playerParticleManager.Initialize();
-
+	bg.Initialize();
 	//壁のサイズとポジションの設定
 	worldSize = squareManager.GetSize();
 }
@@ -208,8 +209,8 @@ void GamePlayScene::Update()
 				}
 				if (Vector3::Distance(fe.GetPosition(), player.GetPosition()) * Vector3::Distance(fe.GetPosition(), player.GetPosition()) <= fe.GetAlphaValue() * PUDDLE_TO_PLAYER_DIS)
 				{
-					player.SetIsDamage(true);
 					player.SetFireValue(player.GetFireValue() - DECREASE_FIRE_VALUE);
+					player.SetIsDamage(true);
 				}
 			}
 		}
@@ -326,6 +327,7 @@ void GamePlayScene::Update()
 		bool a = false;
 		player.SetPosition(CheckHitWall(player.GetPosition(), a));
 	}
+	//bg.Update();
 
 	operation.Update();
 	perspective->Map({ mainCamera.GetViewMatrix(),mainCamera.GetProjectionMatrix(90,gameWnd->GetAspect()) });
@@ -372,6 +374,7 @@ void GamePlayScene::Draw()
 		tutorialArrow.Draw(pCmdList);
 	}
 	playerParticleManager.Draw(pCmdList, heap);
+	bg.Draw(pCmdList, heap);
 
 	//device->ClearDepth();
 	//ground.Draw(pCmdList, heap);
