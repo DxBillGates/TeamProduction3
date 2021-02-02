@@ -1,14 +1,43 @@
 #pragma once
-#include "Vector2.h"
-#include "Vector3.h"
-class Easing
+namespace GatesEngine
 {
-public:
-	static Vector2 EaseIn(const Vector2& s, const Vector2& e, float& t);
-	static Vector3 EaseIn(const Vector3& s, const Vector3& e, float& t);
-	static Vector2 EaseOut(const Vector2& s, const Vector2& e, float& t);
-	static Vector3 EaseOut(const Vector3& s, const Vector3& e, float& t);
-	static Vector2 EaseInOut(const Vector2& s, const Vector2& e, float& t);
-	static Vector3 EaseInOut(const Vector3& s, const Vector3& e, float& t);
-};
-
+	namespace Math
+	{
+		static const float PI = 3.1415923f;
+		class Easing
+		{
+		private:
+		public:
+			static float EaseInSine(float t);
+			static float EaseOutSine(float t);
+			static float EaseInOutSine(float t);
+			static float EaseInQuad(float t);
+			static float EaseOutQuad(float t);
+			static float EaseInOutQuad(float x);
+			static float EaseInCubic(float x);
+			static float EaseOutCubic(float x);
+			static float EaseInOutCubic(float x);
+			static float EaseInQuart(float x);
+			static float EaseOutQuart(float x);
+			static float EaseInOutQuart(float x);
+			static float EaseInQuint(float x);
+			static float EaseOutQuint(float x);
+			static float EaseInOutQuint(float x);
+			static float EaseInExpo(float x);
+			static float EaseOutExpo(float x);
+			static float EaseInOutExpo(float x);
+			static float EaseInCirc(float x);
+			static float EaseOutCirc(float x);
+			static float EaseInOutCirc(float x);
+			static float EaseInBack(float x);
+			static float EaseOutBack(float x);
+			static float EaseInOutBack(float x);
+			static float EaseInElastic(float x);
+			static float EaseOutElastic(float x);
+			static float EaseInOutElastic(float x);
+			static float EaseInBounce(float x);
+			static float EaseOutBounce(float x);
+			static float EaseInOutBounce(float x);
+		};
+	}
+}

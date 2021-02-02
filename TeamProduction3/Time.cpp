@@ -1,4 +1,5 @@
 #include "Time.h"
+#include "Easing.h"
 
 Time::Time()
 {
@@ -55,7 +56,7 @@ void Time::Update()
 	{
 		if (t >= 1)t = 1;
 		verge = true;
-		pos = Vector3::Lerp(Vector3(608, 32, 0), Vector3(608, 240, 0), t);
+		pos = Vector3::Lerp(Vector3(608, 32, 0), Vector3(608, 240, 0), GatesEngine::Math::Easing::EaseInCubic(t));
 		t += 0.016f;
 	}
 	else

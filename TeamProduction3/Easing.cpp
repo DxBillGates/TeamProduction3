@@ -1,43 +1,206 @@
 #include "Easing.h"
+#include <cmath>
 
-Vector2 Easing::EaseIn(const Vector2 & s, const Vector2 & e, float & t)
+float GatesEngine::Math::Easing::EaseInSine(float t)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - t * t) + e * t * t;
+	return 1 - cosf((t * PI) / 2);
 }
 
-Vector3 Easing::EaseIn(const Vector3 & s, const Vector3 & e, float & t)
+float GatesEngine::Math::Easing::EaseOutSine(float t)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - t * t) + e * t * t;
+	return sinf((t * PI) / 2);
 }
 
-Vector2 Easing::EaseOut(const Vector2 & s, const Vector2 & e, float & t)
+float GatesEngine::Math::Easing::EaseInOutSine(float t)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - t * (2.0f - t)) + e * t * (2.0f - t);
+	return -(cosf(PI * t) - 1) / 2;
 }
 
-Vector3 Easing::EaseOut(const Vector3 & s, const Vector3 & e, float & t)
+float GatesEngine::Math::Easing::EaseInQuad(float t)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - t * (2.0f - t)) + e * t * (2.0f - t);
+	return t * t;
 }
 
-Vector2 Easing::EaseInOut(const Vector2 & s, const Vector2 & e, float & t)
+float GatesEngine::Math::Easing::EaseOutQuad(float x)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - (t * t) * (3.0f - 2.0f * t)) + e * (t * t) * (3.0f - 2.0f * t);
+	return 1 - (1 - x) * (1 - x);
 }
 
-Vector3 Easing::EaseInOut(const Vector3 & s, const Vector3 & e, float & t)
+float GatesEngine::Math::Easing::EaseInOutQuad(float x)
 {
-	if (t < 0)t = 0;
-	else if (t > 1)t = 1;
-	return s * (1.0f - (t * t) * (3.0f - 2.0f * t)) + e * (t * t) * (3.0f - 2.0f * t);
+	return x < 0.5f ? 2 * x * x : 1 - powf(-2 * x + 2, 2) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInCubic(float x)
+{
+	return x * x * x;
+}
+
+float GatesEngine::Math::Easing::EaseOutCubic(float x)
+{
+	return 1 - powf(1 - x, 3);
+}
+
+float GatesEngine::Math::Easing::EaseInOutCubic(float x)
+{
+	return x < 0.5f ? 4 * x * x * x : 1 - powf(-2 * x + 2, 3) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInQuart(float x)
+{
+	return x * x * x * x;
+}
+
+float GatesEngine::Math::Easing::EaseOutQuart(float x)
+{
+	return 1 - powf(1 - x, 4);
+}
+
+float GatesEngine::Math::Easing::EaseInOutQuart(float x)
+{
+	return x < 0.5f ? 8 * x * x * x * x : 1 - powf(-2 * x + 2, 4) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInQuint(float x)
+{
+	return x * x * x * x * x;
+}
+
+float GatesEngine::Math::Easing::EaseOutQuint(float x)
+{
+	return 1 - powf(1 - x, 5);
+}
+
+float GatesEngine::Math::Easing::EaseInOutQuint(float x)
+{
+	return x < 0.5f ? 16 * x * x * x * x * x : 1 - powf(-2 * x + 2, 5) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInExpo(float x)
+{
+	return x == 0 ? 0 : powf(2, 10 * x - 10);
+}
+
+float GatesEngine::Math::Easing::EaseOutExpo(float x)
+{
+	return x == 1 ? 1 : 1 - powf(2, -10 * x);
+}
+
+float GatesEngine::Math::Easing::EaseInOutExpo(float x)
+{
+	return x == 0
+		? 0
+		: x == 1
+		? 1
+		: x < 0.5f ? powf(2, 20 * x - 10) / 2
+		: (2 - powf(2, -20 * x + 10)) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInCirc(float x)
+{
+	return 1 - sqrtf(1 - powf(x, 2));
+}
+
+float GatesEngine::Math::Easing::EaseOutCirc(float x)
+{
+	return sqrtf(1 - powf(x - 1, 2));
+}
+
+float GatesEngine::Math::Easing::EaseInOutCirc(float x)
+{
+	return x < 0.5f
+		? (1 - sqrtf(1 - powf(2 * x, 2))) / 2
+		: (sqrtf(1 - powf(-2 * x + 2, 2)) + 1) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInBack(float x)
+{
+	const float c1 = 1.70158f;
+	const float c3 = c1 + 1;
+
+	return c3 * x * x * x - c1 * x * x;
+}
+
+float GatesEngine::Math::Easing::EaseOutBack(float x)
+{
+	const float c1 = 1.70158f;
+	const float c3 = c1 + 1;
+
+	return 1 + c3 * powf(x - 1, 3) + c1 * pow(x - 1, 2);
+}
+
+float GatesEngine::Math::Easing::EaseInOutBack(float x)
+{
+	const float c1 = 1.70158f;
+	const float c2 = c1 * 1.525f;
+
+	return x < 0.5
+		? (powf(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+		: (powf(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+}
+
+float GatesEngine::Math::Easing::EaseInElastic(float x)
+{
+	const float c4 = (2 * PI) / 3;
+
+	return x == 0
+		? 0
+		: x == 1
+		? 1
+		: -powf(2, 10 * x - 10) * sinf((x * 10 - 10.75f) * c4);
+}
+
+float GatesEngine::Math::Easing::EaseOutElastic(float x)
+{
+	const float c4 = (2 * PI) / 3;
+
+	return x == 0
+		? 0
+		: x == 1
+		? 1
+		: powf(2, -10 * x) * sinf((x * 10 - 0.75f) * c4) + 1;
+}
+
+float GatesEngine::Math::Easing::EaseInOutElastic(float x)
+{
+	const float c5 = (2 * PI) / 4.5f;
+
+	return x == 0
+		? 0
+		: x == 1
+		? 1
+		: x < 0.5
+		? -(powf(2, 20 * x - 10) * sinf((20 * x - 11.125f) * c5)) / 2
+		: (powf(2, -20 * x + 10) * sinf((20 * x - 11.125f) * c5)) / 2 + 1;
+}
+
+float GatesEngine::Math::Easing::EaseInBounce(float x)
+{
+	return 1 - EaseOutBounce(1 - x);
+}
+
+float GatesEngine::Math::Easing::EaseOutBounce(float x)
+{
+	const float n1 = 7.5625f;
+	const float d1 = 2.75f;
+
+	if (x < 1 / d1) {
+		return n1 * x * x;
+	}
+	else if (x < 2 / d1) {
+		return n1 * (x -= 1.5f / d1) * x + 0.75f;
+	}
+	else if (x < 2.5f / d1) {
+		return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+	}
+	else {
+		return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+	}
+}
+
+float GatesEngine::Math::Easing::EaseInOutBounce(float x)
+{
+	return x < 0.5f
+		? (1 - EaseOutBounce(1 - 2 * x)) / 2
+		: (1 + EaseOutBounce(2 * x - 1)) / 2;
 }
