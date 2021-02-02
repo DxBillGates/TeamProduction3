@@ -7,8 +7,6 @@ ResultEffect::ResultEffect()
 
 ResultEffect::~ResultEffect()
 {
-	delete sFontTex;
-	delete sFontCB;
 	delete kingTex;
 	for (int i = 0; i < 3; i++)
 	{
@@ -24,9 +22,6 @@ ResultEffect::~ResultEffect()
 void ResultEffect::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, LoadContents * loader)
 {
 	SpriteData sd;
-	//Score
-	loader->CreateModelData_Plane(450,128, sd);
-	sFontSprit.Create(device, &sd);
 	//‰¤Š¥
 	loader->CreateModelData_Plane(32, 32, sd);
 	kingSprite.Create(device, &sd);
@@ -37,12 +32,10 @@ void ResultEffect::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, L
 	loader->CreateModelData_Plane(150, 150, sd);
 	maiSprite.Create(device, &sd);
 
-	sFontTex = loader->LoadTexture("Resources/Texture/", "scoreFont3.png");
 	kingTex = loader->LoadTexture("Resources/Texture/", "king.png");
 	rfTex = loader->LoadTexture("Resources/Texture/", "runkingFont.png");
 	maiTex = loader->LoadTexture("Resources/Texture/", "ui05.png");
-	
-	sFontCB = new Dx12_CBuffer<CBData>(device, heap, 1);
+
 	rfCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 	maiCB = new Dx12_CBuffer<CBData>(device, heap, 1);
 
@@ -60,10 +53,9 @@ void ResultEffect::LoadAsset(ID3D12Device * device, Dx12_CBVSRVUAVHeap * heap, L
 
 void ResultEffect::Initialize()
 {
-	sFontPos = { 700,10,0 };
 	kingTexPos = { 10,100,0 };
 	rfPos = { 50,10,0 };
-	maiPos = { 1000,380,0 };
+	maiPos = { 1000,500,0 };
 	for (int i = 0; i < particleCount; i++)
 	{
 		particle[i].Initialize();
@@ -78,15 +70,14 @@ void ResultEffect::Emitte(Vector3 pos)
 }
 void ResultEffect::Update()
 {
-	sFontCB->Map({ Matrix4::Translate(sFontPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
 
 	kingCB[0]->Map({ Matrix4::Translate(kingTexPos)*Matrix4::Scale({1,1,1}),{1,1,0,1} });
-	kingCB[1]->Map({ Matrix4::Translate(kingTexPos+Vector3(0,64,0))*Matrix4::Scale({1,1,1}),{0.6f,0.6f,0.6f,1} });
+	kingCB[1]->Map({ Matrix4::Translate(kingTexPos + Vector3(0,64,0))*Matrix4::Scale({1,1,1}),{0.6f,0.6f,0.6f,1} });
 	kingCB[2]->Map({ Matrix4::Translate(kingTexPos + Vector3(0,128,0))*Matrix4::Scale({1,1,1}),{0.5f,0.2f,0,1} });
 
 	rfCB->Map({ Matrix4::Translate(rfPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
 	maiCB->Map({ Matrix4::Translate(maiPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
-	
+
 	for (int i = 0; i < particleCount; i++)
 	{
 		particle[i].Update();
@@ -96,9 +87,6 @@ void ResultEffect::Update()
 
 void ResultEffect::Draw(ID3D12GraphicsCommandList * cmdList)
 {
-	sFontCB->Set(cmdList);
-	cmdList->SetGraphicsRootDescriptorTable(2, sFontCB->GetHeap()->GetSRVHandleForGPU(sFontTex->GetSRVNumber()));
-	sFontSprit.Draw(cmdList);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -128,8 +116,3 @@ void ResultEffect::SetPosition(const Vector3 & p)
 		particle[i].SetPosition(p);
 	}
 }
-
-
-
-
-

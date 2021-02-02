@@ -56,7 +56,7 @@ void ScoreManager::Update()
 	for (auto itr = scores.begin(); itr != scores.end(); ++itr, ++i)
 	{
 
-		(*itr)->SetPosition(displayPos+Vector3(0, (float)(64 * i), 0));
+		(*itr)->SetPosition(displayPos + Vector3(0, (float)(64 * i), 0));
 		(*itr)->Update();
 	}
 	//Ž©•ª‚ÌƒXƒP[ƒ‹‚Ì•Ï“®
@@ -65,9 +65,9 @@ void ScoreManager::Update()
 	a += 0.1f;
 
 
-	scores[updateIndex]->SetPosition(displayPos+Vector3(50, (float)(64 * updateIndex), 0));
+	scores[updateIndex]->SetPosition(displayPos + Vector3(50, (float)(64 * updateIndex), 0));
 	scores[updateIndex]->Update();
-	myScore->SetPosition(Vector3(600, 400, 0));
+	myScore->SetPosition(Vector3(600, 520, 0));
 	myScore->SetScale(Vector3(4, 4, 4));
 	myScore->Update();
 }
