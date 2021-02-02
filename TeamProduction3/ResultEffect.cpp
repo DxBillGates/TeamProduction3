@@ -76,7 +76,7 @@ void ResultEffect::Update()
 	kingCB[2]->Map({ Matrix4::Translate(kingTexPos + Vector3(0,128,0))*Matrix4::Scale({1,1,1}),{0.5f,0.2f,0,1} });
 
 	rfCB->Map({ Matrix4::Translate(rfPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
-	maiCB->Map({ Matrix4::Translate(maiPos)*Matrix4::Scale({1,1,1}),{1,1,1,1} });
+	maiCB->Map({ Matrix4::Translate(maiPos)*Matrix4::Scale({1,1,1}),{0.2f,0.2f,1,1} });
 
 	for (int i = 0; i < particleCount; i++)
 	{
