@@ -34,14 +34,14 @@ void PlayerParticle::Initialize()
 void PlayerParticle::Init()
 {
 	vel = Vector3(0, 0, 0);
-	float sRand = (float)(rand() % 40);
+	float sRand = (float)(rand() % 45);
 	scale = Vector3((float)sRand, (float)sRand, (float)sRand);
 	pos = setPos + spawnPos;
 }
 
 void PlayerParticle::Update()
 {
-	const float scaleFade = 0.5f;
+	const float scaleFade = 0.45f;
 	if (scale.x > 0)
 	{
 		vel.y += 0.2f;
