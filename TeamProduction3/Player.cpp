@@ -150,7 +150,7 @@ void Player::Update()
 	if (moveVector.Length() == 0)
 	{
 		Vector3 v = vel;
-		vel -= v.Normalize() / 100;
+		vel -= v.Normalize() / 10;
 		if (vel.Length() < 1)
 		{
 			vel = Vector3();
