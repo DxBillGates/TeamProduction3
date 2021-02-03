@@ -29,6 +29,7 @@ void Operation::Initialize()
 	pos = Vector3(1280 - 398, 0, 0);
 	isFade = false;
 	t = 0;
+	cb->Map({ Matrix4::Translate(pos),{1,1,1,1} });
 }
 
 void Operation::Update()
