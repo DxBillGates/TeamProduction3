@@ -35,7 +35,7 @@ void FieldEffectPuddle::Update()
 {
 	const float REVIVE_TIME = 1;			//生成時間(秒)
 	const float MAX_SIZE = 128;				//マックスサイズ
-	const float DECREASE_ALPHA = 0.002f;	//自然になくなる値
+	const float DECREASE_ALPHA = 0.001f;	//自然になくなる値
 	if (reviveFlag)
 	{
 		if (reviveT < 1)
@@ -55,7 +55,7 @@ void FieldEffectPuddle::Update()
 		alpha -= DECREASE_ALPHA;
 	}
 	size = Vector3(MAX_SIZE, 1, MAX_SIZE) * alpha;
-	cb->Map({ Matrix4::Scale(size/2)*Matrix4::Translate(pos),{0,0.5f,1,1} });
+	cb->Map({ Matrix4::Scale(size)*Matrix4::Translate(pos),{0,0.5f,1,1} });
 	if (alpha <= 0)
 	{
 		Initialize();

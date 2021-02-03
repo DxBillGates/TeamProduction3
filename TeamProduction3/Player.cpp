@@ -53,9 +53,9 @@ void Player::Update()
 {
 	const float MAX_VELOCITY_LENGTH = 2;
 	const float FIRE_MOVE_VALUE = 6;
-	const float MOVE_SPEED = 2.5f;
+	const float MOVE_SPEED = 2.7f;
 	const float G = 0.98f;
-	const float INCREASE_FIRE_VALUE = 1.0f / 60.f;
+	const float INCREASE_FIRE_VALUE = 0.75f / 60.f;
 	const float UPDATE_OLDPOS_DISTANCE = 64;
 	const float MAX_FIRE_VALUE = 600;
 	float f = 0.01f;

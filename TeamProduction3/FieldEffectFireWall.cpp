@@ -32,7 +32,7 @@ void FieldEffectFireWall::Initialize()
 void FieldEffectFireWall::Update()
 {
 	const float REVIVE_TIME = 30;					//何フレームで蘇生させるか
-	const float LIVE_TIME = 60;						//何フレーム生存させるか
+	const float LIVE_TIME = 100;					//何フレーム生存させるか
 	const Vector3 MAX_SIZE = Vector3(32, 32, 32);	//最大サイズ
 	if (reviveFlag)
 	{

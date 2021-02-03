@@ -90,12 +90,12 @@ void GamePlayScene::Update()
 {
 	const float PLAYER_TO_FIREWALL_DIS = 64;     //プレイヤーと壁の判定距離
 	const float PLAYER_TO_ENEMY_DIS = 64;		 //プレイヤーと弾の判定距離
-	const float INCREASE_FIRE_VALUE = 0.1f;		 //プレイヤーの燃えてる値を増やす定数
+	const float INCREASE_FIRE_VALUE = 0.01f;		 //プレイヤーの燃えてる値を増やす定数
 	const float DECREASE_FIRE_VALUE = 1.0f;		 //プレイヤーの燃えてる値を減らす定数
-	const float PLAYER_TO_PUDDLE_DIS = 128 * 160;//プレイヤーと水たまりの判定距離(蒸発距離)
-	const float PUDDLE_TO_PLAYER_DIS = 128 * 64; //プレイヤーと水たまりの判定距離(ダメージ距離)
-	const float DECREASE_PUDDLE_VALUE = 0.055f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
-	const float FIREWALL_TO_ENEMY_DIS = 32;		 //壁と敵の攻撃の判定距離
+	const float PLAYER_TO_PUDDLE_DIS = 256 * 160;//プレイヤーと水たまりの判定距離(蒸発距離)
+	const float PUDDLE_TO_PLAYER_DIS = 256 * 64; //プレイヤーと水たまりの判定距離(ダメージ距離)
+	const float DECREASE_PUDDLE_VALUE = 0.0255f;	 //プレイヤーと水たまりが近い時の水たまりの減少値
+	const float FIREWALL_TO_ENEMY_DIS = 64;		 //壁と敵の攻撃の判定距離
 
 	const float PLAYER_SIZE_MAGNI = 2;           //プレイヤーのサイズを実際のサイズより大きく判定させるための値(床との当たり判定用)
 
@@ -239,7 +239,7 @@ void GamePlayScene::Update()
 
 			int width = 2, depth = 2;
 			Vector3 size = player.GetSize()*PLAYER_SIZE_MAGNI;
-			Vector3 s = size/(float)width;
+			Vector3 s = size / (float)width;
 			Vector3 p = player.GetPosition() - s;
 			Vector3 pp = player.GetPosition();
 			Vector3 cp;
@@ -278,16 +278,17 @@ void GamePlayScene::Update()
 		{
 			if (fe.GetLiveFlag())
 			{
-				int width = 5, depth = 5;
-				Vector3 s = fe.GetSize() / (float)width;
-				Vector3 p = fe.GetPosition() - fe.GetSize() / 2;
+				int width = 3, depth = 3;
+				Vector3 size = fe.GetSize();
+				//Vector3 s = size / 2;
+				Vector3 p = fe.GetPosition() - size;
 				Vector3 cp;
 				for (int i = 0; i < width; ++i)
 				{
 					for (int j = 0; j < depth; ++j)
 					{
-						cp.x = p.x + s.x * i;
-						cp.z = p.z + s.z * j;
+						cp.x = p.x + size.x * i;
+						cp.z = p.z + size.z * j;
 						cp /= (*squares)[0][0].GetSize().x;
 						if ((int)cp.x < (int)squares->size() && (int)cp.z < (int)squares[0].size() && cp.x >= 0 && cp.z >= 0)
 						{
@@ -342,7 +343,7 @@ void GamePlayScene::Update()
 	}
 
 	scoreManager->GetCurrentScore()->SetScore((int)squareManager.GetTilesInfomation().x);
-	scoreManager->GetCurrentScore()->SetPosition(Vector3(64+16,32,0));
+	scoreManager->GetCurrentScore()->SetPosition(Vector3(64 + 16, 32, 0));
 	scoreManager->GetCurrentScore()->Update();
 	if (scoreManager->GetCurrentScore()->GetScore() % 10 == 0)
 	{
