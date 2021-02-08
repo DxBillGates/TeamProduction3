@@ -32,7 +32,7 @@ private:
 	FillScreenTransition fillScreenTransition;
 	FourCornerBoxTransition fourCornerBoxTransition;
 public:
-	Application(const char* appName = "Application", int wndWidth = 1280, int wndHeight = 720);
+	Application(const char* appName = "‚¾‚é‚Ü“]‚ª‚µ", int wndWidth = 1280, int wndHeight = 720);
 	~Application();
 	void LoadAsset();
 	bool Initialize();

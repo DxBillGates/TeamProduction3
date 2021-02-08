@@ -36,14 +36,14 @@ void FireParticle::Initialize()
 void FireParticle::Init()
 {
 	vel = Vector3(0, 0, 0);
-	float sRand = (float)(rand() % 50);
+	float sRand = (float)(rand() % 60);
 	scale = Vector3((float)sRand, (float)sRand, (float)sRand);
 	pos = spawnPos;
 }
 
 void FireParticle::Update()
 {
-	const float scaleFade = 0.5f;
+	const float scaleFade = 0.45f;
 	if (scale.x > 0)
 	{
 		vel.y += 0.05f;
